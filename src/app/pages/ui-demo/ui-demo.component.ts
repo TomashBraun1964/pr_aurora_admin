@@ -8,6 +8,7 @@ import { ButtonComponent } from '../../shared/components/ui/button/button.compon
 import { ButtonDirective } from '../../shared/components/ui/button/button.directive';
 import { FormFieldComponent } from '../../shared/components/ui/form-field/form-field.component';
 import { IconComponent } from '../../shared/components/ui/icon/icon.component';
+import { PhoneInputComponent } from '../../shared/components/ui/phone-input/phone-input.component';
 
 /**
  * UI Demo Component
@@ -35,6 +36,7 @@ import { IconComponent } from '../../shared/components/ui/icon/icon.component';
     FormFieldComponent,
     AlertComponent,
     IconComponent,
+    PhoneInputComponent,
   ],
   template: `
     <div class="ui-demo">
@@ -742,6 +744,15 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
             <textarea placeholder="Write something..." [formControl]="bioControl"></textarea>
           </app-form-field>
 
+          <app-form-field
+            label="Phone Number (New Component)"
+            [required]="true"
+            [control]="phoneControl"
+            helpText="Выберите страну и введите номер телефона"
+          >
+            <av-phone-input [formControl]="phoneControl" [defaultCountry]="'UA'"></av-phone-input>
+          </app-form-field>
+
           <app-form-field label="Disabled Field" [disabled]="true">
             <input type="text" value="This field is disabled" disabled />
           </app-form-field>
@@ -1133,6 +1144,7 @@ export class UiDemoComponent {
   emailControl = new FormControl('', [Validators.required, Validators.email]);
   passwordControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   bioControl = new FormControl('', [Validators.maxLength(200)]);
+  phoneControl = new FormControl('', [Validators.required]);
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
@@ -1156,8 +1168,14 @@ export class UiDemoComponent {
     this.emailControl.markAsTouched();
     this.passwordControl.markAsTouched();
     this.bioControl.markAsTouched();
+    this.phoneControl.markAsTouched();
 
-    if (this.emailControl.valid && this.passwordControl.valid && this.bioControl.valid) {
+    if (
+      this.emailControl.valid &&
+      this.passwordControl.valid &&
+      this.bioControl.valid &&
+      this.phoneControl.valid
+    ) {
       this.showMessage('Form is valid! ✅');
     } else {
       this.showMessage('Please fix form errors ❌');
@@ -1168,6 +1186,7 @@ export class UiDemoComponent {
     this.emailControl.reset();
     this.passwordControl.reset();
     this.bioControl.reset();
+    this.phoneControl.reset();
     this.showMessage('Form reset');
   }
 

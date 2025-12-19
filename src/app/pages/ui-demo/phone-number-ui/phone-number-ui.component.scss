@@ -1,0 +1,491 @@
+// src/app/pages/ui-demo/phone-number-ui/phone-number-ui.component.scss
+.phone-number-ui {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__header {
+    margin-bottom: 3rem;
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+  }
+
+  &__description {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+}
+
+// Demo Sections
+.demo-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--color-bg-elevated);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0;
+    }
+  }
+
+  &__description {
+    margin-bottom: 1.5rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+
+    code {
+      background: var(--color-bg-light);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: var(--color-primary);
+    }
+  }
+}
+
+// Code Toggle Button
+.code-toggle {
+  padding: 0.5rem 1rem;
+  background: var(--color-primary);
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Demo Items
+.demo-item {
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  &__preview {
+    padding: 1.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+
+  &__code {
+    position: relative;
+    margin-top: 1rem;
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1.5rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+    }
+  }
+}
+
+// Demo Grid
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+// Format Info
+.format-info {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-family: 'Courier New', monospace;
+}
+
+// Buttons
+.show-value-btn,
+.validate-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--color-bg-elevated);
+    border-color: var(--color-primary);
+  }
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+// Demo Form
+.demo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+// Implementation Steps
+.implementation-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.step {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+
+  &__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    p {
+      margin-bottom: 0.5rem;
+      color: var(--color-text-secondary);
+    }
+
+    code {
+      display: block;
+      background: var(--color-bg-light);
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: var(--color-primary);
+      overflow-x: auto;
+    }
+  }
+}
+
+// Features Grid
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.feature-card {
+  padding: 1.5rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+
+  h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0.5rem 0;
+      color: var(--color-text-secondary);
+      border-bottom: 1px solid var(--color-border);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+}
+
+// Output Example
+.output-example {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.output-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.output-label {
+  font-weight: 500;
+  color: var(--color-text);
+  min-width: 80px;
+}
+
+// API Table
+.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+
+  th,
+  td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  th {
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-light);
+  }
+
+  td {
+    color: var(--color-text-secondary);
+  }
+
+  code {
+    background: var(--color-bg-light);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    color: var(--color-primary);
+  }
+}
+
+// Dark Theme Support
+@media (prefers-color-scheme: dark) {
+  .phone-number-ui {
+    &__header h1 {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    &__description {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  .demo-section {
+    background: #1a1a1a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    &__header h2 {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    &__description {
+      color: rgba(255, 255, 255, 0.6);
+
+      code {
+        background: #2a2a2a;
+      }
+    }
+  }
+
+  .demo-item {
+    h3 {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    &__preview {
+      background: #0f0f0f;
+      border-color: #3a3a3a;
+    }
+  }
+
+  .format-info {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .show-value-btn,
+  .validate-btn {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+    color: rgba(255, 255, 255, 0.9);
+
+    &:hover {
+      background: #333;
+    }
+  }
+
+  .step {
+    &__content {
+      h3 {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      p {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      code {
+        background: #2a2a2a;
+      }
+    }
+  }
+
+  .feature-card {
+    background: #0f0f0f;
+    border-color: #3a3a3a;
+
+    h3 {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    ul li {
+      color: rgba(255, 255, 255, 0.6);
+      border-color: #3a3a3a;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  .output-label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .api-table {
+    th {
+      color: rgba(255, 255, 255, 0.9);
+      background: #2a2a2a;
+    }
+
+    td {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    th,
+    td {
+      border-color: #3a3a3a;
+    }
+
+    code {
+      background: #2a2a2a;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .phone-number-ui {
+    padding: 1rem;
+
+    &__header h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .demo-section {
+    padding: 1rem;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+}

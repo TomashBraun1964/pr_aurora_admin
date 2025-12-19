@@ -1,12 +1,7 @@
-import {
-  HttpEvent,
-  HttpHandlerFn,
-  HttpRequest,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { inject } from '@angular/core';
 
 import {
   errorMessages,
@@ -14,7 +9,7 @@ import {
   errorTitles,
   IExtendedErrorResponse,
   toErrorStatus,
-} from  '../models/error-response.model';
+} from '../models/error-response.model';
 import { ErrorHandlingService } from './error-handling.service';
 
 interface ErrorData extends IExtendedErrorResponse {
@@ -23,7 +18,7 @@ interface ErrorData extends IExtendedErrorResponse {
 
 export function HttpErrorInterceptor(
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
   const errorHandlingService = inject(ErrorHandlingService);
   return next(req).pipe(
@@ -34,15 +29,21 @@ export function HttpErrorInterceptor(
       } else {
         errorResponse = createEnhancedErrorResponse(httpError, req);
       }
-      errorHandlingService.handleError(errorResponse);
+
+      // Не показываем глобальное сообщение об ошибке для иконок
+      const isIconRequest = req.url.endsWith('.svg') || req.url.includes('assets/icons');
+      if (!isIconRequest) {
+        errorHandlingService.handleError(errorResponse);
+      }
+
       return throwError(() => errorResponse);
-    })
+    }),
   );
 }
 
 function createEnhancedErrorResponse(
   httpError: HttpErrorResponse,
-  req: HttpRequest<unknown>
+  req: HttpRequest<unknown>,
 ): ErrorResponse {
   const serverError = httpError.error;
   const url = req.urlWithParams;
@@ -66,8 +67,7 @@ function createEnhancedErrorResponse(
 function detectEntityFromUrl(url: string): string {
   const urlLower = url.toLowerCase();
   if (urlLower.includes('/tags') || urlLower.includes('/alba')) return 'Tag';
-  if (urlLower.includes('/categories') || urlLower.includes('/category'))
-    return 'Category';
+  if (urlLower.includes('/categories') || urlLower.includes('/category')) return 'Category';
   if (urlLower.includes('/users')) return 'User';
   if (urlLower.includes('/roles')) return 'Role';
   if (urlLower.includes('/departments')) return 'Department';
@@ -75,11 +75,7 @@ function detectEntityFromUrl(url: string): string {
   return 'Entity';
 }
 
-function getContextualTitle(
-  status: number,
-  url: string,
-  entityName: string
-): string {
+function getContextualTitle(status: number, url: string, entityName: string): string {
   if (status === 409) {
     switch (entityName.toLowerCase()) {
       case 'tag':
@@ -105,7 +101,7 @@ function getContextualDetail(
   httpError: HttpErrorResponse,
   serverError: any,
   url: string,
-  entityName: string
+  entityName: string,
 ): string {
   if (serverError?.detail && !serverError.detail.includes('Http failure')) {
     return serverError.detail;
@@ -131,10 +127,7 @@ function getContextualDetail(
         return 'Запись с такими данными уже существует';
     }
   }
-  return (
-    errorMessages[toErrorStatus(httpError.status)] ||
-    'Произошла неопределенная ошибка'
-  );
+  return errorMessages[toErrorStatus(httpError.status)] || 'Произошла неопределенная ошибка';
 }
 
 function generateCorrelationId(): string {

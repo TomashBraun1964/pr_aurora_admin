@@ -1,0 +1,143 @@
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_android.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_android.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_android.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_apple.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_apple.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_apple.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\general\av_book.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_book.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_book.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_book.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_book.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_cards.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_cards.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_cards.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_cart.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_cart.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_cart.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_circle-crossed.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_circle-crossed.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_circle-crossed.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_collapse.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_collapse.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_collapse.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_comment-round.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_comment-round.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_comment-round.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_comment-square.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_comment-square.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_comment-square.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\actions\av_copy.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_copy.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_copy.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_copy.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_copy.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_download.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_download.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_download.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_dropbox.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_dropbox.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_dropbox.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_electricity.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_electricity.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_electricity.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\arrows\av_expand.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_expand.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_expand.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_expand.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_expand.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_external-link.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_external-link.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_external-link.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_eye-crossed.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_eye-crossed.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_eye-crossed.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\actions\av_eye.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_eye.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_eye.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_eye.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_eye.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_facebook.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_facebook.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_facebook.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_file.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_file.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_file.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_flag.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_flag.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_flag.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\files\av_folder.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_folder.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_folder.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_folder.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_folder.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_github.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_github.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\social\av_github.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_github.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_github.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_google.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_google.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_google.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_grid.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_grid.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_grid.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_heart.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_heart.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_heart.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\general\av_house.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_house.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_house.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_house.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_house.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_instagram.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_instagram.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_instagram.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_linkedin.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_linkedin.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_linkedin.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_lock.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_lock.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\system\av_lock.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_lock.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_lock.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_marker.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_marker.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_marker.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\actions\av_minus.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_minus.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_minus.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_minus.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_minus.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_paperplane.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_paperplane.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_paperplane.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_pencil.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_pencil.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_pencil.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_phone-left.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_phone-left.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_phone-left.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_phone-right.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_phone-right.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_phone-right.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_pinterest.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_pinterest.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_pinterest.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_redo.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_redo.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_redo.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_reply-left.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_reply-left.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_reply-left.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_reply-right.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_reply-right.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_reply-right.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\actions\av_search.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_search.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_search.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_search.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_search.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_signal.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_signal.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_signal.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_smartphone.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_smartphone.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_smartphone.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_snapchat.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_snapchat.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_snapchat.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_stop.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_stop.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\rewind\av_stop.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_stop.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_stop.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_switch-on-off.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_switch-on-off.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_switch-on-off.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_telegram.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_telegram.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_telegram.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_thumb-down.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_thumb-down.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_thumb-down.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_thumb-up.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_thumb-up.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_thumb-up.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_tiktok.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_tiktok.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_tiktok.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\actions\av_trash.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_trash.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_trash.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_trash.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_trash.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_twitter.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_twitter.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\social\av_twitter.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_twitter.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_twitter.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\arrows\av_undo.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_undo.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_undo.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_undo.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_undo.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\actions\av_upload.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_upload.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_upload.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_upload.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_upload.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_user.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_user.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_user.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_users.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_users.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\user\av_users.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_users.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_users.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_vimeo.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_vimeo.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_vimeo.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_warning-sign.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_warning-sign.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_warning-sign.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_whatsapp.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_whatsapp.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_whatsapp.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_yandex-en.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_yandex-en.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_yandex-en.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_yandex-ru.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_yandex-ru.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_yandex-ru.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_youtube.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_youtube.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\social\av_youtube.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_youtube.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_youtube.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_zoom-in.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_zoom-in.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_zoom-in.svg
+OVERWRITE: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_zoom-out.svg <- D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_zoom-out.svg
+REMOVED ORIGINAL: D:\_PROGECT\pr_aurora_admin\src\assets\icons\logo\av_zoom-out.svg

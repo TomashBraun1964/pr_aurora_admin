@@ -1,8 +1,8 @@
 // src/app/shared/components/ui/icon/icon.component.ts
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { IconService } from '@core/services/icon/icon.service';
 
 export type IconType =
   | 'download'
@@ -16,7 +16,8 @@ export type IconType =
   | 'code'
   | 'chevron-up'
   | 'chevron-down'
-  | 'info';
+  | 'info'
+  | (string & {});
 
 /**
  * Icon Component
@@ -25,6 +26,7 @@ export type IconType =
  *
  * @example
  * <app-icon type="download" [size]="16"></app-icon>
+ * <app-icon type="actions/av_add" [size]="20"></app-icon>
  */
 @Component({
   selector: 'app-icon',
@@ -58,28 +60,28 @@ export type IconType =
   ],
 })
 export class IconComponent implements OnInit {
-  private http = inject(HttpClient);
+  private iconService = inject(IconService);
   private sanitizer = inject(DomSanitizer);
 
   @Input() type: IconType = 'download';
-  @Input() size: number = 16;
+  @Input() size: number = 24;
 
   svgContent: SafeHtml = '';
 
   // Маппинг типов иконок на файлы в assets/icons
-  private iconFileMap: Record<IconType, string> = {
-    download: 'down-arrow-1_icon-icons.com_70987.svg',
-    upload: 'upload_icon-icons.com_70834.svg',
-    delete: 'trash_icon-icons.com_70843.svg',
-    search: 'loop_icon-icons.com_70926.svg',
-    plus: 'plus_icon-icons.com_70890.svg',
-    settings: 'settings_icon-icons.com_70873.svg',
-    close: 'close_icon-icons.com_71000.svg',
-    copy: 'code_icon-icons.com_70999.svg',
-    code: 'code_icon-icons.com_70999.svg',
-    'chevron-up': 'up-arrow_icon-icons.com_70835.svg',
-    'chevron-down': 'down-arrow-1_icon-icons.com_70987.svg',
-    info: 'information_icon-icons.com_70940.svg',
+  private iconFileMap: Record<string, string> = {
+    download: 'arrows/av_arrow_down.svg',
+    upload: 'actions/av_upload.svg',
+    delete: 'actions/av_trash.svg',
+    search: 'actions/av_search.svg',
+    plus: 'actions/av_plus.svg',
+    settings: 'system/av_settings.svg',
+    close: 'actions/av_close.svg',
+    copy: 'actions/av_copy.svg',
+    code: 'actions/av_copy.svg',
+    'chevron-up': 'arrows/av_chevron-up.svg',
+    'chevron-down': 'arrows/av_chevron-down.svg',
+    info: 'system/av_info.svg',
   };
 
   ngOnInit(): void {
@@ -87,10 +89,22 @@ export class IconComponent implements OnInit {
   }
 
   private loadIcon(): void {
-    const fileName = this.iconFileMap[this.type] || this.iconFileMap['download'];
-    const iconPath = `/assets/icons/${fileName}`;
+    const fileName = this.iconFileMap[this.type as string];
+    let iconPath = '';
 
-    this.http.get(iconPath, { responseType: 'text' }).subscribe({
+    if (fileName) {
+      iconPath = `assets/icons/${fileName}`;
+    } else {
+      // Если типа нет в мапе, пробуем загрузить как путь (например 'actions/av_search')
+      iconPath = `assets/icons/${this.type}.svg`;
+    }
+
+    // Добавляем начальный слэш если его нет
+    if (!iconPath.startsWith('/')) {
+      iconPath = '/' + iconPath;
+    }
+
+    this.iconService.getIcon(iconPath).subscribe({
       next: (svgText) => {
         this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgText);
       },

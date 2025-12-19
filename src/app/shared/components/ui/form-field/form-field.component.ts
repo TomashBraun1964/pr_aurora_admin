@@ -62,6 +62,10 @@ import { AbstractControl } from '@angular/forms';
         <span>Поле обязательно для заполнения</span>
         } @else if (control()?.hasError('email')) {
         <span>Введите корректный email</span>
+        } @else if (control()?.hasError('phoneIncomplete')) {
+        <span>{{ control()?.errors?.['phoneIncomplete']?.message }}</span>
+        } @else if (control()?.hasError('phoneTooLong')) {
+        <span>{{ control()?.errors?.['phoneTooLong']?.message }}</span>
         } @else if (control()?.hasError('minlength')) {
         <span>Минимальная длина: {{ control()?.errors?.['minlength']?.requiredLength }}</span>
         } @else if (control()?.hasError('maxlength')) {

@@ -1,0 +1,279 @@
+// src/styles/components/_toggle.scss
+// ============================================================================
+// Toggle Component Styles
+// ============================================================================
+// iOS-style toggle switch для checkbox элементов
+// Использует BEM нотацию и CSS переменные
+// ============================================================================
+
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// ============================================================================
+// Base Toggle Styles
+// ============================================================================
+
+.av-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  // Hide native checkbox
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  // Slider (background track)
+  &__slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    transition: all $transition-base;
+    cursor: pointer;
+
+    // Slider handle (круглая кнопка)
+    &::before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: $color-white;
+      border-radius: 50%;
+      transition: all $transition-base;
+      box-shadow: $shadow-sm;
+    }
+  }
+
+  // ============================================================================
+  // States
+  // ============================================================================
+
+  // Checked state
+  input:checked + &__slider {
+    background-color: $color-primary;
+
+    &::before {
+      transform: translateX(22px);
+    }
+  }
+
+  // Focus state
+  input:focus + &__slider {
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  // Disabled state
+  input:disabled + &__slider {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &.av-toggle--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+
+    .av-toggle__slider {
+      cursor: not-allowed;
+    }
+  }
+
+  // Hover state
+  &:hover input:not(:disabled):not(:checked) + &__slider {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
+
+  &:hover input:checked:not(:disabled) + &__slider {
+    background-color: $color-primary-hover;
+  }
+
+  // Active state
+  &:active input:not(:disabled) + &__slider::before {
+    width: 22px;
+  }
+
+  // ============================================================================
+  // Sizes
+  // ============================================================================
+
+  &--small {
+    width: 36px;
+    height: 18px;
+
+    .av-toggle__slider::before {
+      height: 14px;
+      width: 14px;
+    }
+
+    input:checked + .av-toggle__slider::before {
+      transform: translateX(18px);
+    }
+
+    &:active input:not(:disabled) + .av-toggle__slider::before {
+      width: 18px;
+    }
+  }
+
+  &--large {
+    width: 52px;
+    height: 26px;
+
+    .av-toggle__slider::before {
+      height: 22px;
+      width: 22px;
+    }
+
+    input:checked + .av-toggle__slider::before {
+      transform: translateX(26px);
+    }
+
+    &:active input:not(:disabled) + .av-toggle__slider::before {
+      width: 26px;
+    }
+  }
+
+  // ============================================================================
+  // Colors
+  // ============================================================================
+
+  &--primary {
+    input:checked + .av-toggle__slider {
+      background-color: $color-primary;
+    }
+
+    input:focus + .av-toggle__slider {
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+    }
+
+    &:hover input:checked:not(:disabled) + .av-toggle__slider {
+      background-color: $color-primary-hover;
+    }
+  }
+
+  &--success {
+    input:checked + .av-toggle__slider {
+      background-color: $color-success;
+    }
+
+    input:focus + .av-toggle__slider {
+      box-shadow: 0 0 0 3px rgba($color-success, 0.1);
+    }
+
+    &:hover input:checked:not(:disabled) + .av-toggle__slider {
+      background-color: $color-success-hover;
+    }
+  }
+
+  &--warning {
+    input:checked + .av-toggle__slider {
+      background-color: $color-warning;
+    }
+
+    input:focus + .av-toggle__slider {
+      box-shadow: 0 0 0 3px rgba($color-warning, 0.1);
+    }
+
+    &:hover input:checked:not(:disabled) + .av-toggle__slider {
+      background-color: $color-warning-hover;
+    }
+  }
+
+  &--danger {
+    input:checked + .av-toggle__slider {
+      background-color: $color-error;
+    }
+
+    input:focus + .av-toggle__slider {
+      box-shadow: 0 0 0 3px rgba($color-error, 0.1);
+    }
+
+    &:hover input:checked:not(:disabled) + .av-toggle__slider {
+      background-color: $color-error-hover;
+    }
+  }
+
+  // ============================================================================
+  // Dark Theme
+  // ============================================================================
+
+  @include dark-theme {
+    &__slider {
+      background-color: rgba(255, 255, 255, 0.3);
+
+      &::before {
+        background-color: #f0f0f0;
+      }
+    }
+
+    &:hover input:not(:disabled):not(:checked) + &__slider {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+  }
+}
+
+// ============================================================================
+// Toggle with Label (Optional helper)
+// ============================================================================
+
+.av-toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+
+  &__label {
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    user-select: none;
+  }
+
+  &--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+
+    .av-toggle-wrapper__label {
+      cursor: not-allowed;
+    }
+  }
+
+  @include dark-theme {
+    .av-toggle-wrapper__label {
+      color: $dark-text-primary;
+    }
+  }
+}
+
+// ============================================================================
+// Accessibility
+// ============================================================================
+
+// Keyboard focus для accessibility
+.av-toggle input:focus-visible + .av-toggle__slider {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+// Prefers reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .av-toggle__slider,
+  .av-toggle__slider::before {
+    transition: none;
+  }
+}
