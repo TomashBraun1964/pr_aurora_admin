@@ -24,12 +24,31 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
           id: 'ui-demo',
           icon: 'appstore',
           label: 'UI Demo',
-          type: 'link',
-          route: '/ui-demo',
+          type: 'submenu',
           badge: {
             value: 'New',
             intent: 'success',
           },
+          submenu: [
+            {
+              id: 'button-ui',
+              label: 'Button UI',
+              route: '/ui-demo/button-ui',
+              icon: 'block',
+            },
+            {
+              id: 'toggle-ui',
+              label: 'Toggle UI',
+              route: '/ui-demo/toggle-ui',
+              icon: 'swap',
+            },
+            {
+              id: 'input-ui',
+              label: 'Input UI',
+              route: '/ui-demo/input-ui',
+              icon: 'edit',
+            },
+          ],
         },
         {
           id: 'analytics',

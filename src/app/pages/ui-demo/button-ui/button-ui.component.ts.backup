@@ -1,0 +1,269 @@
+// src/app/pages/ui-demo/button-ui/button-ui.component.ts
+import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { ThemeService } from '../../../core/services/theme/theme.service';
+import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
+import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
+
+/**
+ * Button UI Demo Component
+ *
+ * Демонстрация Button компонента:
+ * - Разные типы кнопок (primary, default, dashed, text, link, danger)
+ * - Размеры кнопок (small, default, large)
+ * - Состояния (loading, disabled, block)
+ * - Кнопки с иконками
+ */
+@Component({
+  selector: 'app-button-ui',
+  standalone: true,
+  imports: [CommonModule, ButtonDirective, IconComponent],
+  template: `
+      <div class="demo-header">
+        <h1>Button Component</h1>
+        <p class="text-secondary">Демонстрация всех типов, размеров и состояний кнопок</p>
+      </div>
+
+      <!-- Button Types -->
+      <section class="demo-section">
+        <h2>Типы кнопок</h2>
+        <p class="text-secondary">Доступные варианты оформления кнопок</p>
+
+        <div class="demo-group">
+          <button av-button avType="primary" (click)="showMessage('Primary clicked')">
+            Primary
+          </button>
+          <button av-button avType="default" (click)="showMessage('Default clicked')">
+            Default
+          </button>
+          <button av-button avType="dashed" (click)="showMessage('Dashed clicked')">Dashed</button>
+          <button av-button avType="text" (click)="showMessage('Text clicked')">Text</button>
+          <button av-button avType="link" (click)="showMessage('Link clicked')">Link</button>
+          <button av-button avType="danger" (click)="showMessage('Danger clicked')">Danger</button>
+        </div>
+
+        <pre
+          class="code-example"
+        ><code>&lt;button av-button avType="primary"&gt;Primary&lt;/button&gt;
+&lt;button av-button avType="default"&gt;Default&lt;/button&gt;
+&lt;button av-button avType="dashed"&gt;Dashed&lt;/button&gt;
+&lt;button av-button avType="text"&gt;Text&lt;/button&gt;
+&lt;button av-button avType="link"&gt;Link&lt;/button&gt;
+&lt;button av-button avType="danger"&gt;Danger&lt;/button&gt;</code></pre>
+      </section>
+
+      <!-- Button Sizes -->
+      <section class="demo-section">
+        <h2>Размеры кнопок</h2>
+        <p class="text-secondary">Три размера: small, default, large</p>
+
+        <div class="demo-group">
+          <button av-button avType="primary" avSize="small">Small</button>
+          <button av-button avType="primary" avSize="default">Default</button>
+          <button av-button avType="primary" avSize="large">Large</button>
+        </div>
+
+        <pre
+          class="code-example"
+        ><code>&lt;button av-button avType="primary" avSize="small"&gt;Small&lt;/button&gt;
+&lt;button av-button avType="primary" avSize="default"&gt;Default&lt;/button&gt;
+&lt;button av-button avType="primary" avSize="large"&gt;Large&lt;/button&gt;</code></pre>
+      </section>
+
+      <!-- Button States -->
+      <section class="demo-section">
+        <h2>Состояния кнопок</h2>
+        <p class="text-secondary">Loading, Disabled, Block</p>
+
+        <div class="demo-group">
+          <button av-button avType="primary" [avLoading]="isLoading()">
+            @if (isLoading()) { Loading... } @else { Click to Load }
+          </button>
+          <button av-button avType="default" disabled>Disabled</button>
+          <button av-button avType="primary" (click)="simulateLoading()">Simulate Loading</button>
+        </div>
+
+        <div class="demo-group" style="margin-top: 16px;">
+          <button av-button avType="primary" [avBlock]="true">Block Button (Full Width)</button>
+        </div>
+
+        <pre
+          class="code-example"
+        ><code>&lt;button av-button avType="primary" [avLoading]="isLoading()"&gt;
+  &#64;if (isLoading()) {{ '{' }} Loading... {{ '}' }} &#64;else {{ '{' }} Click to Load {{ '}' }}
+&lt;/button&gt;
+
+&lt;button av-button avType="default" disabled&gt;Disabled&lt;/button&gt;
+
+&lt;button av-button avType="primary" [avBlock]="true"&gt;Block Button&lt;/button&gt;</code></pre>
+      </section>
+
+      <!-- Buttons with Icons -->
+      <section class="demo-section">
+        <h2>Кнопки с иконками</h2>
+        <p class="text-secondary">Иконка + текст и только иконка</p>
+
+        <h3>Иконка + Текст</h3>
+        <div class="demo-group">
+          <button av-button avType="primary">
+            <app-icon type="download" [size]="16"></app-icon>
+            <span style="margin-left: 8px;">Download</span>
+          </button>
+          <button av-button avType="default">
+            <app-icon type="upload" [size]="16"></app-icon>
+            <span style="margin-left: 8px;">Upload</span>
+          </button>
+          <button av-button avType="danger">
+            <app-icon type="delete" [size]="16"></app-icon>
+            <span style="margin-left: 8px;">Delete</span>
+          </button>
+        </div>
+
+        <h3>Только иконка (квадратные кнопки)</h3>
+        <div class="demo-group">
+          <button av-button avType="primary" class="av-btn--icon-only">
+            <app-icon type="search" [size]="16"></app-icon>
+          </button>
+          <button av-button avType="primary" avSize="small" class="av-btn--icon-only">
+            <app-icon type="plus" [size]="14"></app-icon>
+          </button>
+          <button av-button avType="primary" avSize="large" class="av-btn--icon-only">
+            <app-icon type="settings" [size]="20"></app-icon>
+          </button>
+          <button av-button avType="danger" class="av-btn--icon-only">
+            <app-icon type="close" [size]="16"></app-icon>
+          </button>
+        </div>
+
+        <pre class="code-example"><code>&lt;!-- Иконка + Текст --&gt;
+&lt;button av-button avType="primary"&gt;
+  &lt;app-icon type="download" [size]="16"&gt;&lt;/app-icon&gt;
+  &lt;span style="margin-left: 8px;"&gt;Download&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Только иконка --&gt;
+&lt;button av-button avType="primary" class="av-btn--icon-only"&gt;
+  &lt;app-icon type="search" [size]="16"&gt;&lt;/app-icon&gt;
+&lt;/button&gt;</code></pre>
+      </section>
+
+      <!-- Message Display -->
+      @if (message()) {
+      <div class="message-display">
+        {{ message() }}
+      </div>
+      }
+    </div>
+  `,
+  styles: `
+    .button-ui-demo {
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      margin-bottom: 48px;
+
+      h1 {
+        margin: 0 0 8px 0;
+        font-size: 32px;
+        font-weight: 600;
+      }
+
+      .text-secondary {
+        margin: 0;
+        font-size: 16px;
+        color: var(--color-text-secondary, #8c8c8c);
+      }
+    }
+
+    .demo-section {
+      margin-bottom: 48px;
+      padding: 24px;
+      background: var(--color-bg-container, #fff);
+      border: 1px solid var(--color-border-base, #d9d9d9);
+      border-radius: 8px;
+
+      h2 {
+        margin: 0 0 8px 0;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      h3 {
+        margin: 24px 0 16px 0;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .text-secondary {
+        margin: 0 0 24px 0;
+        font-size: 14px;
+        color: var(--color-text-secondary, #8c8c8c);
+      }
+    }
+
+    .demo-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .code-example {
+      margin: 24px 0 0 0;
+      padding: 16px;
+      background: var(--color-bg-layout, #f5f5f5);
+      border: 1px solid var(--color-border-base, #e8e8e8);
+      border-radius: 6px;
+      overflow-x: auto;
+
+      code {
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        color: var(--color-text-primary, #262626);
+      }
+    }
+
+    .message-display {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 16px 24px;
+      background: var(--color-primary, #1890ff);
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  `,
+})
+export class ButtonUiComponent {
+  private themeService = inject(ThemeService);
+
+  message = signal<string>('');
+  isLoading = signal<boolean>(false);
+
+  showMessage(msg: string): void {
+    this.message.set(msg);
+    setTimeout(() => this.message.set(''), 2000);
+  }
+
+  simulateLoading(): void {
+    this.isLoading.set(true);
+    setTimeout(() => this.isLoading.set(false), 2000);
+  }
+}
