@@ -1,0 +1,237 @@
+// src/app/pages/ui-demo/input-ui/input-ui.component.scss
+.input-ui-demo {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.demo-header {
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .text-secondary {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.65);
+  }
+}
+
+.help-section {
+  margin-bottom: 32px;
+
+  .help-content {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #1890ff;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      color: #1890ff;
+    }
+
+    h5 {
+      margin-top: 20px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    pre {
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 13px;
+      border: 1px solid #d9d9d9;
+
+      code {
+        font-family: "Courier New", monospace;
+      }
+    }
+
+    ul {
+      margin: 8px 0;
+      padding-left: 24px;
+
+      li {
+        margin: 6px 0;
+
+        code {
+          background: #ffffff;
+          padding: 2px 6px;
+          border-radius: 3px;
+          font-size: 12px;
+          border: 1px solid #d9d9d9;
+        }
+      }
+    }
+  }
+}
+
+.demo-section {
+  margin-bottom: 48px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1890ff;
+  }
+
+  .section-description {
+    color: rgba(0, 0, 0, 0.65);
+    margin-bottom: 24px;
+
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+  }
+}
+
+.demo-group {
+  margin-bottom: 32px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+}
+
+.input-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.input-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 250px;
+
+  label {
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  small {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.45);
+
+    &.error-text {
+      color: #ff4d4f;
+    }
+
+    &.warning-text {
+      color: #faad14;
+    }
+
+    &.success-text {
+      color: #52c41a;
+    }
+  }
+}
+
+.form-state {
+  margin-top: 24px;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 4px;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  pre {
+    margin: 0;
+    font-size: 13px;
+    font-family: "Courier New", monospace;
+  }
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+  .input-ui-demo {
+    .demo-header .text-secondary {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .help-section .help-content {
+      background: #1f1f1f;
+      border-left-color: #1890ff;
+
+      h4 {
+        color: #40a9ff;
+      }
+
+      pre {
+        background: #141414;
+        border-color: #434343;
+      }
+
+      ul li code {
+        background: #141414;
+        border-color: #434343;
+      }
+    }
+
+    .demo-section {
+      background: #1f1f1f;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+      h2 {
+        color: #40a9ff;
+      }
+
+      .section-description {
+        color: rgba(255, 255, 255, 0.65);
+
+        code {
+          background: #141414;
+        }
+      }
+    }
+
+    .input-item label {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .form-state {
+      background: #141414;
+    }
+  }
+}

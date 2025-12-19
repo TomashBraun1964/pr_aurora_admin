@@ -48,6 +48,18 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
               route: '/ui-demo/input-ui',
               icon: 'edit',
             },
+            {
+              id: 'phone-number-ui',
+              label: 'Phone Number UI',
+              route: '/ui-demo/phone-number-ui',
+              icon: 'phone',
+            },
+            {
+              id: 'icon-ui',
+              label: 'Icon UI',
+              route: '/ui-demo/icon-ui',
+              icon: 'picture',
+            },
           ],
         },
         {
@@ -436,6 +448,23 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
           label: 'Биллинг',
           type: 'link',
           route: '/finance/billing',
+        },
+      ],
+    },
+    {
+      id: 'tools',
+      title: 'Инструменты',
+      items: [
+        {
+          id: 'icon-manager',
+          icon: 'picture',
+          label: 'Менеджер иконок',
+          type: 'link',
+          route: '/tools/icon-manager',
+          badge: {
+            value: 'Pro',
+            intent: 'info',
+          },
         },
       ],
     },

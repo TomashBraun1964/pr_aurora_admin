@@ -1,405 +1,251 @@
 // src/app/shared/components/ui/input/input.component.ts
 import { CommonModule } from '@angular/common';
-import { Component, input, output, signal } from '@angular/core';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { Component, EventEmitter, forwardRef, Input, Output, signal } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { InputDirective } from './input.directive';
 
-/**
- * Input Sizes
- */
-export type InputSize = 'small' | 'default' | 'large';
-
-/**
- * Input Types
- */
-export type InputType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' | 'search';
-
-/**
- * Input Component
- *
- * Универсальный input с поддержкой:
- * - Разных размеров (small, default, large) - совпадают с кнопками по высоте
- * - Разных типов (text, password, email, number, tel, url, search)
- * - Состояний (disabled, readonly, error)
- * - Иконок (prefix, suffix)
- * - Clear button
- * - BEM классов для стилизации
- *
- * Использование:
- * ```html
- * <app-input
- *   size="large"
- *   type="email"
- *   placeholder="Введите email"
- *   [value]="email()"
- *   (valueChange)="email.set($event)"
- * />
- *
- * <app-input
- *   prefixIcon="user"
- *   suffixIcon="search"
- *   [allowClear]="true"
- *   (valueChange)="handleSearch($event)"
- * />
- * ```
- */
 @Component({
-  selector: 'app-input',
+  selector: 'av-input',
   standalone: true,
-  imports: [CommonModule, NzIconModule],
+  imports: [CommonModule, InputDirective],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputComponent),
+      multi: true,
+    },
+  ],
   template: `
-    <div class="input-wrapper" [class]="wrapperClasses()">
-      <!-- Prefix Icon -->
-      @if (prefixIcon()) {
-      <span class="input-wrapper__icon input-wrapper__icon--prefix" nz-icon [nzType]="prefixIcon()!"></span>
+    <div class="av-input-wrapper">
+      @if (label) {
+      <label [for]="inputId" class="av-input-wrapper__label">{{ label }}</label>
       }
 
-      <!-- Input Element -->
-      <input
-        #inputElement
-        class="input-wrapper__input"
-        [type]="showPassword() ? 'text' : type()"
-        [placeholder]="placeholder()"
-        [value]="value()"
-        [disabled]="disabled()"
-        [readonly]="readonly()"
-        [attr.maxlength]="maxLength() || null"
-        (input)="handleInput($event)"
-        (focus)="handleFocus()"
-        (blur)="handleBlur()"
-      />
+      <div
+        class="av-input-container"
+        [class.av-input-container--with-toggle]="type === 'password' && showPasswordToggle"
+      >
+        <input
+          [id]="inputId"
+          [type]="getInputType()"
+          avInput
+          [avSize]="size"
+          [avStatus]="status"
+          [avVariant]="variant"
+          [placeholder]="placeholder"
+          [disabled]="disabled"
+          [value]="value"
+          (input)="onInput($event)"
+        />
 
-      <!-- Clear Button -->
-      @if (allowClear() && value() && !disabled() && !readonly()) {
-      <span
-        class="input-wrapper__icon input-wrapper__icon--clear"
-        nz-icon
-        nzType="close-circle"
-        nzTheme="fill"
-        (click)="handleClear()"
-      ></span>
-      }
+        @if (type === 'password' && showPasswordToggle) {
+        <button
+          type="button"
+          class="av-input-toggle"
+          [class.av-input-toggle--small]="size === 'small'"
+          [class.av-input-toggle--large]="size === 'large'"
+          [class.av-input-toggle--x-large]="size === 'x-large'"
+          (click)="togglePasswordVisibility()"
+          [disabled]="disabled"
+          [attr.aria-label]="passwordVisible() ? 'Скрыть пароль' : 'Показать пароль'"
+        >
+          @if (passwordVisible()) {
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+            />
+            <line x1="1" y1="1" x2="23" y2="23" />
+          </svg>
+          } @else {
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          }
+        </button>
+        }
+      </div>
 
-      <!-- Password Toggle -->
-      @if (type() === 'password' && value()) {
-      <span
-        class="input-wrapper__icon input-wrapper__icon--password"
-        nz-icon
-        [nzType]="showPassword() ? 'eye-invisible' : 'eye'"
-        (click)="togglePassword()"
-      ></span>
-      }
-
-      <!-- Suffix Icon -->
-      @if (suffixIcon()) {
-      <span class="input-wrapper__icon input-wrapper__icon--suffix" nz-icon [nzType]="suffixIcon()!"></span>
+      @if (hint && !errorMessage) {
+      <span class="av-input-wrapper__hint">{{ hint }}</span>
+      } @if (errorMessage && status === 'error') {
+      <span class="av-input-wrapper__error">{{ errorMessage }}</span>
       }
     </div>
   `,
   styles: [
     `
-      @use '../../../../../styles/abstracts/variables' as *;
-      @use '../../../../../styles/abstracts/mixins' as *;
-
-      .input-wrapper {
-        @include flex-layout(center, flex-start);
+      .av-input-container {
         position: relative;
-        width: 100%;
-        gap: $spacing-xs;
+        display: flex;
+        align-items: center;
+      }
 
-        // Base styles
-        background: $color-white;
-        border: $border-width-base solid $color-border-base;
-        border-radius: $border-radius-base;
-        transition: $transition-base;
+      .av-input-container--with-toggle input {
+        padding-right: 48px !important;
+      }
 
-        // Размеры по умолчанию (совпадают с кнопками!)
-        height: $input-height-base;
-        padding: 0 $input-padding-horizontal-base;
+      .av-input-toggle {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        color: rgba(0, 0, 0, 0.45);
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.3s;
+        padding: 0;
 
-        &:hover:not(&--disabled):not(&--readonly) {
-          border-color: $color-primary-hover;
+        &:hover:not(:disabled) {
+          background-color: rgba(0, 0, 0, 0.04);
+          color: rgba(0, 0, 0, 0.65);
         }
 
-        &:focus-within {
-          border-color: $color-primary;
-          box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
-          outline: none;
+        &:active:not(:disabled) {
+          background-color: rgba(0, 0, 0, 0.08);
         }
 
-        // === SIZE VARIANTS ===
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.4;
+        }
 
         &--small {
-          height: $input-height-sm;
-          padding: 0 $input-padding-horizontal-sm;
-          font-size: $font-size-sm;
+          width: 24px;
+          height: 24px;
 
-          .input-wrapper__input {
-            font-size: $font-size-sm;
-          }
-
-          .input-wrapper__icon {
-            font-size: 12px;
+          svg {
+            width: 16px;
+            height: 16px;
           }
         }
 
         &--large {
-          height: $input-height-lg;
-          padding: 0 $input-padding-horizontal-lg;
-          font-size: $font-size-md;
+          width: 36px;
+          height: 36px;
 
-          .input-wrapper__input {
-            font-size: $font-size-md;
-          }
-
-          .input-wrapper__icon {
-            font-size: 16px;
+          svg {
+            width: 22px;
+            height: 22px;
           }
         }
 
-        // === STATE MODIFIERS ===
+        &--x-large {
+          width: 40px;
+          height: 40px;
 
-        &--disabled {
-          background: $color-bg-gray;
-          border-color: $color-border-base;
-          cursor: not-allowed;
-
-          .input-wrapper__input {
-            color: $color-text-disabled;
-            cursor: not-allowed;
+          svg {
+            width: 24px;
+            height: 24px;
           }
         }
 
-        &--readonly {
-          background: $color-bg-light;
-          cursor: default;
+        svg {
+          display: block;
         }
+      }
 
-        &--error {
-          border-color: $color-error;
+      @media (prefers-color-scheme: dark) {
+        .av-input-toggle {
+          color: rgba(255, 255, 255, 0.45);
 
-          &:focus-within {
-            border-color: $color-error;
-            box-shadow: 0 0 0 2px rgba($color-error, 0.1);
-          }
-        }
-
-        &--focused {
-          border-color: $color-primary;
-          box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
-        }
-
-        // === INPUT ELEMENT ===
-
-        &__input {
-          @include reset-input;
-          flex: 1;
-          width: 100%;
-          height: 100%;
-          background: transparent;
-          border: none;
-          outline: none;
-          font-size: $font-size-base;
-          line-height: 1.5;
-          color: $color-text-primary;
-
-          &::placeholder {
-            color: $color-text-tertiary;
+          &:hover:not(:disabled) {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.65);
           }
 
-          &:disabled {
-            cursor: not-allowed;
-          }
-
-          // Remove autofill background
-          &:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 1000px $color-white inset;
-            -webkit-text-fill-color: $color-text-primary;
-          }
-        }
-
-        // === ICONS ===
-
-        &__icon {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          color: $color-text-tertiary;
-          font-size: 14px;
-          flex-shrink: 0;
-
-          &--clear,
-          &--password {
-            cursor: pointer;
-            transition: color $transition-duration-base;
-
-            &:hover {
-              color: $color-text-secondary;
-            }
-          }
-
-          &--clear {
-            color: $color-text-tertiary;
-          }
-        }
-
-        // === DARK THEME ===
-
-        @include dark-theme {
-          background: $dark-bg-light;
-          border-color: $dark-border-base;
-          color: $dark-text-primary;
-
-          &:hover:not(.input-wrapper--disabled):not(.input-wrapper--readonly) {
-            border-color: $color-primary-hover;
-          }
-
-          &--disabled {
-            background: $dark-bg-gray;
-            border-color: $dark-border-base;
-
-            .input-wrapper__input {
-              color: $dark-text-tertiary;
-            }
-          }
-
-          &--readonly {
-            background: $dark-bg-gray;
-          }
-
-          .input-wrapper__input {
-            color: $dark-text-primary;
-
-            &::placeholder {
-              color: $dark-text-tertiary;
-            }
-
-            &:-webkit-autofill {
-              -webkit-box-shadow: 0 0 0 1000px $dark-bg-light inset;
-              -webkit-text-fill-color: $dark-text-primary;
-            }
-          }
-
-          .input-wrapper__icon {
-            color: $dark-text-tertiary;
-
-            &--clear:hover,
-            &--password:hover {
-              color: $dark-text-secondary;
-            }
+          &:active:not(:disabled) {
+            background-color: rgba(255, 255, 255, 0.12);
           }
         }
       }
     `,
   ],
 })
-export class InputComponent {
-  // ===== INPUTS =====
+export class InputComponent implements ControlValueAccessor {
+  @Input() value = '';
+  @Output() valueChange = new EventEmitter<string>();
+  @Input() label = '';
+  @Input() type:
+    | 'text'
+    | 'email'
+    | 'password'
+    | 'number'
+    | 'tel'
+    | 'url'
+    | 'search'
+    | 'date'
+    | 'time'
+    | 'datetime-local'
+    | 'color' = 'text';
+  @Input() placeholder = '';
+  @Input() size: 'small' | 'default' | 'large' | 'x-large' = 'default';
+  @Input() status: 'default' | 'error' | 'warning' | 'success' = 'default';
+  @Input() variant: 'outlined' | 'filled' | 'borderless' = 'outlined';
+  @Input() errorMessage = '';
+  @Input() hint = '';
+  @Input() disabled = false;
+  @Input() showPasswordToggle = true; // По умолчанию показываем кнопку для type="password"
 
-  /** Размер input (small: 24px, default: 32px, large: 40px) */
-  size = input<InputSize>('default');
+  inputId = `av-input-${Math.random().toString(36).substring(2, 9)}`;
+  passwordVisible = signal(false);
 
-  /** Тип input */
-  type = input<InputType>('text');
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
 
-  /** Placeholder текст */
-  placeholder = input<string>('');
-
-  /** Значение */
-  value = input<string>('');
-
-  /** Иконка перед текстом */
-  prefixIcon = input<string | null>(null);
-
-  /** Иконка после текста */
-  suffixIcon = input<string | null>(null);
-
-  /** Показывать кнопку очистки */
-  allowClear = input<boolean>(false);
-
-  /** Disabled состояние */
-  disabled = input<boolean>(false);
-
-  /** Readonly состояние */
-  readonly = input<boolean>(false);
-
-  /** Error состояние */
-  error = input<boolean>(false);
-
-  /** Максимальная длина */
-  maxLength = input<number | null>(null);
-
-  // ===== OUTPUTS =====
-
-  /** Событие изменения значения */
-  valueChange = output<string>();
-
-  /** Событие фокуса */
-  focused = output<void>();
-
-  /** Событие потери фокуса */
-  blurred = output<void>();
-
-  // ===== STATE =====
-
-  /** Показывать пароль (для type="password") */
-  showPassword = signal(false);
-
-  /** Input в фокусе */
-  isFocused = signal(false);
-
-  // ===== COMPUTED =====
-
-  /** Собрать CSS классы на основе inputs */
-  wrapperClasses() {
-    const classes: string[] = [];
-
-    // Size
-    if (this.size() !== 'default') {
-      classes.push(`input-wrapper--${this.size()}`);
+  getInputType(): string {
+    if (this.type === 'password' && this.passwordVisible()) {
+      return 'text';
     }
-
-    // States
-    if (this.disabled()) {
-      classes.push('input-wrapper--disabled');
-    }
-
-    if (this.readonly()) {
-      classes.push('input-wrapper--readonly');
-    }
-
-    if (this.error()) {
-      classes.push('input-wrapper--error');
-    }
-
-    if (this.isFocused()) {
-      classes.push('input-wrapper--focused');
-    }
-
-    return classes.join(' ');
+    return this.type;
   }
 
-  // ===== METHODS =====
-
-  handleInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.valueChange.emit(target.value);
+  togglePasswordVisibility(): void {
+    console.log('🔑 Toggle password visibility:', !this.passwordVisible());
+    this.passwordVisible.update((v) => !v);
   }
 
-  handleFocus(): void {
-    this.isFocused.set(true);
-    this.focused.emit();
+  onInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.value = value;
+    this.valueChange.emit(value);
+    this.onChange(value);
   }
 
-  handleBlur(): void {
-    this.isFocused.set(false);
-    this.blurred.emit();
+  writeValue(value: string): void {
+    this.value = value ?? '';
   }
 
-  handleClear(): void {
-    this.valueChange.emit('');
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
   }
 
-  togglePassword(): void {
-    this.showPassword.update((v) => !v);
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 }

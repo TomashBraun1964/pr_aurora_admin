@@ -34,7 +34,9 @@
 // 5. COMPONENTS (будут созданы позже)
 // =============================================================================
 @use "styles/components/button";
-// @import 'styles/components/form-field';
+@use "styles/components/toggle";
+@use "styles/components/input";
+@use "styles/components/form-field";
 // @import 'styles/components/alert';
 
 // =============================================================================

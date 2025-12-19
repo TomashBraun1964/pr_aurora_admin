@@ -1,0 +1,345 @@
+<!-- src/app/pages/ui-demo/input-ui/input-ui.component.html -->
+<div class="input-ui-demo">
+  <div class="demo-header">
+    <h1>Input Component</h1>
+    <p class="text-secondary">
+      Поля ввода (Input Fields) - директива и компонент с поддержкой размеров, статусов и вариантов
+    </p>
+  </div>
+
+  <!-- Help Section -->
+  <div class="help-section">
+    <button av-button avType="primary" avSize="small" (click)="toggleHelp()" style="margin-bottom: 16px">
+      @if (showHelp()) { ❌ Скрыть инструкцию } @else { ℹ️ Показать инструкцию по подключению }
+    </button>
+
+    @if (showHelp()) {
+    <div class="help-content">
+      <h4>Как подключить Input в проекте</h4>
+
+      <h5>1. Использование директивы avInput (для нативных элементов)</h5>
+      <pre><code>{{ directiveExample }}</code></pre>
+
+      <h5>2. Использование компонента av-input (с label и validation)</h5>
+      <pre><code>{{ componentExample }}</code></pre>
+
+      <h5>3. Параметры директивы</h5>
+      <ul>
+        <li><code>avSize</code> - размер: 'small' | 'default' | 'large' | 'x-large'</li>
+        <li><code>avStatus</code> - статус: 'default' | 'error' | 'warning' | 'success'</li>
+        <li><code>avVariant</code> - вариант: 'outlined' | 'filled' | 'borderless'</li>
+      </ul>
+
+      <h5>4. Параметры компонента</h5>
+      <ul>
+        <li><code>label</code> - текст метки поля</li>
+        <li><code>type</code> - тип input (text, email, password, number и т.д.)</li>
+        <li><code>placeholder</code> - подсказка</li>
+        <li><code>hint</code> - вспомогательный текст под полем</li>
+        <li><code>errorMessage</code> - текст ошибки</li>
+        <li><code>disabled</code> - отключенное состояние</li>
+      </ul>
+
+      <h5>5. Интеграция с FormControl</h5>
+      <pre><code>{{ formControlExample }}</code></pre>
+    </div>
+    }
+  </div>
+
+  <!-- Section 1: Директива avInput -->
+  <div class="demo-section">
+    <h2>1. Директива avInput (нативные элементы)</h2>
+    <p class="section-description">
+      Применяется к нативным <code>&lt;input&gt;</code> и <code>&lt;textarea&gt;</code> элементам
+    </p>
+
+    <div class="demo-group">
+      <h3>Базовые примеры</h3>
+      <div class="input-row">
+        <div class="input-item">
+          <label>Текстовое поле</label>
+          <input avInput type="text" placeholder="Введите текст" [(ngModel)]="basicValue" />
+          <small>Значение: {{ basicValue }}</small>
+        </div>
+        <div class="input-item">
+          <label>Email</label>
+          <input avInput type="email" placeholder="your@email.com" [(ngModel)]="emailValue" />
+        </div>
+        <div class="input-item">
+          <av-input label="Пароль (с кнопкой)" type="password" placeholder="••••••••" [(ngModel)]="passwordValue" />
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-group">
+      <h3>Размеры (avSize)</h3>
+      <div class="input-column">
+        <div class="input-item">
+          <label>Small (24px)</label>
+          <input avInput avSize="small" type="text" placeholder="Small input" [(ngModel)]="smallInput" />
+        </div>
+        <div class="input-item">
+          <label>Default (32px)</label>
+          <input avInput type="text" placeholder="Default input" [(ngModel)]="defaultInput" />
+        </div>
+        <div class="input-item">
+          <label>Large (40px)</label>
+          <input avInput avSize="large" type="text" placeholder="Large input" [(ngModel)]="largeInput" />
+        </div>
+        <div class="input-item">
+          <label>X-Large (48px)</label>
+          <input avInput avSize="x-large" type="text" placeholder="X-Large input" [(ngModel)]="xLargeInput" />
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-group">
+      <h3>Статусы (avStatus)</h3>
+      <div class="input-column">
+        <div class="input-item">
+          <label>Default</label>
+          <input avInput type="text" placeholder="Default status" [(ngModel)]="defaultStatus" />
+        </div>
+        <div class="input-item">
+          <label>Error</label>
+          <input avInput avStatus="error" type="text" placeholder="Error status" [(ngModel)]="errorStatus" />
+          <small class="error-text">Это поле содержит ошибку</small>
+        </div>
+        <div class="input-item">
+          <label>Warning</label>
+          <input avInput avStatus="warning" type="text" placeholder="Warning status" [(ngModel)]="warningStatus" />
+          <small class="warning-text">Проверьте введенные данные</small>
+        </div>
+        <div class="input-item">
+          <label>Success</label>
+          <input avInput avStatus="success" type="text" placeholder="Success status" [(ngModel)]="successStatus" />
+          <small class="success-text">Поле заполнено корректно</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-group">
+      <h3>Варианты (avVariant)</h3>
+      <div class="input-column">
+        <div class="input-item">
+          <label>Outlined (по умолчанию)</label>
+          <input avInput type="text" placeholder="Outlined variant" [(ngModel)]="outlinedVariant" />
+        </div>
+        <div class="input-item">
+          <label>Filled</label>
+          <input avInput avVariant="filled" type="text" placeholder="Filled variant" [(ngModel)]="filledVariant" />
+        </div>
+        <div class="input-item">
+          <label>Borderless</label>
+          <input
+            avInput
+            avVariant="borderless"
+            type="text"
+            placeholder="Borderless variant"
+            [(ngModel)]="borderlessVariant"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Компонент av-input -->
+  <div class="demo-section">
+    <h2>2. Компонент av-input (с label и validation)</h2>
+    <p class="section-description">Обертка с автоматическим label, hint и errorMessage</p>
+
+    <div class="demo-group">
+      <h3>Базовые примеры</h3>
+      <div class="input-column">
+        <av-input label="Имя пользователя" placeholder="Введите имя" hint="От 3 до 20 символов" />
+        <av-input label="Email адрес" type="email" placeholder="your@email.com" hint="Используется для входа" />
+        <av-input
+          label="Телефон"
+          type="tel"
+          placeholder="+7 (999) 123-45-67"
+          status="error"
+          errorMessage="Неверный формат номера"
+        />
+      </div>
+    </div>
+
+    <div class="demo-group">
+      <h3>Размеры компонента</h3>
+      <div class="input-column">
+        <av-input label="Small" size="small" placeholder="Small input" />
+        <av-input label="Default" placeholder="Default input" />
+        <av-input label="Large" size="large" placeholder="Large input" />
+        <av-input label="X-Large" size="x-large" placeholder="X-Large input" />
+      </div>
+    </div>
+
+    <div class="demo-group">
+      <h3>Статусы компонента</h3>
+      <div class="input-column">
+        <av-input label="Default" placeholder="Default" />
+        <av-input label="Error" status="error" errorMessage="Поле обязательно для заполнения" placeholder="Error" />
+        <av-input label="Warning" status="warning" hint="Проверьте введенные данные" placeholder="Warning" />
+        <av-input label="Success" status="success" hint="Данные корректны" placeholder="Success" />
+      </div>
+    </div>
+
+    <div class="demo-group">
+      <h3>Варианты компонента</h3>
+      <div class="input-column">
+        <av-input label="Outlined" variant="outlined" placeholder="Outlined variant" />
+        <av-input label="Filled" variant="filled" placeholder="Filled variant" />
+        <av-input label="Borderless" variant="borderless" placeholder="Borderless variant" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Типы Input -->
+  <div class="demo-section">
+    <h2>3. Типы Input</h2>
+    <p class="section-description">Поддержка всех HTML5 типов input</p>
+
+    <div class="demo-group">
+      <div class="input-grid">
+        <av-input label="Text" type="text" placeholder="Text input" [(ngModel)]="textInput" />
+        <av-input label="Email" type="email" placeholder="user@example.com" [(ngModel)]="emailInput" />
+        <av-input label="Number" type="number" placeholder="123" [(ngModel)]="numberInput" />
+        <av-input label="Tel" type="tel" placeholder="+7 (999) 123-45-67" [(ngModel)]="telInput" />
+        <av-input label="URL" type="url" placeholder="https://example.com" [(ngModel)]="urlInput" />
+        <av-input label="Search" type="search" placeholder="Поиск..." [(ngModel)]="searchInput" />
+        <av-input label="Date" type="date" />
+        <av-input label="Time" type="time" />
+      </div>
+    </div>
+
+    <div class="demo-group">
+      <h3>Password Input - варианты</h3>
+      <div class="input-column">
+        <av-input
+          label="С кнопкой показать/скрыть (по умолчанию)"
+          type="password"
+          placeholder="••••••••"
+          hint="Кликните на иконку глаза чтобы показать пароль"
+          [(ngModel)]="passwordWithToggle"
+        />
+        <av-input
+          label="Без кнопки показать/скрыть"
+          type="password"
+          placeholder="••••••••"
+          hint="Обычное поле пароля без кнопки"
+          [showPasswordToggle]="false"
+          [(ngModel)]="passwordWithoutToggle"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Textarea -->
+  <div class="demo-section">
+    <h2>4. Textarea</h2>
+    <p class="section-description">Многострочные текстовые поля</p>
+
+    <div class="demo-group">
+      <div class="input-column">
+        <div class="input-item">
+          <label>Textarea с директивой</label>
+          <textarea
+            avInput
+            rows="4"
+            placeholder="Введите многострочный текст..."
+            [(ngModel)]="textareaValue"
+          ></textarea>
+        </div>
+        <div class="input-item">
+          <label>Большая textarea</label>
+          <textarea
+            avInput
+            avSize="large"
+            rows="6"
+            placeholder="Большая многострочная область..."
+            [(ngModel)]="textareaLarge"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: FormControl интеграция -->
+  <div class="demo-section">
+    <h2>5. Интеграция с FormControl</h2>
+    <p class="section-description">Reactive Forms с валидацией</p>
+
+    <div class="demo-group">
+      <div class="input-column">
+        <div class="input-item">
+          <label>Username (min 3 символа)</label>
+          <input
+            avInput
+            type="text"
+            placeholder="Введите имя пользователя"
+            [formControl]="usernameControl"
+            [avStatus]="getStatus(usernameControl)"
+          />
+          @if (usernameControl.invalid && usernameControl.touched) {
+          <small class="error-text">{{ getErrorMessage(usernameControl) }}</small>
+          } @if (usernameControl.valid && usernameControl.touched) {
+          <small class="success-text">✓ Имя пользователя корректно</small>
+          }
+        </div>
+
+        <div class="input-item">
+          <label>Email (обязательное поле)</label>
+          <input
+            avInput
+            type="email"
+            placeholder="your@email.com"
+            [formControl]="emailControl"
+            [avStatus]="getStatus(emailControl)"
+          />
+          @if (emailControl.invalid && emailControl.touched) {
+          <small class="error-text">{{ getErrorMessage(emailControl) }}</small>
+          } @if (emailControl.valid && emailControl.touched) {
+          <small class="success-text">✓ Email корректен</small>
+          }
+        </div>
+
+        <div class="input-item">
+          <label>Телефон (формат: +7XXXXXXXXXX)</label>
+          <input
+            avInput
+            type="tel"
+            placeholder="+79991234567"
+            [formControl]="phoneControl"
+            [avStatus]="getStatus(phoneControl)"
+          />
+          @if (phoneControl.invalid && phoneControl.touched) {
+          <small class="error-text">{{ getErrorMessage(phoneControl) }}</small>
+          } @if (phoneControl.valid && phoneControl.touched) {
+          <small class="success-text">✓ Телефон корректен</small>
+          }
+        </div>
+      </div>
+
+      <div class="form-state">
+        <h4>Состояние формы:</h4>
+        <pre
+          >{{ '{' }}
+  username: {{ usernameControl.value || 'null' }},
+  valid: {{ usernameControl.valid }},
+  touched: {{ usernameControl.touched }}
+{{ '}' }}</pre
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Disabled состояние -->
+  <div class="demo-section">
+    <h2>6. Disabled состояние</h2>
+    <div class="demo-group">
+      <div class="input-column">
+        <input avInput type="text" placeholder="Disabled input" [disabled]="true" value="Нельзя редактировать" />
+        <av-input label="Disabled компонент" placeholder="Disabled" [disabled]="true" />
+      </div>
+    </div>
+  </div>
+</div>

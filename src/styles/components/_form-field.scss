@@ -1,0 +1,118 @@
+// src/styles/components/_form-field.scss
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.av-form-field {
+  display: block;
+  margin-bottom: 24px;
+
+  &__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: $color-text-primary;
+    transition: color $transition-base;
+
+    label {
+      cursor: pointer;
+    }
+  }
+
+  &__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  &__prefix,
+  &__suffix {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    background-color: $color-bg-gray;
+    border: 1px solid $color-border-base;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+    transition: all $transition-base;
+    height: 32px; // Match default input height
+  }
+
+  &__prefix {
+    border-right: none;
+    border-radius: $border-radius-base 0 0 $border-radius-base;
+  }
+
+  &__suffix {
+    border-left: none;
+    border-radius: 0 $border-radius-base $border-radius-base 0;
+  }
+
+  &__input {
+    flex: 1;
+    position: relative;
+
+    // Adjust border radius when prefix/suffix present
+    .av-form-field__prefix + & input,
+    .av-form-field__prefix + & textarea {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    & + .av-form-field__suffix input,
+    & + .av-form-field__suffix textarea {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  &__message {
+    margin-top: 6px;
+    min-height: 20px;
+    font-size: $font-size-sm;
+  }
+
+  &__hint {
+    color: $color-text-tertiary;
+    display: block;
+  }
+
+  &__error {
+    color: $color-error;
+    display: block;
+  }
+
+  // Error state
+  &--error {
+    .av-form-field__label {
+      color: $color-error;
+    }
+
+    .av-form-field__prefix,
+    .av-form-field__suffix {
+      border-color: $color-error;
+      color: $color-error;
+    }
+  }
+
+  // Dark theme
+  @include dark-theme {
+    .av-form-field__label {
+      color: $dark-text-primary;
+    }
+
+    .av-form-field__prefix,
+    .av-form-field__suffix {
+      background-color: $dark-bg-base;
+      border-color: $dark-border-base;
+      color: $dark-text-secondary;
+    }
+
+    .av-form-field__hint {
+      color: $dark-text-tertiary;
+    }
+  }
+}
