@@ -25,7 +25,7 @@ import { IconService } from '@core/services/icon/icon.service';
       :host {
         display: inline-flex;
         vertical-align: middle;
-        line-height: 1;
+        line-height: 0;
       }
 
       .av-icon {
@@ -48,9 +48,9 @@ import { IconService } from '@core/services/icon/icon.service';
           polyline,
           line,
           polygon {
-            /* Если в SVG есть свои fill/stroke, перекрываем их */
-            fill: currentColor !important;
-            stroke: currentColor !important;
+            /* Приоритет: CSS переменная -> currentColor -> исходный цвет */
+            fill: var(--av-icon-color, currentColor) !important;
+            stroke: var(--av-icon-color, currentColor) !important;
             vector-effect: non-scaling-stroke;
           }
         }

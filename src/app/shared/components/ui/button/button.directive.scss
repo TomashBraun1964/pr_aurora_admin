@@ -15,6 +15,25 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+
+  // Icon size control via CSS variable and robust alignment
+  app-icon,
+  .anticon,
+  nz-icon {
+    font-size: var(--av-btn-icon-size, inherit);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+
+    svg {
+      width: var(--av-btn-icon-size, inherit) !important;
+      height: var(--av-btn-icon-size, inherit) !important;
+      display: block; // Prevents descender spacing
+    }
+  }
   font-family: $font-family-base;
   font-weight: $font-weight-medium;
   text-align: center;
@@ -26,18 +45,29 @@
   transition: all $transition-base;
   outline: none;
 
-  // Default size
+  // Default size and geometry
+  --av-btn-radius: 0px; // Default "Brutal/Sharp" style
+
   height: $button-height-base;
   padding: 0 $spacing-md;
   font-size: $font-size-base;
   line-height: 1.5;
-  border-radius: $border-radius-base;
+  border-radius: var(--av-btn-radius);
 
   // Disabled state
   &:disabled,
   &[disabled] {
     cursor: not-allowed;
     opacity: 0.6;
+  }
+
+  // Interactions
+  &:not(:disabled):hover {
+    filter: brightness(0.9);
+  }
+
+  &:not(:disabled):active {
+    filter: brightness(0.85);
   }
 
   // Focus state
@@ -157,11 +187,35 @@
     font-size: $font-size-lg;
   }
 
+  &--square {
+    width: $button-height-base;
+    height: $button-height-base;
+    padding: 0;
+    flex-shrink: 0;
+    justify-content: center;
+  }
+
   // States
   &--loading {
     cursor: wait;
     position: relative;
 
+    // For child icons
+    &__icon,
+    app-icon,
+    .anticon,
+    nz-icon {
+      font-size: var(--av-btn-icon-size, inherit);
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: var(--av-btn-icon-size, inherit);
+        height: var(--av-btn-icon-size, inherit);
+      }
+    }
     &::before {
       content: "";
       display: inline-block;
@@ -178,6 +232,160 @@
   &--block {
     display: flex;
     width: 100%;
+  }
+
+  &--icon-only {
+    width: $button-height-base;
+    height: $button-height-base;
+    padding: 0 !important;
+    flex-shrink: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    line-height: 0; // Prevents baseline shifts
+    font-size: 0; // Prevents space from whitespace nodes
+
+    &.av-btn--small {
+      width: $button-height-sm;
+      height: $button-height-sm;
+    }
+
+    &.av-btn--large {
+      width: $button-height-lg;
+      height: $button-height-lg;
+    }
+
+    // Ensure icon is perfectly centered
+    app-icon,
+    .anticon,
+    nz-icon {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &--shape-circle {
+    border-radius: 50% !important;
+    width: $button-height-base;
+    height: $button-height-base;
+    padding: 0 !important;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+    font-size: 0;
+
+    &.av-btn--small {
+      width: $button-height-sm;
+      height: $button-height-sm;
+    }
+
+    &.av-btn--large {
+      width: $button-height-lg;
+      height: $button-height-lg;
+    }
+
+    // Ensure icon and text (if any) are centered
+    app-icon,
+    .anticon,
+    nz-icon {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &--shape-square {
+    border-radius: 0 !important;
+    width: $button-height-base;
+    height: $button-height-base;
+    padding: 0 !important;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+    font-size: 0;
+
+    &.av-btn--small {
+      width: $button-height-sm;
+      height: $button-height-sm;
+    }
+
+    &.av-btn--large {
+      width: $button-height-lg;
+      height: $button-height-lg;
+    }
+
+    &::before,
+    &::after {
+      border-radius: 0 !important;
+    }
+
+    app-icon,
+    .anticon,
+    nz-icon {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &--shape-rounded {
+    border-radius: 4px !important; // Reduced from 8px for sleeker look
+    &::before,
+    &::after {
+      border-radius: 4px !important;
+    }
+  }
+
+  &--shape-round {
+    border-radius: $border-radius-pill !important;
+    padding-left: $spacing-md * 1.5;
+    padding-right: $spacing-md * 1.5;
+  }
+
+  // Visibility
+  &--hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: scale(0.95);
+  }
+}
+
+// System-wide Global Style Modifier
+// Can be applied to body, a container, or a specific button
+.av-style-soft {
+  --av-btn-radius: 8px;
+
+  // Specific override for buttons that are explicitly marked as "default" shape
+  // but we want them to inherit the system soft style.
+  .av-btn {
+    border-radius: var(--av-btn-radius);
+
+    // Ensure pseudo-elements also inherit
+    &::before,
+    &::after {
+      border-radius: var(--av-btn-radius);
+    }
+  }
+
+  // If applied directly to the button
+  &.av-btn {
+    border-radius: var(--av-btn-radius);
+    &::before,
+    &::after {
+      border-radius: var(--av-btn-radius);
+    }
   }
 }
 

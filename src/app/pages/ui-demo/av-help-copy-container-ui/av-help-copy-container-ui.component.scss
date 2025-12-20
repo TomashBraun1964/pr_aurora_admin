@@ -183,6 +183,45 @@
   }
 }
 
+.preset-buttons {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+
+  button {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color, #d9d9d9);
+    background: var(--bg-container, #fff);
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: var(--color-primary, #1890ff);
+      color: var(--color-primary, #1890ff);
+    }
+
+    &.active {
+      background: var(--color-primary, #1890ff);
+      border-color: var(--color-primary, #1890ff);
+      color: #fff;
+    }
+
+    @include dark-theme {
+      background: var(--dark-bg-light, #2a2a2a);
+      border-color: var(--dark-border-base, #404040);
+      color: #ccc;
+
+      &.active {
+        background: var(--color-primary, #1890ff);
+        color: #fff;
+      }
+    }
+  }
+}
+
 .preview-container {
   padding: 2rem;
   background: var(--bg-secondary-light, #fafafa);

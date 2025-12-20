@@ -1,669 +1,741 @@
 // src/app/pages/ui-demo/button-ui/button-ui.component.ts
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { ButtonSize } from '../../../shared/components/ui/button/button.component';
 import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
+import { HelpCopyContainerComponent } from '../../../shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
 import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
 
-/**
- * Button UI Demo Component
- *
- * Демонстрационная страница для проверки:
- * - Button Component (все типы и размеры)
- * - Показ/скрытие примеров кода для каждой секции кнопок
- * - Копирование кода в буфер обмена
- * - Интерактивная демонстрация всех кнопок
- */
 @Component({
   selector: 'app-button-ui',
   standalone: true,
-  imports: [CommonModule, ButtonDirective, IconComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonDirective,
+    IconComponent,
+    HelpCopyContainerComponent,
+    NzGridModule,
+    NzSelectModule,
+    NzSwitchModule,
+    NzSpaceModule,
+    NzInputModule,
+    NzCardModule,
+    NzColorPickerModule,
+    NzToolTipModule,
+    NzSliderModule,
+    NzInputNumberModule,
+  ],
   template: `
     <div class="ui-demo">
       <div class="ui-demo__header">
-        <h1>UI Components Demo</h1>
-        <p class="text-secondary">Демонстрация всех UI компонентов и стилей</p>
+        <h1>Buttons (New Directive API) ⭐</h1>
+        <p class="text-secondary">
+          Использование директивы <code>av-button</code> на нативных элементах для создания
+          производительных и стильных кнопок.
+        </p>
       </div>
 
-      <!-- New Button Directive API Section -->
+      <!-- 🛠️ API Interface Documentation -->
       <section class="demo-section">
-        <h2>Buttons (New Directive API) ⭐</h2>
-        <p class="text-secondary">Использование директивы av-button на нативных элементах</p>
+        <div class="demo-section__header">
+          <h2>🛠️ Технический интерфейс (Inputs)</h2>
+        </div>
+        <p class="demo-section__description">
+          Используйте кнопку <strong>"?"</strong> в заголовке контейнера ниже, чтобы увидеть полную
+          спецификацию и описание всех параметров.
+        </p>
 
-        <!-- Help Button -->
-        <div class="help-section">
-          <button av-button avType="primary" avSize="small" (click)="toggleHelp()">
-            @if (showHelp()) { ❌ Скрыть инструкцию } @else { ℹ️ Показать инструкцию по подключению
-            }
-          </button>
+        <div class="demo-section__preview" style="padding: 0; background: none; border: none;">
+          <av-help-copy-container
+            title="Interface: AvButtonProps"
+            [content]="apiInterfaceCode"
+            bgColor="#0a0e1a"
+            [showHelpButton]="true"
+          ></av-help-copy-container>
+        </div>
+      </section>
 
-          @if (showHelp()) {
-          <div class="help-content">
-            <h4>Как подключить кнопки в проекте</h4>
+      <!-- 🎮 Interactive Playground -->
+      <section class="demo-section">
+        <h2>🎮 Интерактивная площадка</h2>
+        <div class="playground-container">
+          <div nz-row [nzGutter]="[24, 24]">
+            <!-- Controls -->
+            <div nz-col [nzXs]="24" [nzLg]="10">
+              <nz-card nzTitle="Настройки" [nzExtra]="resetTpl">
+                <ng-template #resetTpl>
+                  <button
+                    av-button
+                    avType="text"
+                    avSize="small"
+                    (click)="resetAllSettings()"
+                    style="color: #ff4d4f;"
+                  >
+                    Сбросить всё
+                  </button>
+                </ng-template>
+                <!-- 1. Shape & Content -->
+                <div class="control-item">
+                  <label
+                    nz-tooltip
+                    nzTooltipTitle="Настройка скруглений: стандартная, круглая или квадратная"
+                  >
+                    Форма (avShape): <span class="info-icon">ⓘ</span>
+                  </label>
+                  <nz-select
+                    [ngModel]="pgShape()"
+                    (ngModelChange)="pgShape.set($event)"
+                    style="width: 100%"
+                  >
+                    <nz-option nzValue="default" nzLabel="Default (Sharp Rect)"></nz-option>
+                    <nz-option nzValue="rounded" nzLabel="Rounded (Standard)"></nz-option>
+                    <nz-option nzValue="square" nzLabel="Square (1:1 Sharp)"></nz-option>
+                    <nz-option nzValue="round" nzLabel="Round (Pill)"></nz-option>
+                    <nz-option nzValue="circle" nzLabel="Circle (1:1 Round)"></nz-option>
+                  </nz-select>
+                </div>
 
-            <div class="help-step">
-              <strong>1. Импортируйте директиву в компонент:</strong>
-              <pre
-                class="code-example"
-              ><code>import {{ '{' }} ButtonDirective {{ '}' }} from '&#64;shared/components/ui/button';</code></pre>
+                <div class="control-item">
+                  <label
+                    nz-tooltip
+                    nzTooltipTitle="Текст внутри кнопки. Очистите поле, чтобы включить режим 'Icon Only'."
+                  >
+                    Текст кнопки: <span class="info-icon">ⓘ</span>
+                  </label>
+                  <input
+                    nz-input
+                    [ngModel]="pgLabel()"
+                    (ngModelChange)="pgLabel.set($event)"
+                    placeholder="Enter label..."
+                  />
+                </div>
+
+                <!-- 2. Styles (Type & Size) -->
+                <div nz-row [nzGutter]="16">
+                  <div nz-col [nzSpan]="12">
+                    <div class="control-item">
+                      <label nz-tooltip nzTooltipTitle="Визуальный стиль кнопки"
+                        >Тип (avType): <span class="info-icon">ⓘ</span></label
+                      >
+                      <nz-select
+                        [ngModel]="pgType()"
+                        (ngModelChange)="pgType.set($event)"
+                        style="width: 100%"
+                      >
+                        <nz-option nzValue="primary" nzLabel="Primary"></nz-option>
+                        <nz-option nzValue="default" nzLabel="Default"></nz-option>
+                        <nz-option nzValue="dashed" nzLabel="Dashed"></nz-option>
+                        <nz-option nzValue="text" nzLabel="Text"></nz-option>
+                        <nz-option nzValue="link" nzLabel="Link"></nz-option>
+                        <nz-option nzValue="danger" nzLabel="Danger"></nz-option>
+                      </nz-select>
+                    </div>
+                  </div>
+                  <div nz-col [nzSpan]="12">
+                    <div class="control-item">
+                      <label nz-tooltip nzTooltipTitle="Предустановленные размеры"
+                        >Размер (avSize): <span class="info-icon">ⓘ</span></label
+                      >
+                      <nz-select
+                        [ngModel]="pgSize()"
+                        (ngModelChange)="pgSize.set($event)"
+                        style="width: 100%"
+                      >
+                        <nz-option nzValue="small" nzLabel="Small"></nz-option>
+                        <nz-option nzValue="default" nzLabel="Default"></nz-option>
+                        <nz-option nzValue="large" nzLabel="Large"></nz-option>
+                        <nz-option nzValue="custom" nzLabel="Установить свой"></nz-option>
+                      </nz-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. Geometry (Manual) - Only visible if Size is Custom -->
+                @if (pgSize() === 'custom') {
+                <div
+                  style="background: #fffbe6; border: 1px solid #ffe58f; border-radius: 8px; padding: 12px; margin-bottom: 20px;"
+                >
+                  <div class="control-item" style="margin-bottom: 0;">
+                    <div nz-row [nzGutter]="8">
+                      @if (pgShape() === 'circle' || pgShape() === 'square') {
+                      <div nz-col [nzSpan]="24">
+                        <label
+                          nz-tooltip
+                          nzTooltipTitle="Для круга и квадрата ширина и высота равны. Используйте это поле для изменения размера."
+                        >
+                          Размер (W=H): <span class="info-icon">ⓘ</span>
+                        </label>
+                        <input
+                          nz-input
+                          [ngModel]="pgWidth()"
+                          (ngModelChange)="onSizeChange($event)"
+                          placeholder="e.g. 100"
+                        />
+                      </div>
+                      } @else {
+                      <div nz-col [nzSpan]="12">
+                        <label
+                          nz-tooltip
+                          nzTooltipTitle="Ручное управление шириной элемента в px или %"
+                        >
+                          Ширина (W): <span class="info-icon">ⓘ</span>
+                        </label>
+                        <input
+                          nz-input
+                          [ngModel]="pgWidth()"
+                          (ngModelChange)="pgWidth.set($event)"
+                          placeholder="e.g. 200"
+                        />
+                      </div>
+                      <div nz-col [nzSpan]="12">
+                        <label
+                          nz-tooltip
+                          nzTooltipTitle="Ручное управление высотой элемента в px или %"
+                        >
+                          Высота (H): <span class="info-icon">ⓘ</span>
+                        </label>
+                        <input
+                          nz-input
+                          [ngModel]="pgHeight()"
+                          (ngModelChange)="pgHeight.set($event)"
+                          placeholder="e.g. 50"
+                        />
+                      </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+                }
+
+                <!-- 4. Color Settings -->
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                  <!-- Button Background Color -->
+                  <div class="control-item" style="margin-bottom: 0;">
+                    <label nz-tooltip nzTooltipTitle="Позволяет задать произвольный фон кнопке">
+                      Цвет фона кнопки (avColor): <span class="info-icon">ⓘ</span>
+                    </label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        @for (color of colorPresets; track color) {
+                        <div
+                          class="color-preset"
+                          [style.background-color]="color"
+                          [class.active]="pgColor() === color"
+                          (click)="pgColor.set(color)"
+                          [nz-tooltip]="color"
+                        ></div>
+                        }
+                        <button
+                          av-button
+                          avType="text"
+                          avSize="small"
+                          (click)="pgColor.set(null)"
+                          style="color: #595959; height: 22px; padding: 0 4px;"
+                        >
+                          Сброс
+                        </button>
+                      </div>
+                      <div style="display: flex; gap: 8px; align-items: center;">
+                        <nz-color-picker
+                          [ngModel]="pgColor()"
+                          (ngModelChange)="pgColor.set($event)"
+                        ></nz-color-picker>
+                        <input
+                          nz-input
+                          [ngModel]="pgColor()"
+                          (ngModelChange)="pgColor.set($event)"
+                          placeholder="HEX, RGB..."
+                          style="flex: 1; height: 32px;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Button Text Color -->
+                  <div class="control-item" style="margin-bottom: 0;">
+                    <label
+                      nz-tooltip
+                      nzTooltipTitle="Позволяет задать произвольный цвет тексту кнопки"
+                    >
+                      Цвет текста кнопки (avTextColor): <span class="info-icon">ⓘ</span>
+                    </label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        @for (color of colorPresets; track color) {
+                        <div
+                          class="color-preset"
+                          [style.background-color]="color"
+                          [class.active]="pgTextColor() === color"
+                          (click)="pgTextColor.set(color)"
+                          [nz-tooltip]="color"
+                        ></div>
+                        }
+                        <button
+                          av-button
+                          avType="text"
+                          avSize="small"
+                          (click)="pgTextColor.set(null)"
+                          style="color: #595959; height: 22px; padding: 0 4px;"
+                        >
+                          Сброс
+                        </button>
+                      </div>
+                      <div style="display: flex; gap: 8px; align-items: center;">
+                        <nz-color-picker
+                          [ngModel]="pgTextColor()"
+                          (ngModelChange)="pgTextColor.set($event)"
+                        ></nz-color-picker>
+                        <input
+                          nz-input
+                          [ngModel]="pgTextColor()"
+                          (ngModelChange)="pgTextColor.set($event)"
+                          placeholder="HEX, RGB..."
+                          style="flex: 1; height: 32px;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 5. Icon Settings (Highlighted Container) -->
+                <div
+                  style="background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 12px; margin-top: 16px; margin-bottom: 0px;"
+                >
+                  <div class="control-item" style="margin-bottom: 8px;">
+                    <label nz-tooltip nzTooltipTitle="Выбор иконки из библиотек">
+                      Иконка: <span class="info-icon">ⓘ</span>
+                    </label>
+                    <nz-select
+                      [ngModel]="pgIcon()"
+                      (ngModelChange)="pgIcon.set($event)"
+                      nzAllowClear
+                      nzPlaceHolder="Без иконки"
+                      style="width: 100%"
+                    >
+                      <nz-option [nzValue]="undefined" nzLabel="None (No Icon)"></nz-option>
+                      <nz-option nzValue="download" nzLabel="Download"></nz-option>
+                      <nz-option nzValue="upload" nzLabel="Upload"></nz-option>
+                      <nz-option nzValue="search" nzLabel="Search"></nz-option>
+                      <nz-option nzValue="plus" nzLabel="Plus"></nz-option>
+                      <nz-option nzValue="delete" nzLabel="Delete"></nz-option>
+                      <nz-option nzValue="check" nzLabel="Check"></nz-option>
+                    </nz-select>
+                  </div>
+
+                  @if (pgIcon() && pgIcon() !== 'undefined' && pgIcon() !== null) {
+                  <!-- Icon Size -->
+                  <div class="control-item" style="margin-bottom: 12px;">
+                    <label
+                      nz-tooltip
+                      nzTooltipTitle="Управление размером встроенной иконки в пикселях"
+                    >
+                      Размер иконки: <span class="info-icon">ⓘ</span>
+                    </label>
+                    <div nz-row [nzGutter]="12" nzAlign="middle">
+                      <div nz-col nzFlex="auto">
+                        <nz-slider
+                          [nzMin]="8"
+                          [nzMax]="128"
+                          [ngModel]="pgIconSize()"
+                          (ngModelChange)="pgIconSize.set($event)"
+                        ></nz-slider>
+                      </div>
+                      <div nz-col style="width: 80px;">
+                        <nz-input-number
+                          style="width: 100%"
+                          [nzMin]="8"
+                          [nzMax]="128"
+                          [ngModel]="pgIconSize()"
+                          (ngModelChange)="pgIconSize.set($event)"
+                        ></nz-input-number>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Icon Color -->
+                  <div class="control-item" style="margin-bottom: 0;">
+                    <label
+                      nz-tooltip
+                      nzTooltipTitle="Позволяет задать произвольный цвет только иконке"
+                    >
+                      Цвет иконки (avIconColor): <span class="info-icon">ⓘ</span>
+                    </label>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                      <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
+                        @for (color of colorPresets; track color) {
+                        <div
+                          class="color-preset"
+                          [style.background-color]="color"
+                          [class.active]="pgIconColor() === color"
+                          (click)="pgIconColor.set(color)"
+                          [nz-tooltip]="color"
+                        ></div>
+                        }
+                        <button
+                          av-button
+                          avType="text"
+                          avSize="small"
+                          (click)="pgIconColor.set(null)"
+                          style="color: #595959; height: 22px; padding: 0 4px;"
+                        >
+                          Сброс
+                        </button>
+                      </div>
+                      <div style="display: flex; gap: 8px; align-items: center;">
+                        <nz-color-picker
+                          [ngModel]="pgIconColor()"
+                          (ngModelChange)="pgIconColor.set($event)"
+                        ></nz-color-picker>
+                        <input
+                          nz-input
+                          [ngModel]="pgIconColor()"
+                          (ngModelChange)="pgIconColor.set($event)"
+                          placeholder="HEX, RGB..."
+                          style="flex: 1; height: 32px;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  }
+                </div>
+
+                <!-- 5. Status Switches -->
+                <div nz-row [nzGutter]="16" class="control-item">
+                  <div nz-col [nzSpan]="8">
+                    <label nz-tooltip nzTooltipTitle="Состояние загрузки"
+                      >Loading: <span class="info-icon">ⓘ</span></label
+                    >
+                    <nz-switch
+                      [ngModel]="pgLoading()"
+                      (ngModelChange)="pgLoading.set($event)"
+                    ></nz-switch>
+                  </div>
+                  <div nz-col [nzSpan]="8">
+                    <label nz-tooltip nzTooltipTitle="Растянуть на всю ширину"
+                      >Block: <span class="info-icon">ⓘ</span></label
+                    >
+                    <nz-switch
+                      [ngModel]="pgBlock()"
+                      (ngModelChange)="pgBlock.set($event)"
+                    ></nz-switch>
+                  </div>
+                  <div nz-col [nzSpan]="8">
+                    <label nz-tooltip nzTooltipTitle="Видимость"
+                      >Visible: <span class="info-icon">ⓘ</span></label
+                    >
+                    <nz-switch
+                      [ngModel]="pgVisible()"
+                      (ngModelChange)="pgVisible.set($event)"
+                    ></nz-switch>
+                  </div>
+                </div>
+
+                <div
+                  class="control-item"
+                  style="margin-top: 16px; padding: 12px; background: #f6faff; border: 1px dashed #91d5ff; border-radius: 4px;"
+                >
+                  <label
+                    nz-tooltip
+                    nzTooltipTitle="Включает глобальный модификатор .av-style-soft для контейнера."
+                  >
+                    🌟 Системный Soft Style: <span class="info-icon">ⓘ</span>
+                  </label>
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-size: 11px; color: #1890ff;">Применить .av-style-soft</span>
+                    <nz-switch
+                      [ngModel]="pgSystemSoft()"
+                      (ngModelChange)="pgSystemSoft.set($event)"
+                      nzSize="small"
+                    ></nz-switch>
+                  </div>
+                </div>
+
+                <div style="margin-top: 24px; display: flex; gap: 12px;">
+                  <button
+                    av-button
+                    avType="primary"
+                    style="flex: 1; background: #52c41a; border-color: #52c41a;"
+                    (clicked)="forceRefresh()"
+                  >
+                    Обновить ✨
+                  </button>
+                  <button
+                    av-button
+                    avType="default"
+                    style="flex: 1; color: #ff4d4f; border-color: #ff4d4f;"
+                    (clicked)="resetAllSettings()"
+                  >
+                    Сброс 🔄
+                  </button>
+                </div>
+              </nz-card>
             </div>
 
-            <div class="help-step">
-              <strong>2. Добавьте в imports компонента:</strong>
-              <pre class="code-example"><code>&#64;Component({{ '{' }}
-  selector: 'app-my-component',
-  standalone: true,
-  imports: [ButtonDirective],
-  ...
-{{ '}' }})</code></pre>
-            </div>
+            <!-- Preview & Code -->
+            <div nz-col [nzXs]="24" [nzLg]="14">
+              <nz-card nzTitle="Результат">
+                <div class="preview-area" [class.av-style-soft]="pgSystemSoft()">
+                  @if (refreshTrigger()) {
+                  <button
+                    av-button
+                    [avType]="pgType()"
+                    [avSize]="safePgSize()"
+                    [avColor]="pgColor()"
+                    [avLoading]="pgLoading()"
+                    [avBlock]="pgBlock()"
+                    [avVisible]="pgVisible()"
+                    [avIconOnly]="pgIconOnly()"
+                    [avShape]="pgShape()"
+                    [avWidth]="pgWidth()"
+                    [avHeight]="pgHeight()"
+                    [avRadius]="pgRadius()"
+                    [avIconSize]="pgIconSize()"
+                    [avIconColor]="pgIconColor()"
+                    [avTextColor]="pgTextColor()"
+                    (clicked)="showMessage('Interactive button clicked!')"
+                  >
+                    @if(pgIcon()){<app-icon [type]="pgIcon()!" [size]="getIconSize()"></app-icon
+                    >@if(!pgIconOnly()){<span style="margin-left: 8px;">{{ pgLabel() }}</span
+                    >}}@else{{{ pgLabel() }}}
+                  </button>
+                  } @else {
+                  <div style="color: #bfbfbf; font-style: italic;">Обновление...</div>
+                  }
+                </div>
 
-            <div class="help-step">
-              <strong>3. Используйте в шаблоне:</strong>
-              <pre
-                class="code-example"
-              ><code>&lt;button av-button avType="primary" (click)="handleClick()"&gt;
-  Click Me
-&lt;/button&gt;</code></pre>
-            </div>
+                <div style="margin-top: 24px;">
+                  <av-help-copy-container
+                    title="Сгенерированный код"
+                    [content]="pgGeneratedCode()"
+                    bgColor="#1e293b"
+                  ></av-help-copy-container>
+                </div>
 
-            <div class="help-step">
-              <strong>Доступные параметры:</strong>
-              <ul>
-                <li>
-                  <code>avType</code> - тип кнопки: primary | default | dashed | text | link |
-                  danger
-                </li>
-                <li><code>avSize</code> - размер: small | default | large</li>
-                <li><code>avLoading</code> - состояние загрузки (boolean)</li>
-                <li><code>avBlock</code> - на всю ширину (boolean)</li>
-                <li><code>(click)</code> - событие клика</li>
-              </ul>
-            </div>
-
-            <div class="help-step">
-              <strong>Управление размерами кнопок:</strong>
-              <pre class="code-example"><code>&lt;!-- Маленькая кнопка --&gt;
-&lt;button av-button avType="primary" avSize="small"&gt;Small&lt;/button&gt;
-
-&lt;!-- Обычная кнопка (по умолчанию) --&gt;
-&lt;button av-button avType="primary"&gt;Default&lt;/button&gt;
-
-&lt;!-- Большая кнопка --&gt;
-&lt;button av-button avType="primary" avSize="large"&gt;Large&lt;/button&gt;</code></pre>
-            </div>
-
-            <div class="help-step">
-              <strong>Кнопки с иконками:</strong>
-              <pre class="code-example"><code>&lt;!-- Импортируйте IconComponent --&gt;
-import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
-
-&lt;!-- Кнопка с иконкой и текстом --&gt;
-&lt;button av-button avType="primary"&gt;
-  &lt;app-icon type="download" [size]="16"&gt;&lt;/app-icon&gt;
-  &lt;span style="margin-left: 8px;"&gt;Download&lt;/span&gt;
-&lt;/button&gt;
-
-&lt;!-- Квадратная кнопка с одной иконкой --&gt;
-&lt;button av-button avType="primary" class="av-btn--icon-only"&gt;
-  &lt;app-icon type="search" [size]="16"&gt;&lt;/app-icon&gt;
-&lt;/button&gt;
-
-&lt;!-- Разные размеры кнопок с иконками --&gt;
-&lt;button av-button avType="primary" avSize="small" class="av-btn--icon-only"&gt;
-  &lt;app-icon type="plus" [size]="14"&gt;&lt;/app-icon&gt;
-&lt;/button&gt;
-
-&lt;button av-button avType="primary" avSize="large" class="av-btn--icon-only"&gt;
-  &lt;app-icon type="settings" [size]="20"&gt;&lt;/app-icon&gt;
-&lt;/button&gt;
-
-&lt;!-- Доступные типы иконок --&gt;
-&lt;!-- download, upload, delete, search, plus, settings, close, copy, code, chevron-up, chevron-down, info --&gt;</code></pre>
+                <!-- Специальная кнопка со спинером -->
+                <div
+                  style="margin-top: 24px; text-align: center; padding: 16px; background: #f0f2f5; border-radius: 8px;"
+                >
+                  <p style="margin-bottom: 12px; font-weight: 500;">
+                    🚀 Пример с задержкой (как в Spinner UI):
+                  </p>
+                  <button
+                    av-button
+                    avType="primary"
+                    [avLoading]="isLoading()"
+                    (clicked)="simulateLoading()"
+                  >
+                    @if (isLoading()) { Загрузка... } @else { Запустить симуляцию (2 сек) }
+                  </button>
+                </div>
+              </nz-card>
             </div>
           </div>
-          }
         </div>
+      </section>
+
+      <!-- 📖 Examples & Guidelines -->
+      <section class="demo-section">
+        <div class="demo-section__header">
+          <h2>📖 Примеры и Руководство</h2>
+        </div>
+
+        <nz-card class="api-docs-card" style="margin-bottom: 24px;">
+          <div class="card-header-with-icon" style="margin-bottom: 16px;">
+            <span class="anticon anticon-info-circle"></span>
+            <span>Как подключить кнопки в проекте?</span>
+          </div>
+          <p class="demo-section__description">
+            Следуйте этим шагам, чтобы использовать новую директиву <code>av-button</code> в ваших
+            компонентах.
+          </p>
+          <av-help-copy-container
+            title="Подключение и использование"
+            [content]="howToConnectCode"
+            bgColor="#0a0e1a"
+            [showHelpButton]="true"
+          ></av-help-copy-container>
+        </nz-card>
 
         <div class="demo-group">
           <h3>Button Types с индивидуальными примерами кода</h3>
+          <div nz-row [nzGutter]="[16, 16]">
+            <!-- Primary -->
+            <div nz-col [nzXs]="24" [nzMd]="12" [nzLg]="8">
+              <div class="button-demo-item">
+                <button av-button avType="primary" (clicked)="showMessage('Primary clicked')">
+                  Primary
+                </button>
+                <div class="demo-item-actions">
+                  <button av-button avType="text" avSize="small" (click)="toggleCode('primary')">
+                    {{ showCodePrimary() ? '🔽 Скрыть код' : '📋 Показать код' }}
+                  </button>
+                </div>
+              </div>
+              @if (showCodePrimary()) {
+              <pre class="code-example"><code>{{ buttonPrimaryCode }}</code></pre>
+              }
+            </div>
 
-          <!-- Primary Button -->
-          <div class="button-demo-item">
-            <button av-button avType="primary" (click)="showMessage('Primary clicked')">
-              Primary
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonPrimaryCode)">
-              � Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodePrimary()">
-              @if (showCodePrimary()) { � Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodePrimary()) {
-            <pre class="code-example"><code>{{ buttonPrimaryCode }}</code></pre>
-            }
-          </div>
+            <!-- Default -->
+            <div nz-col [nzXs]="24" [nzMd]="12" [nzLg]="8">
+              <div class="button-demo-item">
+                <button av-button avType="default" (clicked)="showMessage('Default clicked')">
+                  Default
+                </button>
+                <div class="demo-item-actions">
+                  <button av-button avType="text" avSize="small" (click)="toggleCode('default')">
+                    {{ showCodeDefault() ? '🔽 Скрыть код' : '📋 Показать код' }}
+                  </button>
+                </div>
+              </div>
+              @if (showCodeDefault()) {
+              <pre class="code-example"><code>{{ buttonDefaultCode }}</code></pre>
+              }
+            </div>
 
-          <!-- Default Button -->
-          <div class="button-demo-item">
-            <button av-button avType="default" (click)="showMessage('Default clicked')">
-              Default
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonDefaultCode)">
-              � Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeDefault()">
-              @if (showCodeDefault()) { � Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeDefault()) {
-            <pre class="code-example"><code>{{ buttonDefaultCode }}</code></pre>
-            }
-          </div>
+            <!-- Dashed -->
+            <div nz-col [nzXs]="24" [nzMd]="12" [nzLg]="8">
+              <div class="button-demo-item">
+                <button av-button avType="dashed" (clicked)="showMessage('Dashed clicked')">
+                  Dashed
+                </button>
+                <div class="demo-item-actions">
+                  <button av-button avType="text" avSize="small" (click)="toggleCode('dashed')">
+                    {{ showCodeDashed() ? '🔽 Скрыть код' : '📋 Показать код' }}
+                  </button>
+                </div>
+              </div>
+              @if (showCodeDashed()) {
+              <pre class="code-example"><code>{{ buttonDashedCode }}</code></pre>
+              }
+            </div>
 
-          <!-- Dashed Button -->
-          <div class="button-demo-item">
-            <button av-button avType="dashed" (click)="showMessage('Dashed clicked')">
-              Dashed
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonDashedCode)">
-              � Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeDashed()">
-              @if (showCodeDashed()) { � Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeDashed()) {
-            <pre class="code-example"><code>{{ buttonDashedCode }}</code></pre>
-            }
-          </div>
+            <!-- Text -->
+            <div nz-col [nzXs]="24" [nzMd]="12" [nzLg]="8">
+              <div class="button-demo-item">
+                <button av-button avType="text" (clicked)="showMessage('Text clicked')">
+                  Text Button
+                </button>
+                <div class="demo-item-actions">
+                  <button av-button avType="text" avSize="small" (click)="toggleCode('text')">
+                    {{ showCodeText() ? '🔽 Скрыть код' : '📋 Показать код' }}
+                  </button>
+                </div>
+              </div>
+              @if (showCodeText()) {
+              <pre class="code-example"><code>{{ buttonTextCode }}</code></pre>
+              }
+            </div>
 
-          <!-- Text Button -->
-          <div class="button-demo-item">
-            <button av-button avType="text" (click)="showMessage('Text clicked')">Text</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonTextCode)">
-              � Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeText()">
-              @if (showCodeText()) { � Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeText()) {
-            <pre class="code-example"><code>{{ buttonTextCode }}</code></pre>
-            }
-          </div>
+            <!-- Link -->
+            <div nz-col [nzXs]="24" [nzMd]="12" [nzLg]="8">
+              <div class="button-demo-item">
+                <button av-button avType="link" (clicked)="showMessage('Link clicked')">
+                  Link Button
+                </button>
+                <div class="demo-item-actions">
+                  <button av-button avType="text" avSize="small" (click)="toggleCode('link')">
+                    {{ showCodeLink() ? '🔽 Скрыть код' : '📋 Показать код' }}
+                  </button>
+                </div>
+              </div>
+              @if (showCodeLink()) {
+              <pre class="code-example"><code>{{ buttonLinkCode }}</code></pre>
+              }
+            </div>
 
-          <!-- Link Button -->
-          <div class="button-demo-item">
-            <button av-button avType="link" (click)="showMessage('Link clicked')">Link</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonLinkCode)">
-              � Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeLink()">
-              @if (showCodeLink()) { � Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeLink()) {
-            <pre class="code-example"><code>{{ buttonLinkCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Danger Button -->
-          <div class="button-demo-item">
-            <button av-button avType="danger" (click)="showMessage('Danger clicked')">
-              Danger
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonDangerCode)">
-              � Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeDanger()">
-              @if (showCodeDanger()) { � Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeDanger()) {
-            <pre class="code-example"><code>{{ buttonDangerCode }}</code></pre>
-            }
+            <!-- Danger -->
+            <div nz-col [nzXs]="24" [nzMd]="12" [nzLg]="8">
+              <div class="button-demo-item">
+                <button av-button avType="danger" (clicked)="showMessage('Danger clicked')">
+                  Danger
+                </button>
+                <div class="demo-item-actions">
+                  <button av-button avType="text" avSize="small" (click)="toggleCode('danger')">
+                    {{ showCodeDanger() ? '🔽 Скрыть код' : '📋 Показать код' }}
+                  </button>
+                </div>
+              </div>
+              @if (showCodeDanger()) {
+              <pre class="code-example"><code>{{ buttonDangerCode }}</code></pre>
+              }
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- New Button Directive API Section -->
-      <section class="demo-section">
-        <h2>Buttons (New Directive API)</h2>
-        <p class="text-secondary">Использование директивы av-button на нативных элементах</p>
+        <div class="demo-group" style="margin-top: 32px;">
+          <h3>Брутальный стиль (Strict Rectangular)</h3>
+          <p class="demo-section__description" style="margin-bottom: 16px;">
+            Используйте <code>avShape="square"</code> для создания кнопок с идеально острыми углами.
+            Этот стиль отлично подходит для индустриальных, архитектурных или минималистичных
+            дизайнов.
+          </p>
+          <div nz-row [nzGutter]="[16, 16]">
+            <div nz-col [nzSpan]="24">
+              <div
+                class="button-demo-item"
+                style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;"
+              >
+                <button av-button avShape="square">Sharp Corners</button>
+                <button av-button avType="primary" avShape="square">Sharp Primary</button>
+                <button av-button avType="dashed" avShape="square">Sharp Dashed</button>
+                <button av-button avType="danger" avShape="square">Sharp Danger</button>
+                <button av-button [avIconOnly]="true" avShape="square">
+                  <app-icon type="search" [size]="16"></app-icon>
+                </button>
 
-        <!-- Help Button -->
-        <div class="help-section">
-          <button av-button avType="default" avSize="small" (click)="toggleHelp()">
-            @if (showHelp()) { ❌ Hide Help } @else { ℹ️ Show Help }
-          </button>
-
-          @if (showHelp()) {
-          <div class="help-content">
-            <h4>Как подключить кнопки в проекте</h4>
-
-            <div class="help-step">
-              <strong>1. Импортируйте директиву в компонент:</strong>
-              <pre
-                class="code-example"
-              ><code>import {{ '{' }} ButtonDirective {{ '}' }} from '&#64;shared/components/ui/button';</code></pre>
-            </div>
-
-            <div class="help-step">
-              <strong>2. Добавьте в imports компонента:</strong>
-              <pre class="code-example"><code>&#64;Component({{ '{' }}
-  selector: 'app-my-component',
-  standalone: true,
-  imports: [ButtonDirective],
-  ...
-{{ '}' }})</code></pre>
-            </div>
-
-            <div class="help-step">
-              <strong>3. Используйте в шаблоне:</strong>
-              <pre
-                class="code-example"
-              ><code>&lt;button av-button avType="primary" (clicked)="handleClick()"&gt;
-  Click Me
-&lt;/button&gt;</code></pre>
-            </div>
-
-            <div class="help-step">
-              <strong>Доступные параметры:</strong>
-              <ul>
-                <li>
-                  <code>avType</code> - тип кнопки: primary | default | dashed | text | link |
-                  danger
-                </li>
-                <li><code>avSize</code> - размер: small | default | large</li>
-                <li><code>avLoading</code> - состояние загрузки (boolean)</li>
-                <li><code>avBlock</code> - на всю ширину (boolean)</li>
-                <li><code>(clicked)</code> - событие клика</li>
-              </ul>
+                <button
+                  av-button
+                  avType="text"
+                  avSize="small"
+                  (click)="toggleCode('sharp')"
+                  style="margin-left: auto;"
+                >
+                  {{ showCodeSharp() ? '🔽 Скрыть код' : '📋 Показать код' }}
+                </button>
+              </div>
+              @if (showCodeSharp()) {
+              <pre class="code-example"><code>{{ sharpCode }}</code></pre>
+              }
             </div>
           </div>
-          }
         </div>
 
-        <div class="demo-group">
-          <h3>Button Types</h3>
-
-          <!-- Primary Button -->
-          <div class="button-demo-item">
-            <button av-button avType="primary" (click)="showMessage('Primary clicked')">
-              Primary
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonPrimaryCode)">
-              📋 Copy
-            </button>
-          </div>
-
-          <!-- Default Button -->
-          <div class="button-demo-item">
-            <button av-button avType="default" (click)="showMessage('Default clicked')">
-              Default
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonDefaultCode)">
-              📋 Copy
-            </button>
-          </div>
-
-          <!-- Dashed Button -->
-          <div class="button-demo-item">
-            <button av-button avType="dashed" (click)="showMessage('Dashed clicked')">
-              Dashed
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonDashedCode)">
-              📋 Copy
-            </button>
-          </div>
-
-          <!-- Text Button -->
-          <div class="button-demo-item">
-            <button av-button avType="text" (click)="showMessage('Text clicked')">Text</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonTextCode)">
-              📋 Copy
-            </button>
-          </div>
-
-          <!-- Link Button -->
-          <div class="button-demo-item">
-            <button av-button avType="link" (click)="showMessage('Link clicked')">Link</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonLinkCode)">
-              📋 Copy
-            </button>
-          </div>
-
-          <!-- Danger Button -->
-          <div class="button-demo-item">
-            <button av-button avType="danger" (click)="showMessage('Danger clicked')">
-              Danger
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonDangerCode)">
-              📋 Copy
-            </button>
-          </div>
-
-          <div class="code-actions">
-            <button av-button avType="default" avSize="small" (click)="toggleCode('types')">
-              @if (showButtonTypesCode()) { Hide All Code } @else { Show All Code }
-            </button>
-            <button av-button avType="default" avSize="small" (click)="copyCode(buttonTypesCode)">
-              📋 Copy All
-            </button>
-          </div>
-          @if (showButtonTypesCode()) {
-          <pre class="code-example"><code>{{ buttonTypesCode }}</code></pre>
-          }
-        </div>
-
-        <div class="demo-group">
+        <div class="demo-group" style="margin-top: 32px;">
           <h3>Button Sizes</h3>
-
-          <!-- Small Button -->
-          <div class="button-demo-item">
+          <div class="button-demo-item" style="gap: 16px;">
             <button av-button avType="primary" avSize="small">Small</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonSmallCode)">
-              📋 Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeSmall()">
-              @if (showCodeSmall()) { 🔼 Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeSmall()) {
-            <pre class="code-example"><code>{{ buttonSmallCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Medium Button -->
-          <div class="button-demo-item">
             <button av-button avType="primary" avSize="default">Default</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonMediumCode)">
-              📋 Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeMedium()">
-              @if (showCodeMedium()) { 🔼 Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeMedium()) {
-            <pre class="code-example"><code>{{ buttonMediumCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Large Button -->
-          <div class="button-demo-item">
             <button av-button avType="primary" avSize="large">Large</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonLargeCode)">
-              📋 Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeLarge()">
-              @if (showCodeLarge()) { 🔼 Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeLarge()) {
-            <pre class="code-example"><code>{{ buttonLargeCode }}</code></pre>
-            }
-          </div>
-        </div>
 
-        <div class="demo-group">
-          <h3>Button States</h3>
-
-          <!-- Loading Button -->
-          <div class="button-demo-item">
-            <button av-button avType="primary" [avLoading]="isLoading()">
-              @if (isLoading()) { Loading... } @else { Click to Load }
-            </button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonLoadingCode)">
-              📋 Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeLoading()">
-              @if (showCodeLoading()) { 🔼 Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeLoading()) {
-            <pre class="code-example"><code>{{ buttonLoadingCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Disabled Button -->
-          <div class="button-demo-item">
-            <button av-button avType="default" disabled>Disabled</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonDisabledCode)">
-              📋 Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeDisabled()">
-              @if (showCodeDisabled()) { 🔼 Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeDisabled()) {
-            <pre class="code-example"><code>{{ buttonDisabledCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Block Button -->
-          <div class="button-demo-item">
-            <button av-button avType="primary" [avBlock]="true">Block Button</button>
-            <button av-button avType="text" avSize="small" (click)="copyCode(buttonBlockCode)">
-              📋 Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeBlock()">
-              @if (showCodeBlock()) { 🔼 Скрыть код } @else { 🔽 Показать код }
-            </button>
-            @if (showCodeBlock()) {
-            <pre class="code-example"><code>{{ buttonBlockCode }}</code></pre>
-            }
-          </div>
-
-          <button av-button avType="primary" (click)="simulateLoading()">Simulate Loading</button>
-        </div>
-
-        <div class="demo-group">
-          <h3>Кнопка с иконкой и текстом</h3>
-
-          <!-- Icon + Text Primary -->
-          <div class="button-demo-item">
-            <button av-button avType="primary" (click)="showMessage('Download clicked')">
-              <app-icon type="download" [size]="16"></app-icon>
-              <span style="margin-left: 8px;">Download</span>
-            </button>
             <button
               av-button
               avType="text"
               avSize="small"
-              (click)="copyCode(buttonIconTextPrimaryCode)"
+              (click)="toggleCode('sizes')"
+              style="margin-left: auto;"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
-              Копировать
+              {{ showButtonSizesCode() ? '🔽 Скрыть код' : '📋 Показать код' }}
             </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeIconTextPrimary()">
-              @if (showCodeIconTextPrimary()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
-              Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
-              Показать код }
-            </button>
-            @if (showCodeIconTextPrimary()) {
-            <pre class="code-example"><code>{{ buttonIconTextPrimaryCode }}</code></pre>
-            }
           </div>
-
-          <!-- Icon + Text Default -->
-          <div class="button-demo-item">
-            <button av-button avType="default" (click)="showMessage('Upload clicked')">
-              <app-icon type="upload" [size]="16"></app-icon>
-              <span style="margin-left: 8px;">Upload</span>
-            </button>
-            <button
-              av-button
-              avType="text"
-              avSize="small"
-              (click)="copyCode(buttonIconTextDefaultCode)"
-            >
-              <app-icon type="copy" [size]="14"></app-icon>
-              Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeIconTextDefault()">
-              @if (showCodeIconTextDefault()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
-              Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
-              Показать код }
-            </button>
-            @if (showCodeIconTextDefault()) {
-            <pre class="code-example"><code>{{ buttonIconTextDefaultCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Icon + Text Danger -->
-          <div class="button-demo-item">
-            <button av-button avType="danger" (click)="showMessage('Delete clicked')">
-              <app-icon type="delete" [size]="16"></app-icon>
-              <span style="margin-left: 8px;">Delete</span>
-            </button>
-            <button
-              av-button
-              avType="text"
-              avSize="small"
-              (click)="copyCode(buttonIconTextDangerCode)"
-            >
-              <app-icon type="copy" [size]="14"></app-icon>
-              Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeIconTextDanger()">
-              @if (showCodeIconTextDanger()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
-              Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
-              Показать код }
-            </button>
-            @if (showCodeIconTextDanger()) {
-            <pre class="code-example"><code>{{ buttonIconTextDangerCode }}</code></pre>
-            }
-          </div>
-        </div>
-
-        <div class="demo-group">
-          <h3>Квадратная кнопка с одной иконкой</h3>
-
-          <!-- Icon Only Primary -->
-          <div class="button-demo-item">
-            <button
-              av-button
-              avType="primary"
-              class="av-btn--icon-only"
-              (click)="showMessage('Search clicked')"
-            >
-              <app-icon type="search" [size]="16"></app-icon>
-            </button>
-            <button
-              av-button
-              avType="text"
-              avSize="small"
-              (click)="copyCode(buttonIconOnlyPrimaryCode)"
-            >
-              <app-icon type="copy" [size]="14"></app-icon>
-              Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlyPrimary()">
-              @if (showCodeIconOnlyPrimary()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
-              Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
-              Показать код }
-            </button>
-            @if (showCodeIconOnlyPrimary()) {
-            <pre class="code-example"><code>{{ buttonIconOnlyPrimaryCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Icon Only Small -->
-          <div class="button-demo-item">
-            <button
-              av-button
-              avType="primary"
-              avSize="small"
-              class="av-btn--icon-only"
-              (click)="showMessage('Plus clicked')"
-            >
-              <app-icon type="plus" [size]="14"></app-icon>
-            </button>
-            <button
-              av-button
-              avType="text"
-              avSize="small"
-              (click)="copyCode(buttonIconOnlySmallCode)"
-            >
-              <app-icon type="copy" [size]="14"></app-icon>
-              Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlySmall()">
-              @if (showCodeIconOnlySmall()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
-              Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
-              Показать код }
-            </button>
-            @if (showCodeIconOnlySmall()) {
-            <pre class="code-example"><code>{{ buttonIconOnlySmallCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Icon Only Large -->
-          <div class="button-demo-item">
-            <button
-              av-button
-              avType="primary"
-              avSize="large"
-              class="av-btn--icon-only"
-              (click)="showMessage('Settings clicked')"
-            >
-              <app-icon type="settings" [size]="20"></app-icon>
-            </button>
-            <button
-              av-button
-              avType="text"
-              avSize="small"
-              (click)="copyCode(buttonIconOnlyLargeCode)"
-            >
-              <app-icon type="copy" [size]="14"></app-icon>
-              Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlyLarge()">
-              @if (showCodeIconOnlyLarge()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
-              Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
-              Показать код }
-            </button>
-            @if (showCodeIconOnlyLarge()) {
-            <pre class="code-example"><code>{{ buttonIconOnlyLargeCode }}</code></pre>
-            }
-          </div>
-
-          <!-- Icon Only Danger -->
-          <div class="button-demo-item">
-            <button
-              av-button
-              avType="danger"
-              class="av-btn--icon-only"
-              (click)="showMessage('Close clicked')"
-            >
-              <app-icon type="close" [size]="16"></app-icon>
-            </button>
-            <button
-              av-button
-              avType="text"
-              avSize="small"
-              (click)="copyCode(buttonIconOnlyDangerCode)"
-            >
-              <app-icon type="copy" [size]="14"></app-icon>
-              Копировать
-            </button>
-            <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlyDanger()">
-              @if (showCodeIconOnlyDanger()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
-              Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
-              Показать код }
-            </button>
-            @if (showCodeIconOnlyDanger()) {
-            <pre class="code-example"><code>{{ buttonIconOnlyDangerCode }}</code></pre>
-            }
-          </div>
+          @if (showButtonSizesCode()) {
+          <pre class="code-example"><code>{{ buttonSizesCode }}</code></pre>
+          }
         </div>
       </section>
 
-      <!-- Alerts Section -->
       <!-- Message Display -->
       @if (message()) {
       <div class="message-display">
@@ -680,12 +752,116 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
         margin: 0 auto;
 
         &__header {
-          margin-bottom: 48px;
+          margin-bottom: 32px;
           padding-bottom: 24px;
           border-bottom: 1px solid #e0e0e0;
 
           h1 {
             margin-bottom: 8px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1890ff 0%, #722ed1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+        }
+      }
+
+      .api-docs-card {
+        margin-bottom: 24px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+        .card-header-with-icon {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: 600;
+          color: #262626;
+
+          .anticon {
+            color: #1890ff;
+            font-size: 18px;
+          }
+        }
+      }
+
+      .playground-container {
+        margin-bottom: 40px;
+
+        .color-preset {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          cursor: pointer;
+          border: 2px solid transparent;
+          transition: all 0.2s;
+
+          &:hover {
+            transform: scale(1.15);
+          }
+
+          &.active {
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+          }
+        }
+
+        .control-item {
+          margin-bottom: 20px;
+
+          label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #595959;
+            font-size: 13px;
+            cursor: help;
+
+            .info-icon {
+              color: #1890ff;
+              font-size: 14px;
+              opacity: 0.7;
+              transition: opacity 0.2s;
+
+              &:hover {
+                opacity: 1;
+              }
+            }
+          }
+        }
+
+        .preview-area {
+          min-height: 180px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #fafafa;
+          border: 1px dashed #d9d9d9;
+          border-radius: 12px;
+          padding: 40px;
+          position: relative;
+          overflow: hidden;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(#d9d9d9 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+          }
+
+          button {
+            position: relative;
+            z-index: 1;
           }
         }
       }
@@ -697,6 +873,12 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
           margin-bottom: 24px;
           padding-bottom: 12px;
           border-bottom: 2px solid #1890ff;
+        }
+
+        &__description {
+          margin-bottom: 24px;
+          color: #595959;
+          font-size: 14px;
         }
       }
 
@@ -710,78 +892,25 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
         }
       }
 
-      .button-row {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
-      }
-
       .button-demo-item {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 8px 12px;
+        padding: 12px 16px;
         background: #fafafa;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
         margin-bottom: 8px;
+        transition: all 0.2s;
 
         &:hover {
           background: #f0f0f0;
-        }
-      }
-
-      .help-section {
-        margin-bottom: 32px;
-        padding: 16px;
-        background: #f5f5f5;
-        border-radius: 8px;
-        border: 1px solid #d9d9d9;
-      }
-
-      .help-content {
-        margin-top: 16px;
-
-        h4 {
-          margin-bottom: 16px;
-          color: #262626;
-        }
-      }
-
-      .help-step {
-        margin-bottom: 20px;
-
-        strong {
-          display: block;
-          margin-bottom: 8px;
-          color: #595959;
+          border-color: #d0d0d0;
         }
 
-        ul {
-          margin-top: 8px;
-          padding-left: 20px;
-
-          li {
-            margin-bottom: 4px;
-            color: #595959;
-
-            code {
-              background: #fff;
-              padding: 2px 6px;
-              border-radius: 3px;
-              font-size: 13px;
-              color: #1890ff;
-            }
-          }
+        .demo-item-actions {
+          margin-left: auto;
         }
-      }
-
-      .code-actions {
-        display: flex;
-        gap: 8px;
-        margin-top: 12px;
-        margin-bottom: 12px;
       }
 
       .code-example {
@@ -801,10 +930,6 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
         }
       }
 
-      .form-demo {
-        max-width: 500px;
-      }
-
       .message-display {
         position: fixed;
         bottom: 24px;
@@ -815,6 +940,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
         border-radius: 4px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         animation: slideIn 0.3s ease-out;
+        z-index: 1000;
       }
 
       @keyframes slideIn {
@@ -833,117 +959,45 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
           border-bottom-color: #434343;
         }
 
+        .preview-area {
+          background: #141414 !important;
+          border-color: #434343 !important;
+          &::before {
+            background-image: radial-gradient(#434343 1px, transparent 1px) !important;
+          }
+        }
+
+        .api-docs-card {
+          background: #1f1f1f;
+          border-color: #434343;
+          .card-header-with-icon {
+            color: rgba(255, 255, 255, 0.85);
+          }
+        }
+
+        .control-item label {
+          color: rgba(255, 255, 255, 0.45);
+        }
         .demo-group h3 {
           color: rgba(255, 255, 255, 0.65);
+        }
+        .demo-section__description {
+          color: rgba(255, 255, 255, 0.45);
         }
 
         .button-demo-item {
           background: #1f1f1f;
           border-color: #434343;
-
           &:hover {
             background: #262626;
           }
         }
 
-        .help-section {
-          background: #1f1f1f;
-          border-color: #434343;
-        }
-
-        .help-content {
-          h4 {
-            color: rgba(255, 255, 255, 0.85);
-          }
-        }
-
-        .help-step {
-          strong {
-            color: rgba(255, 255, 255, 0.65);
-          }
-
-          ul li {
-            color: rgba(255, 255, 255, 0.65);
-
-            code {
-              background: #141414;
-              color: #40a9ff;
-            }
-          }
-        }
-
         .code-example {
           background: #1f1f1f;
           border-color: #434343;
-
           code {
             color: #e0e0e0;
-          }
-        }
-      }
-
-      /* Button Demo Item */
-      .button-demo-item {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 16px;
-        border: 1px solid var(--color-border-base);
-        border-radius: 4px;
-        margin-bottom: 8px;
-
-        .code-example {
-          flex-basis: 100%;
-          margin-top: 4px;
-          margin-bottom: 0;
-        }
-      }
-
-      /* Help Section */
-      .help-section {
-        margin-bottom: 24px;
-        padding: 16px;
-        background: var(--color-bg-container);
-        border: 1px solid var(--color-border-base);
-        border-radius: 4px;
-
-        .help-content {
-          margin-top: 16px;
-          padding-top: 16px;
-          border-top: 1px solid var(--color-border-base);
-
-          h4 {
-            margin-top: 0;
-            margin-bottom: 16px;
-            color: var(--color-text-heading);
-          }
-
-          .help-step {
-            margin-bottom: 16px;
-
-            strong {
-              display: block;
-              margin-bottom: 8px;
-              color: var(--color-text-heading);
-            }
-
-            ul {
-              margin-top: 8px;
-              padding-left: 24px;
-
-              li {
-                margin-bottom: 4px;
-                color: var(--color-text-secondary);
-              }
-
-              code {
-                background: var(--color-bg-base);
-                padding: 2px 6px;
-                border-radius: 3px;
-                font-size: 12px;
-              }
-            }
           }
         }
       }
@@ -951,52 +1005,200 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
   ],
 })
 export class ButtonUiComponent {
-  // Loading state
+  // Playground state
+  pgType = signal<'primary' | 'default' | 'dashed' | 'text' | 'link' | 'danger'>('primary');
+  pgSize = signal<'small' | 'default' | 'large' | 'square' | 'custom'>('default');
+  pgLoading = signal(false);
+  pgBlock = signal(false);
+  pgVisible = signal(true);
+  pgIconOnly = signal(false);
+  pgShape = signal<'default' | 'circle' | 'square' | 'round' | 'rounded'>('default');
+  pgWidth = signal<string | number | null>(null);
+  pgHeight = signal<string | number | null>(null);
+  pgRadius = signal<string | number | null>(null);
+  pgIconSize = signal<number>(16);
+  pgColor = signal<string | null>(null);
+  pgIconColor = signal<string | null>(null);
+  pgTextColor = signal<string | null>(null);
+  pgSystemSoft = signal(false);
+  refreshTrigger = signal(true);
+
+  safePgSize = computed<ButtonSize>(() => {
+    const size = this.pgSize();
+    return size === 'custom' ? 'default' : size;
+  });
+
+  readonly colorPresets = [
+    '#1890ff',
+    '#6366f1',
+    '#06b6d4',
+    '#f43f5e',
+    '#f59e0b',
+    '#10b981',
+    '#64748b',
+  ];
+  pgLabel = signal('Interactive Button');
+  pgIcon = signal<string | undefined>(undefined);
+
+  pgGeneratedCode = computed(() => {
+    const isIconOnly = !!this.pgIcon() && !this.pgLabel();
+    const hasManualGeometry = !!this.pgWidth() || !!this.pgHeight();
+
+    let tpl = `<button\n  av-button\n  avType="${this.pgType()}"`;
+
+    // Если заданы ручные размеры, avSize становится избыточным для геометрии
+    if (this.pgSize() !== 'default' && this.pgSize() !== 'custom') {
+      tpl += `\n  avSize="${this.pgSize()}"`;
+    }
+    if (this.pgColor()) tpl += `\n  avColor="${this.pgColor()}"`;
+    if (this.pgLoading()) tpl += `\n  [avLoading]="true"`;
+    if (this.pgBlock()) tpl += `\n  [avBlock]="true"`;
+    if (!this.pgVisible()) tpl += `\n  [avVisible]="false"`;
+    if (isIconOnly) tpl += `\n  [avIconOnly]="true"`;
+    if (this.pgShape() !== 'default') tpl += `\n  avShape="${this.pgShape()}"`;
+    if (this.pgWidth()) tpl += `\n  avWidth="${this.pgWidth()}"`;
+    if (this.pgHeight()) tpl += `\n  avHeight="${this.pgHeight()}"`;
+    if (this.pgRadius()) tpl += `\n  avRadius="${this.pgRadius()}"`;
+    if (this.pgIconSize() !== 16) tpl += `\n  avIconSize="${this.pgIconSize()}"`;
+    if (this.pgIconColor()) tpl += `\n  avIconColor="${this.pgIconColor()}"`;
+    if (this.pgTextColor()) tpl += `\n  avTextColor="${this.pgTextColor()}"`;
+    tpl += `\n  (clicked)="handleClick()"\n>`;
+
+    if (this.pgIcon()) {
+      tpl += `\n  <app-icon type="${this.pgIcon()}" [size]="${this.getIconSize()}"></app-icon>`;
+      if (!isIconOnly) {
+        tpl += `\n  <span style="margin-left: 8px;">${this.pgLabel()}</span>`;
+      }
+    } else {
+      tpl += `\n  ${this.pgLabel()}`;
+    }
+
+    tpl += `\n</button>`;
+
+    if (this.pgSystemSoft()) {
+      return `<!-- Обертка с мягким стилем -->\n<div class="av-style-soft">\n  ${tpl
+        .split('\n')
+        .join('\n  ')}\n</div>`;
+    }
+
+    return tpl;
+  });
+
+  public getIconSize(): number {
+    return this.pgIconSize();
+  }
+
+  apiInterfaceCode = `/**
+ * @directive av-button
+ * Накладывается на нативные элементы <button> или <a>
+ */
+export interface AvButtonProps {
+  /** Тип оформления кнопки */
+  avType: 'primary' | 'default' | 'dashed' | 'text' | 'link' | 'danger'; // default: 'default'
+
+  /** Размер кнопки */
+  avSize: 'small' | 'default' | 'large' | 'square'; // default: 'default'
+
+  /** Состояние загрузки (блокирует клики, показывает спиннер) */
+  avLoading: boolean; // default: false
+
+  /** Растягивание на всю ширину контейнера */
+  avBlock: boolean; // default: false
+
+  /** Видимость компонента (плавное появление/скрытие) */
+  avVisible: boolean; // default: true
+
+  /** Квадратная кнопка для иконок */
+  avIconOnly: boolean; // default: false
+
+  /** Форма кнопки */
+  avShape: 'default' | 'circle' | 'square' | 'round' | 'rounded'; // default: 'default'
+
+  /** Произвольная ширина (px, %, и т.д.) */
+  avWidth: string | number | null; // default: null
+
+  /** Произвольная высота (px, %, и т.д.) */
+  avHeight: string | number | null; // default: null
+
+  /** Произвольный радиус скругления (px, %, и т.д.) */
+  avRadius: string | number | null; // default: null
+
+  /** Размер вложенной иконки (px) */
+  avIconSize: string | number | null; // default: null
+
+  /** Кастомный цвет (HEX, RGB, CSS name) - перекрывает стандартный тип */
+  avColor: string | null; // default: null
+
+  /** Кастомный цвет иконки */
+  avIconColor: string | null; // default: null
+
+  /** Кастомный цвет текста */
+  avTextColor: string | null; // default: null
+
+  /**
+   * (clicked) - Событие клика (рекомендуется использовать вместо стандартного (click)
+   * для корректной обработки состояния loading)
+   */
+  clicked: EventEmitter<MouseEvent>;
+}`;
+
+  // State
   isLoading = signal(false);
-
-  // Message
   message = signal('');
-
-  // Code visibility toggles
-  showButtonTypesCode = signal(false);
   showButtonSizesCode = signal(false);
-  showButtonIconsCode = signal(false);
-  showButtonStatesCode = signal(false);
-  showHelp = signal(false);
-
-  // Individual button code visibility signals
   showCodePrimary = signal(false);
   showCodeDefault = signal(false);
   showCodeDashed = signal(false);
   showCodeText = signal(false);
   showCodeLink = signal(false);
   showCodeDanger = signal(false);
+  showCodeSharp = signal(false);
 
-  // Button sizes code visibility
-  showCodeSmall = signal(false);
-  showCodeMedium = signal(false);
-  showCodeLarge = signal(false);
-
-  // Button states code visibility
-  showCodeLoading = signal(false);
-  showCodeDisabled = signal(false);
-  showCodeBlock = signal(false);
-
-  // Button icon + text code visibility
-  showCodeIconTextPrimary = signal(false);
-  showCodeIconTextDefault = signal(false);
-  showCodeIconTextDanger = signal(false);
-
-  // Button icon only code visibility
-  showCodeIconOnlyPrimary = signal(false);
-  showCodeIconOnlySmall = signal(false);
-  showCodeIconOnlyLarge = signal(false);
-  showCodeIconOnlyDanger = signal(false);
-
-  // Form Controls
   showMessage(msg: string): void {
     this.message.set(msg);
     setTimeout(() => this.message.set(''), 3000);
+  }
+
+  forceRefresh(): void {
+    this.refreshTrigger.set(false);
+    setTimeout(() => {
+      this.refreshTrigger.set(true);
+      this.showMessage('Настройки применены! ✨');
+    }, 100);
+  }
+
+  onSizeChange(val: string | number | null): void {
+    this.pgWidth.set(val);
+    this.pgHeight.set(val);
+  }
+
+  resetGeometry(): void {
+    this.pgWidth.set(null);
+    this.pgHeight.set(null);
+    this.pgRadius.set(null);
+    this.showMessage('Геометрия сброшена');
+  }
+
+  resetAllSettings(): void {
+    this.pgType.set('primary');
+    this.pgSize.set('default');
+    this.pgLabel.set('Interactive Button');
+    this.pgIcon.set(undefined);
+    this.pgColor.set(null);
+    this.pgShape.set('default');
+    this.pgWidth.set(null);
+    this.pgHeight.set(null);
+    this.pgRadius.set(null);
+    this.pgIconSize.set(16);
+    this.pgIconColor.set(null);
+    this.pgTextColor.set(null);
+    this.pgLoading.set(false);
+    this.pgBlock.set(false);
+    this.pgVisible.set(true);
+    this.pgIconOnly.set(false);
+    this.pgSystemSoft.set(false);
+    this.forceRefresh();
+    this.showMessage('Все настройки сброшены к дефолтным');
   }
 
   simulateLoading(): void {
@@ -1007,204 +1209,90 @@ export class ButtonUiComponent {
     }, 2000);
   }
 
-  // Code toggle methods
-  toggleCode(section: 'types' | 'sizes' | 'icons' | 'states'): void {
+  toggleCode(section: string): void {
     switch (section) {
-      case 'types':
-        this.showButtonTypesCode.update((v) => !v);
-        break;
       case 'sizes':
         this.showButtonSizesCode.update((v) => !v);
         break;
-      case 'icons':
-        this.showButtonIconsCode.update((v) => !v);
+      case 'primary':
+        this.showCodePrimary.update((v) => !v);
         break;
-      case 'states':
-        this.showButtonStatesCode.update((v) => !v);
+      case 'default':
+        this.showCodeDefault.update((v) => !v);
+        break;
+      case 'dashed':
+        this.showCodeDashed.update((v) => !v);
+        break;
+      case 'text':
+        this.showCodeText.update((v) => !v);
+        break;
+      case 'link':
+        this.showCodeLink.update((v) => !v);
+        break;
+      case 'danger':
+        this.showCodeDanger.update((v) => !v);
+        break;
+      case 'sharp':
+        this.showCodeSharp.update((v) => !v);
         break;
     }
   }
 
-  // Copy code to clipboard
-  async copyCode(code: string): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(code);
-      this.showMessage('Code copied to clipboard! ✅');
-    } catch (err) {
-      this.showMessage('Failed to copy code ❌');
-    }
-  }
+  readonly howToConnectCode = `// 1. Импорт в компонент
+import { ButtonDirective } from '@shared/components/ui/button';
+import { IconComponent } from '@shared/components/ui/icon'; // опционально
 
-  toggleHelp(): void {
-    this.showHelp.update((v) => !v);
-  }
+@Component({
+  standalone: true,
+  imports: [ButtonDirective, IconComponent],
+  ...
+})
 
-  // Individual button code toggle methods
-  toggleCodePrimary(): void {
-    this.showCodePrimary.update((v) => !v);
-  }
-
-  toggleCodeDefault(): void {
-    this.showCodeDefault.update((v) => !v);
-  }
-
-  toggleCodeDashed(): void {
-    this.showCodeDashed.update((v) => !v);
-  }
-
-  toggleCodeText(): void {
-    this.showCodeText.update((v) => !v);
-  }
-
-  toggleCodeLink(): void {
-    this.showCodeLink.update((v) => !v);
-  }
-
-  toggleCodeDanger(): void {
-    this.showCodeDanger.update((v) => !v);
-  }
-
-  // Button sizes toggle methods
-  toggleCodeSmall(): void {
-    this.showCodeSmall.update((v) => !v);
-  }
-
-  toggleCodeMedium(): void {
-    this.showCodeMedium.update((v) => !v);
-  }
-
-  toggleCodeLarge(): void {
-    this.showCodeLarge.update((v) => !v);
-  }
-
-  // Button states toggle methods
-  toggleCodeLoading(): void {
-    this.showCodeLoading.update((v) => !v);
-  }
-
-  toggleCodeDisabled(): void {
-    this.showCodeDisabled.update((v) => !v);
-  }
-
-  toggleCodeBlock(): void {
-    this.showCodeBlock.update((v) => !v);
-  }
-
-  // Button icon + text toggle methods
-  toggleCodeIconTextPrimary(): void {
-    this.showCodeIconTextPrimary.update((v) => !v);
-  }
-
-  toggleCodeIconTextDefault(): void {
-    this.showCodeIconTextDefault.update((v) => !v);
-  }
-
-  toggleCodeIconTextDanger(): void {
-    this.showCodeIconTextDanger.update((v) => !v);
-  }
-
-  // Button icon only toggle methods
-  toggleCodeIconOnlyPrimary(): void {
-    this.showCodeIconOnlyPrimary.update((v) => !v);
-  }
-
-  toggleCodeIconOnlySmall(): void {
-    this.showCodeIconOnlySmall.update((v) => !v);
-  }
-
-  toggleCodeIconOnlyLarge(): void {
-    this.showCodeIconOnlyLarge.update((v) => !v);
-  }
-
-  toggleCodeIconOnlyDanger(): void {
-    this.showCodeIconOnlyDanger.update((v) => !v);
-  }
-
-  // Code examples for individual buttons
-  readonly buttonPrimaryCode = `<button av-button avType="primary" (clicked)="handleClick()">Primary</button>`;
-
-  readonly buttonDefaultCode = `<button av-button avType="default" (clicked)="handleClick()">Default</button>`;
-
-  readonly buttonDashedCode = `<button av-button avType="dashed" (clicked)="handleClick()">Dashed</button>`;
-
-  readonly buttonTextCode = `<button av-button avType="text" (clicked)="handleClick()">Text</button>`;
-
-  readonly buttonLinkCode = `<button av-button avType="link" (clicked)="handleClick()">Link</button>`;
-
-  readonly buttonDangerCode = `<button av-button avType="danger" (clicked)="handleClick()">Danger</button>`;
-
-  // Code examples for button sizes
-  readonly buttonSmallCode = `<button av-button avType="primary" avSize="small">Small</button>`;
-
-  readonly buttonMediumCode = `<button av-button avType="primary" avSize="default">Default</button>`;
-
-  readonly buttonLargeCode = `<button av-button avType="primary" avSize="large">Large</button>`;
-
-  // Code examples for button states
-  readonly buttonLoadingCode = `<button av-button avType="primary" [avLoading]="isLoading()">
-  @if (isLoading()) { Loading... } @else { Click to Load }
-</button>`;
-
-  readonly buttonDisabledCode = `<button av-button avType="default" disabled>Disabled</button>`;
-
-  readonly buttonBlockCode = `<button av-button avType="primary" [avBlock]="true">Block Button</button>`;
-
-  // Code examples for button icon + text
-  readonly buttonIconTextPrimaryCode = `<button av-button avType="primary" (click)="handleClick()">
+// 2. Использование в шаблоне
+<button
+  av-button
+  avType="primary"
+  avSize="default"
+  (clicked)="handleClick()"
+>
   <app-icon type="download" [size]="16"></app-icon>
-  <span style="margin-left: 8px;">Download</span>
-</button>`;
+  <span style="margin-left: 8px;">Скачать</span>
+</button>
 
-  readonly buttonIconTextDefaultCode = `<button av-button avType="default" (click)="handleClick()">
-  <app-icon type="upload" [size]="16"></app-icon>
-  <span style="margin-left: 8px;">Upload</span>
-</button>`;
-
-  readonly buttonIconTextDangerCode = `<button av-button avType="danger" (click)="handleClick()">
-  <app-icon type="delete" [size]="16"></app-icon>
-  <span style="margin-left: 8px;">Delete</span>
-</button>`;
-
-  // Code examples for button icon only
-  readonly buttonIconOnlyPrimaryCode = `<button av-button avType="primary" class="av-btn--icon-only" (click)="handleClick()">
+// Квадратная кнопка (только иконка)
+<button
+  av-button
+  avType="default"
+  [avIconOnly]="true"
+>
   <app-icon type="search" [size]="16"></app-icon>
+</button>
+
+// Кастомные цвета (Фон, Текст и Иконка раздельно)
+<button
+  av-button
+  avColor="#1e293b"
+  avTextColor="#f8fafc"
+  avIconColor="#38bdf8"
+>
+  <app-icon type="settings"></app-icon>
+  <span style="margin-left:8px">Настройки</span>
 </button>`;
 
-  readonly buttonIconOnlySmallCode = `<button av-button avType="primary" avSize="small" class="av-btn--icon-only" (click)="handleClick()">
-  <app-icon type="plus" [size]="14"></app-icon>
-</button>`;
-
-  readonly buttonIconOnlyLargeCode = `<button av-button avType="primary" avSize="large" class="av-btn--icon-only" (click)="handleClick()">
-  <app-icon type="settings" [size]="20"></app-icon>
-</button>`;
-
-  readonly buttonIconOnlyDangerCode = `<button av-button avType="danger" class="av-btn--icon-only" (click)="handleClick()">
-  <app-icon type="close" [size]="16"></app-icon>
-</button>`; // Code examples
-  readonly buttonTypesCode = `<button av-button avType="primary" (clicked)="handleClick()">Primary</button>
-<button av-button avType="default" (clicked)="handleClick()">Default</button>
-<button av-button avType="dashed" (clicked)="handleClick()">Dashed</button>
-<button av-button avType="text" (clicked)="handleClick()">Text</button>
-<button av-button avType="link" (clicked)="handleClick()">Link</button>
-<button av-button avType="danger" (clicked)="handleClick()">Danger</button>`;
+  readonly buttonPrimaryCode = `<button av-button avType="primary" (clicked)="handleClick()">Primary</button>`;
+  readonly buttonDefaultCode = `<button av-button avType="default" (clicked)="handleClick()">Default</button>`;
+  readonly buttonDashedCode = `<button av-button avType="dashed" (clicked)="handleClick()">Dashed</button>`;
+  readonly buttonTextCode = `<button av-button avType="text" (clicked)="handleClick()">Text Button</button>`;
+  readonly buttonLinkCode = `<button av-button avType="link" (clicked)="handleClick()">Link Button</button>`;
+  readonly buttonDangerCode = `<button av-button avType="danger" (clicked)="handleClick()">Danger</button>`;
 
   readonly buttonSizesCode = `<button av-button avType="primary" avSize="small">Small</button>
 <button av-button avType="primary" avSize="default">Default</button>
 <button av-button avType="primary" avSize="large">Large</button>`;
 
-  readonly buttonIconsCode = `<!-- С иконками пока используем app-button компонент -->
-<app-button type="primary" icon="check">With Icon</app-button>
-<app-button type="default" icon="download" suffixIcon="down">Download</app-button>
-<app-button type="primary" icon="plus" [iconOnly]="true"></app-button>
-<app-button type="danger" icon="delete" [iconOnly]="true"></app-button>`;
-
-  readonly buttonStatesCode = `<button av-button avType="primary" [avLoading]="isLoading()">
-  @if (isLoading()) {{ '{' }}
-    Loading...
-  {{ '}' }} @else {{ '{' }}
-    Click to Load
-  {{ '}' }}
-</button>
-<button av-button avType="default" [disabled]="true">Disabled</button>
-<button av-button avType="primary" [avBlock]="true">Block Button</button>`;
+  readonly sharpCode = `<button av-button avShape="square">Sharp Corners</button>
+<button av-button avType="primary" avShape="square">Sharp Primary</button>
+<button av-button [avIconOnly]="true" avShape="square">
+  <app-icon type="search"></app-icon>
+</button>`;
 }

@@ -68,6 +68,11 @@
         <div class="control-group">
           <label class="control-label">
             <span>Ширина:</span>
+            <div class="preset-buttons">
+              <button (click)="setPresetWidth('100%')" [class.active]="playgroundWidth() === '100%'">100%</button>
+              <button (click)="setPresetWidth('300px')" [class.active]="playgroundWidth() === '300px'">300px</button>
+              <button (click)="setPresetWidth('auto')" [class.active]="playgroundWidth() === 'auto'">Auto</button>
+            </div>
             <input type="text" class="control-input" [(ngModel)]="playgroundWidth" />
           </label>
         </div>
@@ -75,7 +80,15 @@
         <div class="control-group">
           <label class="control-label">
             <span>Высота:</span>
+            <div class="preset-buttons">
+              <button (click)="setPresetHeight('100%')" [class.active]="playgroundHeight() === '100%'">100%</button>
+              <button (click)="setPresetHeight('200px')" [class.active]="playgroundHeight() === '200px'">200px</button>
+              <button (click)="setPresetHeight('auto')" [class.active]="playgroundHeight() === 'auto'">Auto</button>
+            </div>
             <input type="text" class="control-input" [(ngModel)]="playgroundHeight" />
+            <small style="color: #888; margin-top: 4px; display: block">
+              * Укажите фиксированную высоту (напр. 200px), чтобы увидеть прокрутку.
+            </small>
           </label>
         </div>
 
@@ -90,6 +103,19 @@
           <label class="control-checkbox">
             <input type="checkbox" [(ngModel)]="playgroundShowHelpButton" />
             <span>Кнопка справки (?)</span>
+          </label>
+        </div>
+
+        <div class="control-group" *ngIf="playgroundShowHelpButton()">
+          <label class="control-label">
+            <span>Текст справки (helpContent):</span>
+            <textarea
+              class="control-input"
+              [(ngModel)]="playgroundHelpContent"
+              rows="3"
+              style="resize: vertical"
+              placeholder="Введите текст справки..."
+            ></textarea>
           </label>
         </div>
 
@@ -118,10 +144,10 @@
             [bgColor]="playgroundBgColor()"
             [showCopy]="playgroundShowCopy()"
             [showHelpButton]="playgroundShowHelpButton()"
+            [helpContent]="playgroundHelpContent()"
           ></av-help-copy-container>
         </div>
 
-        <!-- Кнопка генерации кода -->
         <div style="margin-top: 2rem; text-align: center">
           <button av-button avType="primary" avSize="large" (clicked)="generatePlaygroundCode()">
             📋 Сгенерировать код настройки
@@ -131,35 +157,37 @@
     </div>
   </section>
 
+  <!-- 🛠️ API Interface Documentation -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>🛠️ Технический интерфейс (Inputs)</h2>
+    </div>
+    <p class="demo-section__description">
+      Используйте кнопку <strong>"?"</strong> в заголовке контейнера ниже, чтобы увидеть полную спецификацию и описание
+      всех параметров.
+    </p>
+
+    <div class="demo-section__preview" style="padding: 0">
+      <av-help-copy-container
+        title="Спецификация : HelpCopyContainer"
+        [content]="apiInterfaceCode"
+        bgColor="#0a0e1a"
+        [showHelpButton]="true"
+      ></av-help-copy-container>
+    </div>
+  </section>
+
   <!-- Статические примеры -->
   <section class="demo-section">
     <div class="demo-section__header">
       <h2>Базовое использование</h2>
     </div>
     <div class="demo-section__preview">
-      <av-help-copy-container title="Пример заголовка" [content]="basicCode"></av-help-copy-container>
-    </div>
-  </section>
-
-  <section class="demo-section">
-    <div class="demo-section__header">
-      <h2>Фиксированные размеры</h2>
-    </div>
-    <div class="demo-section__preview">
-      <div style="display: flex; gap: 2rem; flex-wrap: wrap">
-        <div style="flex: 1; min-width: 300px">
-          <h4>Фиксированная ширина (400px)</h4>
-          <av-help-copy-container title="Small Container" content="Width: 400px" width="400px"></av-help-copy-container>
-        </div>
-        <div style="flex: 1; min-width: 300px">
-          <h4>Фиксированная высота (150px) + Scroll</h4>
-          <av-help-copy-container
-            title="Scrollable content"
-            [content]="longContent"
-            height="150px"
-          ></av-help-copy-container>
-        </div>
-      </div>
+      <av-help-copy-container
+        title="Код использования"
+        [content]="basicCode"
+        bgColor="#1e293b"
+      ></av-help-copy-container>
     </div>
   </section>
 </div>

@@ -11,7 +11,7 @@ export type ButtonType = 'primary' | 'default' | 'dashed' | 'text' | 'link' | 'd
 /**
  * Button Sizes
  */
-export type ButtonSize = 'small' | 'default' | 'large';
+export type ButtonSize = 'small' | 'default' | 'large' | 'square';
 
 /**
  * Button Component

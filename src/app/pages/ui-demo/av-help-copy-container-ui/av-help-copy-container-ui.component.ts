@@ -20,10 +20,19 @@ export class MyComponent {
   title = 'Hello World';
 }`);
   playgroundWidth = signal('100%');
-  playgroundHeight = signal('auto');
+  playgroundHeight = signal('200px');
   playgroundBgColor = signal('#1e293b');
   playgroundShowCopy = signal(true);
   playgroundShowHelpButton = signal(false);
+  playgroundHelpContent = signal<string>('Здесь может быть ваш текст справки');
+
+  setPresetWidth(val: string): void {
+    this.playgroundWidth.set(val);
+  }
+
+  setPresetHeight(val: string): void {
+    this.playgroundHeight.set(val);
+  }
 
   // Modal state
   showGeneratedCodeModal = false;
@@ -46,6 +55,42 @@ export class MyComponent {
 Строка 5
 Конец примера.`;
 
+  apiInterfaceCode = `/**
+ * @interface HelpCopyContainerProps
+ * Техническая спецификация компонента Help Copy Container
+ */
+export interface HelpCopyContainerProps {
+  /** Заголовок блока (header title) */
+  title: string; // default: 'Код использования'
+
+  /** Контент для отображения и копирования (строка с кодом или текстом) */
+  content: string;
+
+  /** Ширина контейнера (CSS значение: '100%', '300px', 'auto') */
+  width: string; // default: '100%'
+
+  /** Высота контейнера (CSS значение: 'auto', '200px', '100%') */
+  height: string; // default: 'auto'
+
+  /** Цвет фона внешней обертки (HEX, RGB, CSS name) */
+  bgColor: string | null; // default: null (использует slate-800)
+
+  /** Показывать ли кнопку "Копировать" */
+  showCopy: boolean; // default: true
+
+  /** Показывать ли кнопку "?" (справка) */
+  showHelpButton: boolean; // default: false
+
+  /** Контент для справки (ваша строка текста/справки) */
+  helpContent: string | null; // default: null
+
+  /** Отключить встроенную справку (для использования кнопки ? как внешнего триггера) */
+  disableInternalHelp: boolean; // default: false
+
+  /** Событие при нажатии на кнопку "?" (возвращает текущее состояние видимости справки) */
+  helpToggled: EventEmitter<boolean>;
+}`;
+
   generatePlaygroundCode(): void {
     const attributes: string[] = [];
 
@@ -66,6 +111,9 @@ export class MyComponent {
     }
     if (this.playgroundShowHelpButton()) {
       attributes.push(`[showHelpButton]="true"`);
+      if (this.playgroundHelpContent()) {
+        attributes.push(`helpContent="${this.playgroundHelpContent()}"`);
+      }
     }
 
     const htmlCode = `<av-help-copy-container\n  ${attributes.join(

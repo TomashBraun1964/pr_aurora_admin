@@ -41,46 +41,69 @@ import { Component, input, output, signal } from '@angular/core';
         </div>
       </div>
       <div class="av-copy-container__window">
-        @if (helpVisible() && !disableInternalHelp()) {
+        @if (helpVisible()) { @if (helpContent()) {
         <div class="av-copy-container__help-content">
+          <pre class="av-copy-container__pre"><code>{{ helpContent() }}</code></pre>
+        </div>
+        } @else if (!disableInternalHelp()) {
+        <div class="av-help-content">
           <h5 class="av-help-title">Dokumentation: Help Copy Container</h5>
 
           <div class="av-help-section">
-            <span class="av-help-label">Selector:</span>
-            <code class="av-help-code">av-help-copy-container</code>
-          </div>
-
-          <div class="av-help-section">
-            <span class="av-help-label">Inputs (Inputs):</span>
+            <span class="av-help-label">Inputs (Входящие данные):</span>
             <ul class="av-help-list">
               <li>
-                <code>[title]="'My Title'"</code>
+                <code>[title]</code>
                 <span class="av-help-desc">Заголовок блока (default: 'Код использования')</span>
               </li>
               <li>
-                <code>[content]="'some code'"</code>
+                <code>[content]</code>
                 <span class="av-help-desc">Текст/код для отображения</span>
               </li>
               <li>
-                <code>[width]="'100%'"</code>
+                <code>[width]</code>
                 <span class="av-help-desc">Ширина (default: '100%')</span>
               </li>
               <li>
-                <code>[height]="'auto'"</code>
+                <code>[height]</code>
                 <span class="av-help-desc">Высота (default: 'auto')</span>
               </li>
               <li>
-                <code>[bgColor]="'#1e293b'"</code>
-                <span class="av-help-desc">Цвет обертки</span>
+                <code>[bgColor]</code>
+                <span class="av-help-desc">Цвет внешней обертки (default: slate-800)</span>
               </li>
               <li>
-                <code>[showCopy]="true"</code>
-                <span class="av-help-desc">Кнопка копирования (default: true)</span>
+                <code>[showCopy]</code>
+                <span class="av-help-desc">Показывать кнопку копирования (default: true)</span>
+              </li>
+              <li>
+                <code>[showHelpButton]</code>
+                <span class="av-help-desc">Показывать кнопку справки ? (default: false)</span>
+              </li>
+              <li>
+                <code>[helpContent]</code>
+                <span class="av-help-desc">Текст вашей справки (строка)</span>
+              </li>
+              <li>
+                <code>[disableInternalHelp]</code>
+                <span class="av-help-desc"
+                  >Отключить эту справку для внешних триггеров (default: false)</span
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="av-help-section">
+            <span class="av-help-label">Outputs (События):</span>
+            <ul class="av-help-list">
+              <li>
+                <code>(helpToggled)</code>
+                <span class="av-help-desc">Срабатывает при нажатии на ?. Возвращает boolean.</span>
               </li>
             </ul>
           </div>
         </div>
-        } @else {
+        } } @else {
         <pre class="av-copy-container__pre"><code [innerText]="content()"></code></pre>
         }
       </div>
@@ -103,6 +126,7 @@ import { Component, input, output, signal } from '@angular/core';
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         box-sizing: border-box;
+        transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
 
         &__header {
           display: flex;
@@ -287,6 +311,9 @@ export class HelpCopyContainerComponent {
 
   /** Отключить отображение внутреннего контента справки (только эмит события) */
   disableInternalHelp = input<boolean>(false);
+
+  /** Контент для справки (если не задан, показывается техническая справка компонента) */
+  helpContent = input<string | null>(null);
 
   copied = signal(false);
 
