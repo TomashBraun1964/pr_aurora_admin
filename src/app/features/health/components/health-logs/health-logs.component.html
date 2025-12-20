@@ -1,0 +1,62 @@
+<div class="logs-container">
+  <div class="logs-actions">
+    <div class="search-box">
+      <input
+        type="text"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        placeholder="Поиск по эндпоинту или статусу..."
+      />
+    </div>
+
+    <div class="filters">
+      <select [ngModel]="filterSeverity()" (ngModelChange)="filterSeverity.set($event)">
+        <option value="all">Все уровни</option>
+        <option value="success">Успешные</option>
+        <option value="warning">Предупреждения</option>
+        <option value="error">Ошибки</option>
+      </select>
+
+      <button class="refresh-btn" (click)="loadLogs()">🔄 Обновить логи</button>
+    </div>
+  </div>
+
+  <div class="logs-table-wrapper">
+    <table class="logs-table">
+      <thead>
+        <tr>
+          <th>ВРЕМЯ</th>
+          <th>ЭНДПОИНТ</th>
+          <th>СТАТУС</th>
+          <th>ОТВЕТ</th>
+          <th>ТОКЕН</th>
+          <th>IP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of filteredLogs()" [class]="getStatusClass(log)">
+          <td class="time">
+            {{ log.timestamp | date : 'HH:mm:ss' }} <small>{{ log.timestamp | date : 'dd.MM' }}</small>
+          </td>
+          <td class="endpoint">
+            <code>{{ log.endpoint }}</code>
+          </td>
+          <td class="status">
+            <span class="badge">{{ log.status }}</span>
+          </td>
+          <td class="duration" [class.slow]="log.durationMs > 500">{{ log.durationMs }}ms</td>
+          <td class="token">
+            <span *ngIf="log.hasAccessToken" title="Valid Token">🔑</span>
+            <span *ngIf="!log.hasAccessToken" class="no-token">❌</span>
+            <small *ngIf="log.tokenFingerprint" class="fingerprint">{{ log.tokenFingerprint }}</small>
+          </td>
+          <td class="ip">{{ log.clientIp || 'local' }}</td>
+        </tr>
+
+        <tr *ngIf="filteredLogs().length === 0">
+          <td colspan="6" class="no-data">Логи не найдены</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

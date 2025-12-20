@@ -1,0 +1,38 @@
+<av-modal
+  [isOpen]="true"
+  [title]="config.centered ? undefined : config.title || 'Информация'"
+  [subtitle]="config.centered ? undefined : config.subtitle"
+  [size]="config.size || 'small'"
+  [centered]="config.centered || false"
+  [closeOnBackdrop]="config.closeOnBackdrop !== false"
+  [closeOnEsc]="config.closeOnEsc !== false"
+  [showCloseButton]="config.centered ? false : config.showCloseButton !== false"
+  (closed)="onOk()"
+>
+  <div modal-body class="alert-body" [class.alert-body--centered]="config.centered">
+    <div class="alert-content">
+      <div class="alert-icon" *ngIf="config.icon || config.alertType">
+        <app-icon
+          [type]="config.icon || getDefaultIcon()"
+          [size]="config.centered ? 80 : 32"
+          [class]="'icon-' + (config.alertType || 'info')"
+        ></app-icon>
+      </div>
+      <h2 class="alert-title" *ngIf="config.centered && config.title">{{ config.title }}</h2>
+      <div class="alert-message">
+        {{ config.message }}
+      </div>
+    </div>
+  </div>
+
+  <div modal-footer [class.modal-footer--centered]="config.centered">
+    <button
+      av-button
+      [avType]="config.okType || (config.alertType === 'error' ? 'danger' : 'primary')"
+      [avSize]="config.centered ? 'large' : 'default'"
+      (clicked)="onOk()"
+    >
+      {{ config.okText || 'OK' }}
+    </button>
+  </div>
+</av-modal>

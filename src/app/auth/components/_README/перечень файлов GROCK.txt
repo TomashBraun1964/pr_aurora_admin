@@ -1,0 +1,104 @@
+Перечень компонентов для авторизации и регистрации в бизнес-приложении на Angular 19 (Standalone)
+Уважаемый коллега,
+Ниже представлен перечень компонентов, необходимых для реализации функционала авторизации и регистрации в бизнес-приложении на Angular 19 с использованием standalone-компонентов. Перечень включает файлы и директории, обеспечивающие минимально необходимую структуру для работы системы, включая маршруты, guards, сервисы и интерфейсы, без кода, как указано в вашем запросе.
+Директории и файлы:
+
+src/
+
+app/
+
+app.component.ts
+app.component.html
+app.component.scss
+app.config.ts
+app.routes.ts
+core/
+
+guards/
+
+auth.guard.ts
+unsaved.guard.ts
+
+
+services/
+
+auth.service.ts
+api.service.ts
+
+
+interceptors/
+
+auth.interceptor.ts
+
+
+
+
+features/
+
+auth/
+
+login/
+
+login.component.ts
+login.component.html
+login.component.scss
+
+
+register/
+
+register.component.ts
+register.component.html
+register.component.scss
+
+
+
+
+dashboard/
+
+dashboard.component.ts
+dashboard.component.html
+dashboard.component.scss
+
+
+
+
+interfaces/
+
+user.interface.ts
+
+
+assets/
+
+images/
+styles/
+
+
+
+
+environments/
+
+environment.ts
+environment.prod.ts
+
+
+styles.scss
+index.html
+main.ts
+
+
+
+Общее количество файлов: 17 (включая 3 файла для каждого из 3 компонентов, 2 guards, 2 сервиса, 1 перехватчик, 1 интерфейс, 2 файла окружений и основные файлы приложения).
+Назначение компонентов:
+
+app/: Корневой компонент и конфигурация приложения (маршруты, провайдеры).
+core/guards/: Защита маршрутов (аутентификация, несохраненные изменения).
+core/services/: Логика авторизации и HTTP-запросы.
+core/interceptors/: Добавление токена в HTTP-запросы.
+features/auth/: Компоненты для форм входа и регистрации.
+features/dashboard/: Защищённый маршрут для авторизованных пользователей.
+interfaces/: Типизация данных пользователя.
+environments/: Конфигурация API для разработки и продакшена.
+assets/: Пустые папки для будущих ресурсов.
+styles.scss, index.html, main.ts: Глобальные стили, HTML-основа и точка входа.
+
+Если требуется уточнение или дополнение перечня, пожалуйста, сообщите.

@@ -1,74 +1,76 @@
-// src/app/shared/components/ui/icon/icon.component.ts
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IconService } from '@core/services/icon/icon.service';
-
-export type IconType =
-  | 'download'
-  | 'upload'
-  | 'delete'
-  | 'search'
-  | 'plus'
-  | 'settings'
-  | 'close'
-  | 'copy'
-  | 'code'
-  | 'chevron-up'
-  | 'chevron-down'
-  | 'info'
-  | (string & {});
 
 /**
  * Icon Component
  *
- * Компонент для отображения SVG иконок из папки assets/icons
- *
- * @example
- * <app-icon type="download" [size]="16"></app-icon>
- * <app-icon type="actions/av_add" [size]="20"></app-icon>
+ * Улучшенная версия с поддержкой Signals и автоматической очисткой SVG.
  */
 @Component({
   selector: 'app-icon',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <span
-      [style.width.px]="size"
-      [style.height.px]="size"
-      [style.display]="'inline-flex'"
-      [style.align-items]="'center'"
-      [style.justify-content]="'center'"
-      [innerHTML]="svgContent"
-    ></span>
+    <div
+      class="av-icon"
+      [style.width.px]="size()"
+      [style.height.px]="size()"
+      [innerHTML]="svgContent()"
+    ></div>
   `,
   styles: [
     `
       :host {
         display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        vertical-align: middle;
         line-height: 1;
       }
 
-      :host ::ng-deep svg {
+      .av-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
-        fill: currentColor;
+
+        ::ng-deep svg {
+          width: 100% !important;
+          height: 100% !important;
+          display: block;
+          /* Наследуем цвет от родителя */
+          fill: currentColor !important;
+
+          path,
+          circle,
+          rect,
+          polyline,
+          line,
+          polygon {
+            /* Если в SVG есть свои fill/stroke, перекрываем их */
+            fill: currentColor !important;
+            stroke: currentColor !important;
+            vector-effect: non-scaling-stroke;
+          }
+        }
       }
     `,
   ],
 })
-export class IconComponent implements OnInit {
+export class IconComponent {
   private iconService = inject(IconService);
   private sanitizer = inject(DomSanitizer);
 
-  @Input() type: IconType = 'download';
-  @Input() size: number = 24;
+  /** Тип иконки или путь (напр. 'delete' или 'actions/av_trash') */
+  type = input.required<string>();
 
-  svgContent: SafeHtml = '';
+  /** Размер в пикселях */
+  size = input<number>(24);
 
-  // Маппинг типов иконок на файлы в assets/icons
+  /** Обработанное содержимое SVG */
+  svgContent = signal<SafeHtml>('');
+
   private iconFileMap: Record<string, string> = {
     download: 'arrows/av_arrow_down.svg',
     upload: 'actions/av_upload.svg',
@@ -84,37 +86,48 @@ export class IconComponent implements OnInit {
     info: 'system/av_info.svg',
   };
 
-  ngOnInit(): void {
-    this.loadIcon();
+  constructor() {
+    // Реагируем на изменение type
+    effect(() => {
+      this.loadIcon(this.type());
+    });
   }
 
-  private loadIcon(): void {
-    const fileName = this.iconFileMap[this.type as string];
-    let iconPath = '';
+  private loadIcon(type: string): void {
+    if (!type) return;
 
-    if (fileName) {
-      iconPath = `assets/icons/${fileName}`;
-    } else {
-      // Если типа нет в мапе, пробуем загрузить как путь (например 'actions/av_search')
-      iconPath = `assets/icons/${this.type}.svg`;
-    }
+    const mappedFile = this.iconFileMap[type];
+    let iconPath = mappedFile ? `assets/icons/${mappedFile}` : type;
 
-    // Добавляем начальный слэш если его нет
-    if (!iconPath.startsWith('/')) {
-      iconPath = '/' + iconPath;
-    }
+    // Добавляем расширение и префикс если нужно
+    if (!iconPath.endsWith('.svg')) iconPath += '.svg';
+    if (!iconPath.startsWith('assets/')) iconPath = `assets/icons/${iconPath}`;
+
+    // HttpClient требует путь без ведущего слеша
+    if (iconPath.startsWith('/')) iconPath = iconPath.substring(1);
 
     this.iconService.getIcon(iconPath).subscribe({
-      next: (svgText) => {
-        this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgText);
+      next: (svgText: string) => {
+        // ГЛУБОКАЯ ОЧИСТКА SVG
+        const cleanedSvg = svgText
+          .replace(/<\?xml.*\?>/gi, '') // Убираем XML заголовок
+          .replace(/width="[^"]*"/gi, '') // Убираем жесткую ширину
+          .replace(/height="[^"]*"/gi, '') // Убираем жесткую высоту
+          // Заменяем все fill="..." на fill="currentColor", кроме none
+          .replace(/fill="(?!none)[^"]*"/gi, 'fill="currentColor"')
+          // Аналогично для stroke
+          .replace(/stroke="(?!none)[^"]*"/gi, 'stroke="currentColor"');
+
+        this.svgContent.set(this.sanitizer.bypassSecurityTrustHtml(cleanedSvg));
+        console.log(`[IconComponent] ✅ Rendered: ${iconPath}`);
       },
-      error: (err) => {
-        console.error(`Failed to load icon: ${iconPath}`, err);
-        // Fallback to simple SVG if file not found
-        this.svgContent = this.sanitizer.bypassSecurityTrustHtml(
-          `<svg width="${this.size}" height="${this.size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-          </svg>`,
+      error: (err: any) => {
+        console.error(`[IconComponent] ❌ Error loading: ${iconPath}`, err);
+        // Fallback: красный квадрат
+        this.svgContent.set(
+          this.sanitizer.bypassSecurityTrustHtml(
+            `<svg viewBox="0 0 24 24"><rect width="24" height="24" fill="red" opacity="0.5"/></svg>`,
+          ),
         );
       },
     });

@@ -1,0 +1,239 @@
+<div class="modal-ui-demo">
+  <div class="modal-ui-demo__header">
+    <h1>Modal UI Demo</h1>
+    <p>Демонстрация компонента модального окна с различными размерами и конфигурациями</p>
+    <div style="margin-top: 1rem">
+      <button av-button avType="primary" (clicked)="showHelpModal = true">Помощь по ModalService</button>
+    </div>
+  </div>
+
+  <!-- Модал помощи -->
+  <av-modal [(isOpen)]="showHelpModal" title="Руководство по ModalService" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Примеры использования в коде"
+        [content]="helpCode"
+        bgColor="#1e293b"
+      ></av-help-copy-container>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showHelpModal = false">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Базовое использование -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Базовое использование</h2>
+      <button class="code-toggle" (click)="toggleCode('basic')">
+        {{ showCode['basic'] ? 'Скрыть код' : 'Показать код' }}
+      </button>
+    </div>
+
+    <p class="demo-section__description">Простой модал с заголовком, содержимым и footer</p>
+
+    <div class="demo-section__preview">
+      <button av-button avType="primary" (clicked)="showBasicModal = true">Открыть модал</button>
+    </div>
+
+    @if (showCode['basic']) {
+    <pre class="code-block"><code>{{ basicCode }}</code></pre>
+    }
+
+    <!-- Базовый модал -->
+    <av-modal
+      [(isOpen)]="showBasicModal"
+      title="Базовый модал"
+      subtitle="Это простой пример модального окна"
+      size="medium"
+    >
+      <div modal-body>
+        <p>Содержимое модального окна</p>
+        <p>Здесь может быть любой контент</p>
+      </div>
+
+      <div modal-footer>
+        <button av-button avType="default" (clicked)="showBasicModal = false">Отмена</button>
+        <button av-button avType="primary" (clicked)="showBasicModal = false">Сохранить</button>
+      </div>
+    </av-modal>
+  </section>
+
+  <!-- Размеры -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Разные размеры</h2>
+      <button class="code-toggle" (click)="toggleCode('sizes')">
+        {{ showCode['sizes'] ? 'Скрыть код' : 'Показать код' }}
+      </button>
+    </div>
+
+    <p class="demo-section__description">
+      Модалы поддерживают размеры: small (400px), medium (600px), large (800px), xlarge (1000px), fullscreen
+    </p>
+
+    <div class="demo-section__preview">
+      <button av-button avType="default" (clicked)="openModal('small')">Small</button>
+      <button av-button avType="default" (clicked)="openModal('medium')">Medium</button>
+      <button av-button avType="default" (clicked)="openModal('large')">Large</button>
+      <button av-button avType="default" (clicked)="openModal('xlarge')">XLarge</button>
+      <button av-button avType="default" (clicked)="openModal('fullscreen')">Fullscreen</button>
+    </div>
+
+    @if (showCode['sizes']) {
+    <pre class="code-block"><code>{{ sizesCode }}</code></pre>
+    }
+
+    <av-modal [(isOpen)]="showSizeModal" [title]="'Modal ' + currentSize" [size]="currentSize">
+      <div modal-body>
+        <p>Размер: {{ currentSize }}</p>
+        <p>Этот модал демонстрирует размер "{{ currentSize }}"</p>
+      </div>
+
+      <div modal-footer>
+        <button av-button avType="default" (clicked)="showSizeModal = false">Закрыть</button>
+      </div>
+    </av-modal>
+  </section>
+
+  <!-- Позиционирование -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Позиционирование</h2>
+      <button class="code-toggle" (click)="toggleCode('position')">
+        {{ showCode['position'] ? 'Скрыть код' : 'Показать код' }}
+      </button>
+    </div>
+
+    <p class="demo-section__description">Модалы могут быть расположены: center, top, bottom</p>
+
+    <div class="demo-section__preview">
+      <button av-button avType="default" (clicked)="openPositionModal('center')">Center</button>
+      <button av-button avType="default" (clicked)="openPositionModal('top')">Top</button>
+      <button av-button avType="default" (clicked)="openPositionModal('bottom')">Bottom</button>
+    </div>
+
+    @if (showCode['position']) {
+    <pre class="code-block"><code>{{ positionCode }}</code></pre>
+    }
+
+    <av-modal [(isOpen)]="showPositionModal" [title]="'Position: ' + currentPosition" [position]="currentPosition">
+      <div modal-body>
+        <p>Этот модал расположен: {{ currentPosition }}</p>
+      </div>
+
+      <div modal-footer>
+        <button av-button avType="default" (clicked)="showPositionModal = false">Закрыть</button>
+      </div>
+    </av-modal>
+  </section>
+
+  <!-- Конфигурация -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Конфигурация</h2>
+      <button class="code-toggle" (click)="toggleCode('config')">
+        {{ showCode['config'] ? 'Скрыть код' : 'Показать код' }}
+      </button>
+    </div>
+
+    <p class="demo-section__description">Настройка поведения модала: backdrop, ESC, кнопка закрытия</p>
+
+    <div class="demo-section__preview">
+      <button av-button avType="default" (clicked)="showNoBackdropModal = true">Без backdrop</button>
+      <button av-button avType="default" (clicked)="showNoEscModal = true">Без ESC</button>
+      <button av-button avType="default" (clicked)="showNoCloseButtonModal = true">Без кнопки X</button>
+    </div>
+
+    @if (showCode['config']) {
+    <pre class="code-block"><code>{{ configCode }}</code></pre>
+    }
+
+    <!-- Без backdrop -->
+    <av-modal [(isOpen)]="showNoBackdropModal" title="Без backdrop" [showBackdrop]="false" [closeOnEsc]="true">
+      <div modal-body>
+        <p>Этот модал без затемненного фона</p>
+      </div>
+      <div modal-footer>
+        <button av-button avType="default" (clicked)="showNoBackdropModal = false">Закрыть</button>
+      </div>
+    </av-modal>
+
+    <!-- Без ESC -->
+    <av-modal [(isOpen)]="showNoEscModal" title="Без закрытия по ESC" [closeOnEsc]="false">
+      <div modal-body>
+        <p>Этот модал не закроется по нажатию ESC</p>
+      </div>
+      <div modal-footer>
+        <button av-button avType="default" (clicked)="showNoEscModal = false">Закрыть</button>
+      </div>
+    </av-modal>
+
+    <!-- Без кнопки закрытия -->
+    <av-modal [(isOpen)]="showNoCloseButtonModal" title="Без кнопки закрытия" [showCloseButton]="false">
+      <div modal-body>
+        <p>У этого модала нет кнопки X</p>
+      </div>
+      <div modal-footer>
+        <button av-button avType="default" (clicked)="showNoCloseButtonModal = false">Закрыть</button>
+      </div>
+    </av-modal>
+  </section>
+
+  <!-- Центрированные диалоги -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Диалоги с иконками (Centered)</h2>
+      <button class="code-toggle" (click)="toggleCode('centered')">
+        {{ showCode['centered'] ? 'Скрыть код' : 'Показать код' }}
+      </button>
+    </div>
+
+    <p class="demo-section__description">
+      Специальный режим для диалогов подтверждения и уведомлений с крупными иконками и центрированным текстом.
+    </p>
+
+    <div class="demo-section__preview">
+      <button av-button avType="danger" (clicked)="openSpecialDelete()">Удалить отчет (Design)</button>
+      <button av-button avType="danger" (clicked)="openCenteredDelete()">Удаление (Centered)</button>
+      <button av-button avType="primary" (clicked)="modalService.success('Проект успешно создан!', 'Готово', true)">
+        Успех (Centered)
+      </button>
+      <button av-button avType="danger" (clicked)="modalService.error('Ошибка при сохранении данных.', 'Ошибка', true)">
+        Ошибка (Centered)
+      </button>
+    </div>
+
+    @if (showCode['centered']) {
+    <pre class="code-block"><code>{{ centeredCode }}</code></pre>
+    }
+  </section>
+
+  <!-- ModalService -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>ModalService</h2>
+      <button class="code-toggle" (click)="toggleCode('service')">
+        {{ showCode['service'] ? 'Скрыть код' : 'Показать код' }}
+      </button>
+    </div>
+
+    <p class="demo-section__description">
+      Программное открытие модалов через сервис с передачей данных и получением результата.
+    </p>
+
+    <div class="demo-section__preview">
+      <button av-button avType="primary" (clicked)="openWithService()">Открыть через сервис</button>
+      <button av-button avType="default" (clicked)="openNestedModals()">Вложенные модалы</button>
+      <button av-button avType="danger" (clicked)="openConfirm()">Confirm (Стандартный)</button>
+      <button av-button avType="default" (clicked)="openAlerts()">Alerts (Все типы)</button>
+      <button av-button avType="default" (clicked)="modalService.closeAll()">Закрыть все</button>
+    </div>
+
+    @if (showCode['service']) {
+    <pre class="code-block"><code>{{ serviceCode }}</code></pre>
+    }
+
+    <p class="info-text">Открыто модалов: {{ modalService.getOpenModalsCount() }}</p>
+  </section>
+</div>

@@ -1,12 +1,17 @@
-import { Component, inject, Injectable, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, Injectable, OnDestroy } from '@angular/core';
+import { NavigationStart, Router, Event as RouterEvent } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
-import { Router, NavigationStart, Event as RouterEvent } from '@angular/router';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Subject } from 'rxjs';
-import { errorMessages, errorRecommendations, ErrorResponse, errorTitles } from '../models/error-response.model';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 import { LoggingService } from '../../logging/logging.service';
+import {
+  errorMessages,
+  errorRecommendations,
+  ErrorResponse,
+  errorTitles,
+} from '../models/error-response.model';
 
 interface ErrorDisplayConfig {
   showModal: boolean;
@@ -30,11 +35,7 @@ interface ModalData {
     <div *ngIf="errorResponse">
       <div style="margin-bottom: 16px;">
         <strong>Описание:</strong>
-        {{
-          errorResponse.userMessage ||
-            errorResponse.detail ||
-            'Произошла ошибка'
-        }}
+        {{ errorResponse.userMessage || errorResponse.detail || 'Произошла ошибка' }}
       </div>
       <div *ngIf="errorResponse.entityName" style="margin-bottom: 8px;">
         <strong>Затронутый объект:</strong> {{ errorResponse.entityName }}
@@ -64,12 +65,8 @@ interface ModalData {
           <div *ngIf="errorResponse.correlationId">
             ID корреляции: {{ errorResponse.correlationId }}
           </div>
-          <div *ngIf="errorResponse.instance">
-            Endpoint: {{ errorResponse.instance }}
-          </div>
-          <div *ngIf="errorResponse.type">
-            Тип ошибки: {{ errorResponse.type }}
-          </div>
+          <div *ngIf="errorResponse.instance">Endpoint: {{ errorResponse.instance }}</div>
+          <div *ngIf="errorResponse.type">Тип ошибки: {{ errorResponse.type }}</div>
         </div>
       </div>
     </div>
@@ -79,9 +76,11 @@ interface ModalData {
   `,
 })
 export class ErrorModalContentComponent {
-  @Input() errorResponse: ErrorResponse | undefined;
-  @Input() config!: ErrorDisplayConfig;
-  @Input() recommendation: string | null = null;
+  readonly nzModalData = inject<ModalData>(NZ_MODAL_DATA);
+
+  errorResponse: ErrorResponse | undefined = this.nzModalData.errorResponse;
+  config: ErrorDisplayConfig = this.nzModalData.config;
+  recommendation: string | null = this.nzModalData.recommendation;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -172,10 +171,7 @@ export class ErrorHandlingService implements OnDestroy {
     this.closeAllModals();
   }
 
-  handleError(
-    errorResponse: ErrorResponse,
-    options?: Partial<ErrorDisplayConfig>
-  ): void {
+  handleError(errorResponse: ErrorResponse, options?: Partial<ErrorDisplayConfig>): void {
     try {
       this.validateErrorResponse(errorResponse);
       this.logError(errorResponse);
@@ -198,7 +194,7 @@ export class ErrorHandlingService implements OnDestroy {
   }
 
   closeAllModals(): void {
-    this.activeModals.forEach(modal => modal.close());
+    this.activeModals.forEach((modal) => modal.close());
     this.activeModals.clear();
     this.modalService.closeAll();
   }
@@ -210,7 +206,7 @@ export class ErrorHandlingService implements OnDestroy {
         filter((event: RouterEvent) => event instanceof NavigationStart),
         tap(() => {
           this.closeAllModals();
-        })
+        }),
       )
       .subscribe();
   }
@@ -222,9 +218,7 @@ export class ErrorHandlingService implements OnDestroy {
       !errorResponse.detail ||
       !errorResponse.instance
     ) {
-      throw new Error(
-        'Invalid ErrorResponse: missing required fields (title, detail, instance)'
-      );
+      throw new Error('Invalid ErrorResponse: missing required fields (title, detail, instance)');
     }
   }
 
@@ -244,10 +238,7 @@ export class ErrorHandlingService implements OnDestroy {
     );
   }
 
-  private displayError(
-    errorResponse: ErrorResponse,
-    config: ErrorDisplayConfig
-  ): void {
+  private displayError(errorResponse: ErrorResponse, config: ErrorDisplayConfig): void {
     if (config.showMessage) {
       const userMessage = this.getUserFriendlyMessage(errorResponse);
       this.showErrorMessage(userMessage);
@@ -257,10 +248,7 @@ export class ErrorHandlingService implements OnDestroy {
     }
   }
 
-  private showErrorModal(
-    errorResponse: ErrorResponse,
-    config: ErrorDisplayConfig
-  ): void {
+  private showErrorModal(errorResponse: ErrorResponse, config: ErrorDisplayConfig): void {
     if (!errorResponse) {
       this.fallbackErrorHandling();
       return;
@@ -281,6 +269,7 @@ export class ErrorHandlingService implements OnDestroy {
       nzData: modalData,
       nzClosable: true,
       nzOkText: 'Понятно',
+      nzCancelText: null,
       nzWidth: 600,
       nzClassName: 'error-modal',
       nzOnOk: () => {
@@ -299,9 +288,7 @@ export class ErrorHandlingService implements OnDestroy {
   }
 
   private generateModalKey(errorResponse: ErrorResponse): string {
-    return `${errorResponse.status}_${
-      errorResponse.correlationId || Date.now()
-    }`;
+    return `${errorResponse.status}_${errorResponse.correlationId || Date.now()}`;
   }
 
   private closeModal(modalKey: string): void {
@@ -314,14 +301,12 @@ export class ErrorHandlingService implements OnDestroy {
 
   private buildModalTitle(errorResponse: ErrorResponse): string {
     const humanReadableTitle = this.getHumanReadableTitle(errorResponse);
-    const statusText =
-      errorTitles[errorResponse.status] || 'Неизвестная ошибка';
+    const statusText = errorTitles[errorResponse.status] || 'Неизвестная ошибка';
     return `${humanReadableTitle} (${statusText}: ${errorResponse.status})`;
   }
 
   private getHumanReadableTitle(errorResponse: ErrorResponse): string {
-    return errorResponse.title &&
-      !['OK', 'error', 'Error'].includes(errorResponse.title)
+    return errorResponse.title && !['OK', 'error', 'Error'].includes(errorResponse.title)
       ? errorResponse.title
       : errorTitles[errorResponse.status] || 'Неожиданная ошибка';
   }
@@ -337,9 +322,7 @@ export class ErrorHandlingService implements OnDestroy {
     ) {
       return errorResponse.detail;
     }
-    return (
-      errorMessages[errorResponse.status] || 'Произошла неопределенная ошибка.'
-    );
+    return errorMessages[errorResponse.status] || 'Произошла неопределенная ошибка.';
   }
 
   private getRecommendation(errorResponse: ErrorResponse): string | null {
@@ -363,9 +346,7 @@ export class ErrorHandlingService implements OnDestroy {
 
   private fallbackErrorHandling(): void {
     this.message.error(
-      'Произошла критическая ошибка в системе обработки ошибок. Обратитесь в техническую поддержку.'
+      'Произошла критическая ошибка в системе обработки ошибок. Обратитесь в техническую поддержку.',
     );
   }
-
-
 }

@@ -1,0 +1,54 @@
+<av-modal
+  [isOpen]="true"
+  [title]="config.centered ? undefined : config.title || 'Подтверждение'"
+  [subtitle]="config.centered ? undefined : config.subtitle"
+  [size]="config.size || 'small'"
+  [centered]="config.centered || false"
+  [closeOnBackdrop]="config.closeOnBackdrop !== false"
+  [closeOnEsc]="config.closeOnEsc !== false"
+  [showCloseButton]="config.centered ? false : config.showCloseButton !== false"
+  (closed)="onCancel()"
+>
+  <div modal-body class="confirm-body" [class.confirm-body--centered]="config.centered">
+    <div class="confirm-content">
+      <div class="confirm-icon" *ngIf="config.icon || config.confirmType">
+        <app-icon
+          [type]="config.icon || getDefaultIcon()"
+          [size]="config.centered ? 80 : 32"
+          [class]="'icon-' + (config.confirmType || 'primary')"
+        ></app-icon>
+      </div>
+      <div class="confirm-text-container">
+        <h2 class="confirm-title" *ngIf="config.centered && config.title">{{ config.title }}</h2>
+        <div class="confirm-message">
+          {{ config.message || 'Вы уверены, что хотите продолжить?' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div modal-footer [class.modal-footer--centered]="config.centered">
+    <ng-container *ngIf="config.centered; else standardFooter">
+      <button
+        av-button
+        [avType]="config.confirmType === 'danger' ? 'danger' : 'primary'"
+        avSize="large"
+        (clicked)="onConfirm()"
+      >
+        {{ config.confirmText || 'Подтвердить' }}
+      </button>
+      <button av-button avType="default" avSize="large" (clicked)="onCancel()">
+        {{ config.cancelText || 'Отмена' }}
+      </button>
+    </ng-container>
+
+    <ng-template #standardFooter>
+      <button av-button avType="default" (clicked)="onCancel()">
+        {{ config.cancelText || 'Отмена' }}
+      </button>
+      <button av-button [avType]="config.confirmType === 'danger' ? 'danger' : 'primary'" (clicked)="onConfirm()">
+        {{ config.confirmText || 'Подтвердить' }}
+      </button>
+    </ng-template>
+  </div>
+</av-modal>

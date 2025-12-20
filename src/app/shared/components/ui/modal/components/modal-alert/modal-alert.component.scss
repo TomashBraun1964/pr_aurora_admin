@@ -1,0 +1,104 @@
+.alert-body {
+  padding: 1rem 0;
+
+  &--centered {
+    padding: 1.5rem 1rem;
+
+    .alert-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .alert-icon {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 80px;
+
+      app-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+      }
+
+      ::ng-deep svg {
+        width: 100% !important;
+        height: 100% !important;
+        fill: currentColor !important;
+
+        path,
+        circle,
+        rect,
+        polyline,
+        line,
+        polygon {
+          fill: currentColor !important;
+          stroke: currentColor !important;
+        }
+      }
+    }
+
+    .alert-title {
+      margin: 0 0 1rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .alert-message {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+  }
+}
+
+.alert-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.alert-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .icon-info {
+    color: var(--info-color, #1890ff);
+  }
+  .icon-error {
+    color: var(--error-color, #ff4d4f);
+  }
+  .icon-warning {
+    color: var(--warning-color, #faad14);
+  }
+  .icon-success {
+    color: var(--success-color, #52c41a);
+  }
+}
+
+.alert-message {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text, #1a1a1a);
+}
+
+.modal-footer--centered {
+  justify-content: center;
+  border-top: none;
+  padding: 1rem 1.5rem 2.5rem;
+
+  button {
+    min-width: 140px;
+    height: 44px;
+    font-size: 1rem;
+  }
+}

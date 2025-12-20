@@ -1,0 +1,122 @@
+.confirm-body {
+  padding: 1rem 0;
+
+  &--centered {
+    padding: 2rem 1.5rem 1rem;
+
+    .confirm-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .confirm-icon {
+      margin-bottom: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 80px;
+
+      app-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+      }
+
+      ::ng-deep svg {
+        width: 100% !important;
+        height: 100% !important;
+        fill: currentColor !important;
+
+        path,
+        circle,
+        rect,
+        polyline,
+        line,
+        polygon {
+          fill: currentColor !important;
+          stroke: currentColor !important;
+        }
+      }
+    }
+
+    .confirm-title {
+      margin: 0 0 1.25rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .confirm-message {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.confirm-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.confirm-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.icon-primary,
+  .icon-primary,
+  &.icon-info,
+  .icon-info {
+    color: #1890ff !important;
+  }
+
+  &.icon-danger,
+  .icon-danger,
+  &.icon-error,
+  .icon-error {
+    color: #ff4d4f !important;
+  }
+
+  &.icon-warning,
+  .icon-warning {
+    color: #faad14 !important;
+  }
+
+  &.icon-success,
+  .icon-success {
+    color: #52c41a !important;
+  }
+}
+
+.confirm-text-container {
+  flex: 1;
+}
+
+.confirm-message {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.modal-footer--centered {
+  justify-content: center;
+  border-top: none;
+  padding: 1rem 1.5rem 2.5rem;
+  gap: 1rem;
+
+  button {
+    min-width: 140px;
+    height: 44px;
+    font-size: 1rem;
+  }
+}

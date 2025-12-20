@@ -11,7 +11,8 @@
       "Bash(then find \"$APPDATA/Code\" -name \"*ui-demo*\" -type f)",
       "Bash(else echo \"VS Code AppData not found\")",
       "Bash(fi)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(npm install:*)"
     ]
   }
 }

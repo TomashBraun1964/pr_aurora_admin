@@ -28,4 +28,19 @@ export const UI_DEMO_ROUTES: Routes = [
     path: 'icon-ui',
     loadComponent: () => import('./icon-ui/icon-ui.component').then((m) => m.IconUiComponent),
   },
+  {
+    path: 'modal-ui',
+    loadComponent: () => import('./modal-ui/modal-ui.component').then((m) => m.ModalUiComponent),
+  },
+  {
+    path: 'search-ui',
+    loadComponent: () => import('./search-ui/search-ui.component').then((m) => m.SearchUiComponent),
+  },
+  {
+    path: 'help-copy-container-ui',
+    loadComponent: () =>
+      import('./av-help-copy-container-ui/av-help-copy-container-ui.component').then(
+        (m) => m.HelpCopyContainerUiComponent,
+      ),
+  },
 ];

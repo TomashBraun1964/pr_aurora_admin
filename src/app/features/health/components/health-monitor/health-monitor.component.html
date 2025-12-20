@@ -1,0 +1,81 @@
+<div class="health-container">
+  <header class="monitor-header">
+    <div class="title-group">
+      <h1>Мониторинг системы</h1>
+      <div class="status-badge" [class]="status().status.toLowerCase()">
+        <app-health-indicator [status]="status().status" [pulse]="true"></app-health-indicator>
+        <span>{{ status().status }}</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <span class="last-check" *ngIf="status().lastCheck">Обновлено: {{ status().lastCheck | date : 'HH:mm:ss' }}</span>
+      <button class="refresh-btn" (click)="refresh()" [disabled]="isLoading()">
+        <span *ngIf="!isLoading()">🔄 Обновить</span>
+        <span *ngIf="isLoading()">⌛ Загрузка...</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Карточки быстрой статистики -->
+  <div class="quick-stats">
+    <div class="stat-card">
+      <label>CPU</label>
+      <div class="value">{{ metrics()?.cpuUsagePercentage || 0 }}%</div>
+      <div class="progress-bar">
+        <div class="fill" [style.width.%]="metrics()?.cpuUsagePercentage || 0"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <label>ОЗУ</label>
+      <div class="value">{{ metrics()?.getMemoryUsagePercentage() || 0 }}%</div>
+      <div class="progress-bar">
+        <div class="fill" [style.width.%]="metrics()?.getMemoryUsagePercentage() || 0"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <label>Uptime</label>
+      <div class="value">{{ metrics()?.getUptimeFormatted() || '0m' }}</div>
+    </div>
+  </div>
+
+  <!-- Табы -->
+  <nav class="monitor-tabs">
+    <button [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">Обзор</button>
+    <button [class.active]="activeTab() === 'metrics'" (click)="setTab('metrics')">Метрики</button>
+    <button [class.active]="activeTab() === 'logs'" (click)="setTab('logs')">Логи</button>
+  </nav>
+
+  <main class="tab-content" [ngSwitch]="activeTab()">
+    <div *ngSwitchCase="'overview'" class="overview-grid">
+      <section class="info-panel">
+        <h3>Доступность API</h3>
+        <p>
+          Среда: <strong>{{ status().environment || 'N/A' }}</strong>
+        </p>
+        <p>
+          Версия: <strong>{{ status().version || '1.0.0' }}</strong>
+        </p>
+        <p>
+          Response Time: <strong>{{ status().responseTime }}ms</strong>
+        </p>
+      </section>
+
+      <section class="alerts-panel" *ngIf="alerts().length > 0">
+        <h3>Активные уведомления</h3>
+        <div class="alert-item" *ngFor="let alert of alerts()" [class]="alert.severity">
+          <span>{{ alert.message }}</span>
+          <small>{{ alert.timestamp | date : 'HH:mm' }}</small>
+        </div>
+      </section>
+    </div>
+
+    <div *ngSwitchCase="'metrics'">
+      <p>Здесь будет детализированный компонент ServerMetricsComponent...</p>
+    </div>
+
+    <div *ngSwitchCase="'logs'">
+      <app-health-logs></app-health-logs>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,302 @@
+// ===================================
+// Modal Backdrop
+// ===================================
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+// ===================================
+// Modal Panel
+// ===================================
+
+.modal-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.16), 0 12px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  z-index: 1010;
+  max-width: 95vw;
+  max-height: 90vh;
+}
+
+// ===================================
+// Modal Container (используется в компоненте)
+// ===================================
+
+.modal-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.16), 0 12px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  z-index: 1010;
+  max-width: 95vw;
+  max-height: 90vh;
+  min-height: 200px;
+
+  &--small {
+    width: 400px;
+  }
+
+  &--medium {
+    width: 600px;
+  }
+
+  &--large {
+    width: 800px;
+  }
+
+  &--xlarge {
+    width: 1000px;
+  }
+
+  &--fullscreen {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  // Позиционирование
+  &--top {
+    border-radius: 0 0 8px 8px;
+  }
+
+  &--bottom {
+    border-radius: 8px 8px 0 0;
+  }
+
+  // Центрированный режим (для диалогов с иконками)
+  &--centered {
+    .modal-header {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .modal-body {
+      padding-top: 40px;
+      padding-bottom: 20px;
+    }
+
+    .modal-footer {
+      border-top: none;
+      justify-content: center;
+      padding-top: 0;
+      padding-bottom: 40px;
+
+      > * {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  }
+}
+
+// ===================================
+// Modal Header
+// ===================================
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color, #e8e8e8);
+  flex-shrink: 0;
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-primary, #1a1a1a);
+  }
+
+  &__subtitle {
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary, #666666);
+  }
+
+  &__close {
+    flex-shrink: 0;
+    margin-left: 16px;
+    padding: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--text-secondary, #999999);
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--bg-secondary, #f5f5f5);
+      color: var(--text-primary, #1a1a1a);
+    }
+  }
+}
+
+// ===================================
+// Modal Body
+// ===================================
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+// ===================================
+// Modal Footer
+// ===================================
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem;
+  gap: 0.75rem;
+  border-top: 1px solid var(--border-color, #e8e8e8);
+  flex-shrink: 0;
+  background-color: var(--bg-secondary-light, #fafafa);
+  border-radius: 0 0 8px 8px;
+
+  // Стили для контента внутри footer
+  > * {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  &--loading {
+    pointer-events: none;
+  }
+
+  &__loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 1;
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f0f0f0;
+      border-top-color: #1890ff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    span {
+      color: #666666;
+      font-size: 14px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ===================================
+// Адаптивность
+// ===================================
+
+// Планшеты
+@media (max-width: 1024px) {
+  .modal-container {
+    &--large {
+      width: 90vw;
+    }
+
+    &--xlarge {
+      width: 95vw;
+    }
+  }
+}
+
+// Мобильные устройства
+@media (max-width: 768px) {
+  .modal-container:not(.modal-container--fullscreen) {
+    width: 95vw;
+    max-width: none;
+    margin: 16px;
+  }
+
+  .modal-header {
+    padding: 12px 16px;
+
+    &__title {
+      font-size: 16px;
+    }
+
+    &__subtitle {
+      font-size: 13px;
+    }
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-footer {
+    padding: 12px 16px;
+
+    &__actions {
+      width: 100%;
+
+      button {
+        flex: 1;
+      }
+    }
+  }
+}
+
+// Минимальная ширина
+@media (max-width: 320px) {
+  .modal-container {
+    min-width: 320px;
+  }
+}

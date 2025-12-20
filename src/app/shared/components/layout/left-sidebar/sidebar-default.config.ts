@@ -21,6 +21,17 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
           route: '/dashboard',
         },
         {
+          id: 'health',
+          icon: 'heart',
+          label: 'Health Monitoring',
+          type: 'link',
+          route: '/health',
+          badge: {
+            value: 'Live',
+            intent: 'success',
+          },
+        },
+        {
           id: 'ui-demo',
           icon: 'appstore',
           label: 'UI Demo',
@@ -59,6 +70,24 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
               label: 'Icon UI',
               route: '/ui-demo/icon-ui',
               icon: 'picture',
+            },
+            {
+              id: 'modal-ui',
+              label: 'Modal UI',
+              route: '/ui-demo/modal-ui',
+              icon: 'border',
+            },
+            {
+              id: 'search-ui',
+              label: 'Search UI',
+              route: '/ui-demo/search-ui',
+              icon: 'search',
+            },
+            {
+              id: 'help-copy-ui',
+              label: 'Help Copy UI',
+              route: '/ui-demo/help-copy-container-ui',
+              icon: 'copy',
             },
           ],
         },
