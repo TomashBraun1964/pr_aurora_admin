@@ -1,18 +1,66 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
 import { HelpCopyContainerComponent } from '../../../shared/components/ui/container-help-copy-ui';
+import { ModalComponent } from '../../../shared/components/ui/modal';
 import { SearchInputComponent } from '../../../shared/components/ui/search/search.component';
 
 @Component({
   selector: 'app-search-ui',
   standalone: true,
-  imports: [CommonModule, SearchInputComponent, HelpCopyContainerComponent],
+  imports: [
+    CommonModule,
+    SearchInputComponent,
+    HelpCopyContainerComponent,
+    ModalComponent,
+    ButtonDirective,
+  ],
   template: `
     <div class="demo-container">
       <header class="demo-header">
-        <h1>Standard Live Search</h1>
-        <p>Компонент поиска с поддержкой Signals, дебаунсом и кнопкой очистки.</p>
+        <div class="header-content">
+          <h1>Standard Live Search</h1>
+          <p>Компонент поиска с поддержкой Signals, дебаунсом и кнопкой очистки.</p>
+        </div>
+        <div class="header-actions">
+          <button av-button avType="default" (clicked)="showPrincipleModal.set(true)">
+            Принцип работы
+          </button>
+          <button av-button avType="primary" (clicked)="showHelpModal.set(true)">
+            Помощь по Search
+          </button>
+        </div>
       </header>
+
+      <!-- Модал принципа работы -->
+      <av-modal [(isOpen)]="showPrincipleModal" title="Принцип работы Search" size="large">
+        <div modal-body>
+          <av-help-copy-container
+            title="Архитектура и логика"
+            [content]="principleSearchCode"
+            bgColor="#0f172a"
+          ></av-help-copy-container>
+        </div>
+        <div modal-footer>
+          <button av-button avType="default" (clicked)="showPrincipleModal.set(false)">
+            Закрыть
+          </button>
+        </div>
+      </av-modal>
+
+      <!-- Модал помощи -->
+      <av-modal [(isOpen)]="showHelpModal" title="Настройка компонента Search" size="large">
+        <div modal-body>
+          <av-help-copy-container
+            title="Варианты конфигурации"
+            [content]="helpSearchCode"
+            bgColor="#1e293b"
+          ></av-help-copy-container>
+        </div>
+        <div modal-footer>
+          <button av-button avType="default" (clicked)="showHelpModal.set(false)">Закрыть</button>
+        </div>
+      </av-modal>
 
       <section class="demo-section">
         <h3>Пример внедрения</h3>
@@ -75,12 +123,23 @@ import { SearchInputComponent } from '../../../shared/components/ui/search/searc
 
       .demo-header {
         margin-bottom: 40px;
-        h1 {
-          margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .header-content {
+          h1 {
+            margin-bottom: 8px;
+          }
+          p {
+            color: #64748b;
+            font-size: 1.1rem;
+          }
         }
-        p {
-          color: #64748b;
-          font-size: 1.1rem;
+
+        .header-actions {
+          display: flex;
+          gap: 12px;
         }
       }
 
@@ -154,11 +213,77 @@ import { SearchInputComponent } from '../../../shared/components/ui/search/searc
 export class SearchUiComponent {
   searchQuery = signal('');
   currentSearch = signal('');
+  showHelpModal = signal(false);
+  showPrincipleModal = signal(false);
 
   handleSearch(query: string) {
     console.log('🔍 Search triggered:', query);
     this.currentSearch.set(query);
   }
+
+  principleSearchCode = `ПРИНЦИП РАБОТЫ КОМПОНЕНТА SEARCH
+
+1. РЕАКТИВНОСТЬ (Signals)
+   Компонент использует Angular Signals для управления состоянием.
+   Свойство [(value)] является двусторонним сигналом (model),
+   что обеспечивает мгновенную синхронизацию данных.
+
+2. ЖИВОЙ ПОИСК (Debounce)
+   При вводе текста срабатывает встроенный механизм задержки (300мс).
+   Это предотвращает избыточные вызовы API при каждом нажатии клавиши.
+   Событие (onSearch) генерируется только после паузы в наборе.
+
+3. ПРИНУДИТЕЛЬНЫЙ ПОИСК
+   Нажатие кнопки "Найти" или клавиши Enter игнорирует дебаунс
+   и немедленно вызывает событие (onSearch).
+
+4. ОЧИСТКА (Clear)
+   Кнопка "X" появляется только при наличии текста.
+   При нажатии она обнуляет сигнал и немедленно уведомляет родителя.
+
+5. ДОСТУПНОСТЬ
+   Поддерживается управление с клавиатуры:
+   - Enter: Выполнить поиск
+   - Escape: Очистить поле`;
+
+  helpSearchCode = `// ВАРИАНТЫ НАСТРОЙКИ КОМПОНЕНТА SEARCH
+
+// 1. БАЗОВЫЙ ПОИСК (с дебаунсом 300мс)
+<av-search
+  [(value)]="query"
+  (onSearch)="handle($event)"
+></av-search>
+
+// 2. ПОИСК С КНОПКОЙ И КАСТОМНЫМ ТЕКСТОМ
+<av-search
+  avButtonText="Найти пользователя"
+  avPlaceholder="Введите имя..."
+  (onSearch)="handle($event)"
+></av-search>
+
+// 3. РАЗНЫЕ РАЗМЕРЫ (small, default, large)
+<av-search avSize="small"></av-search>
+<av-search avSize="large"></av-search>
+
+// 4. ПОЛНЫЙ ПРИМЕР С ОБРАБОТКОЙ
+@Component({
+  template: \`
+    <av-search
+      [(value)]="search"
+      (onSearch)="onSearch($event)"
+      avPlaceholder="Поиск по ID..."
+    ></av-search>
+  \`
+})
+export class MyComp {
+  search = signal('');
+
+  onSearch(val: string) {
+    if (val.length > 2) {
+      this.api.find(val).subscribe(...);
+    }
+  }
+}`;
 
   codeSnippet = `// 1. Импорт в компоненте
 import { SearchInputComponent } from '@shared/components/ui/search';

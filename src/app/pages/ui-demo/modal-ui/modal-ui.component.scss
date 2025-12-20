@@ -5,18 +5,28 @@
 
   &__header {
     margin-bottom: 3rem;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--color-text, #1a1a1a);
+    .header-content {
+      text-align: left;
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--color-text, #1a1a1a);
+      }
+
+      p {
+        font-size: 1.125rem;
+        color: var(--color-text-secondary, #666);
+      }
     }
 
-    p {
-      font-size: 1.125rem;
-      color: var(--color-text-secondary, #666);
+    .header-actions {
+      display: flex;
+      gap: 12px;
     }
   }
 }

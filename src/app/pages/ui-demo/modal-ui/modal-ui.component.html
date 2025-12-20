@@ -1,9 +1,12 @@
 <div class="modal-ui-demo">
   <div class="modal-ui-demo__header">
-    <h1>Modal UI Demo</h1>
-    <p>Демонстрация компонента модального окна с различными размерами и конфигурациями</p>
-    <div style="margin-top: 1rem">
+    <div class="header-content">
+      <h1>Modal UI Demo</h1>
+      <p>Демонстрация компонента модального окна с различными размерами и конфигурациями</p>
+    </div>
+    <div class="header-actions">
       <button av-button avType="primary" (clicked)="showHelpModal = true">Помощь по ModalService</button>
+      <button av-button avType="default" (clicked)="showPrincipleModal = true">Принцип работы</button>
     </div>
   </div>
 
@@ -18,6 +21,20 @@
     </div>
     <div modal-footer>
       <button av-button avType="default" (clicked)="showHelpModal = false">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Модал принципа работы -->
+  <av-modal [(isOpen)]="showPrincipleModal" title="Принцип работы модальной системы" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Архитектура и логика"
+        [content]="principleModalCode"
+        bgColor="#0f172a"
+      ></av-help-copy-container>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showPrincipleModal = false">Закрыть</button>
     </div>
   </av-modal>
 

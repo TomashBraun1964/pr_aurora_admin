@@ -20,6 +20,7 @@ export class ModalUiComponent {
   showNoEscModal = false;
   showNoCloseButtonModal = false;
   showHelpModal = false;
+  showPrincipleModal = false;
 
   currentSize: any = 'medium';
   currentPosition: any = 'center';
@@ -234,7 +235,32 @@ const isOk = await this.modalService.confirm({
 
 // 4. БЫСТРЫЕ УВЕДОМЛЕНИЯ (ALERTS)
 this.modalService.info('Система обновлена');
-this.modalService.warning('Низкий заряд батареи');`;
+this.modalService.warning('Низкий заряд батареи');
+`;
+
+  principleModalCode = `ПРИНЦИП РАБОТЫ МОДАЛЬНОЙ СИСТЕМЫ
+
+1. АРХИТЕКТУРА (Angular CDK Overlay)
+   Система построена на базе Angular CDK Overlay. Это гарантирует:
+   - Правильное наложение (Z-index) вне иерархии DOM приложения.
+   - Управление фокусом (Focus Trapping).
+   - Обработку кликов по бэкдропу и клавиши ESC.
+
+2. PROMISE-BASED API
+   В отличие от стандартных подходов с Observables, ModalService использует Promises.
+   Это позволяет писать чистый асинхронный код:
+
+   if (await modal.confirm(...)) {
+     // действие
+   }
+
+3. ДИНАМИЧЕСКИЙ КОНТЕНТ
+   Используется ComponentPortal для рендеринга любого Angular-компонента
+   внутри модального окна с сохранением Dependency Injection.
+
+4. СТИЛИЗАЦИЯ (BEM + CSS Variables)
+   Все размеры и отступы контролируются через CSS-переменные,
+   что позволяет легко менять тему оформления без правки JS-кода.`;
 
   constructor(public modalService: ModalService) {}
 
