@@ -1,6 +1,6 @@
 <div
   *ngIf="isOpen"
-  class="modal-wrapper"
+  [class]="wrapperClasses.join(' ')"
   (keydown)="onKeyDown($event)"
   [@modal]="'enter'"
   role="dialog"

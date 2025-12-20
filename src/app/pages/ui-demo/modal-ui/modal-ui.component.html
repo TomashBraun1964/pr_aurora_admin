@@ -37,7 +37,7 @@
     </div>
 
     @if (showCode['basic']) {
-    <pre class="code-block"><code>{{ basicCode }}</code></pre>
+    <av-help-copy-container [content]="basicCode" title="Базовый шаблон"></av-help-copy-container>
     }
 
     <!-- Базовый модал -->
@@ -81,7 +81,7 @@
     </div>
 
     @if (showCode['sizes']) {
-    <pre class="code-block"><code>{{ sizesCode }}</code></pre>
+    <av-help-copy-container [content]="sizesCode" title="Размеры (Template)"></av-help-copy-container>
     }
 
     <av-modal [(isOpen)]="showSizeModal" [title]="'Modal ' + currentSize" [size]="currentSize">
@@ -114,7 +114,7 @@
     </div>
 
     @if (showCode['position']) {
-    <pre class="code-block"><code>{{ positionCode }}</code></pre>
+    <av-help-copy-container [content]="positionCode" title="Позиционирование (Template)"></av-help-copy-container>
     }
 
     <av-modal [(isOpen)]="showPositionModal" [title]="'Position: ' + currentPosition" [position]="currentPosition">
@@ -146,7 +146,7 @@
     </div>
 
     @if (showCode['config']) {
-    <pre class="code-block"><code>{{ configCode }}</code></pre>
+    <av-help-copy-container [content]="configCode" title="Конфигурация (Template)"></av-help-copy-container>
     }
 
     <!-- Без backdrop -->
@@ -205,7 +205,10 @@
     </div>
 
     @if (showCode['centered']) {
-    <pre class="code-block"><code>{{ centeredCode }}</code></pre>
+    <av-help-copy-container
+      [content]="centeredCode"
+      title="Центрированные диалоги (TypeScript)"
+    ></av-help-copy-container>
     }
   </section>
 
@@ -231,7 +234,7 @@
     </div>
 
     @if (showCode['service']) {
-    <pre class="code-block"><code>{{ serviceCode }}</code></pre>
+    <av-help-copy-container [content]="serviceCode" title="ModalService API (TypeScript)"></av-help-copy-container>
     }
 
     <p class="info-text">Открыто модалов: {{ modalService.getOpenModalsCount() }}</p>

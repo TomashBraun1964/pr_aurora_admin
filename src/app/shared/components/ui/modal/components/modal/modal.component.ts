@@ -130,6 +130,11 @@ export class ModalComponent implements OnInit, OnDestroy {
     return classes;
   }
 
+  /** CSS классы для обертки */
+  get wrapperClasses(): string[] {
+    return ['modal-wrapper', `modal-wrapper--${this.position}`];
+  }
+
   ngOnInit(): void {
     if (this.isOpen) {
       this.onOpen();
