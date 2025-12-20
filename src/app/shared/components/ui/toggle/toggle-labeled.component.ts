@@ -29,7 +29,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         <span class="av-toggle-labeled__label av-toggle-labeled__label--right">
           {{ rightLabel }}
         </span>
-        <span class="av-toggle-labeled__thumb"></span>
+        <span class="av-toggle-labeled__thumb" [style.background]="thumbColor"></span>
       </label>
     </div>
   `,
@@ -241,8 +241,23 @@ export class ToggleLabeledComponent implements ControlValueAccessor {
   @Input() checked = false;
   @Input() disabled = false;
   @Input() size: 'small' | 'default' | 'large' = 'default';
+  @Input() color: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
 
   @Output() checkedChange = new EventEmitter<boolean>();
+
+  get thumbColor(): string {
+    switch (this.color) {
+      case 'success':
+        return '#52c41a';
+      case 'warning':
+        return '#faad14';
+      case 'danger':
+        return '#ff4d4f';
+      case 'primary':
+      default:
+        return '#1890ff';
+    }
+  }
 
   inputId = `av-toggle-labeled-${Math.random().toString(36).substr(2, 9)}`;
 

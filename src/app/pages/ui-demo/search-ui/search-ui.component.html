@@ -1,0 +1,174 @@
+<div class="search-ui-demo">
+  <div class="search-ui-demo__header">
+    <div class="header-content">
+      <h1>Standard Live Search</h1>
+      <p>Компонент поиска с поддержкой Signals, дебаунсом и кнопкой очистки.</p>
+    </div>
+    <div class="header-actions">
+      <button av-button avType="default" (clicked)="showPrincipleModal.set(true)">Принцип работы</button>
+      <button av-button avType="primary" (clicked)="showHelpModal.set(true)">Помощь по Search</button>
+    </div>
+  </div>
+
+  <!-- Модал принципа работы -->
+  <av-modal [(isOpen)]="showPrincipleModal" title="Принцип работы Search" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Архитектура и логика"
+        [content]="principleSearchCode"
+        bgColor="#0f172a"
+      ></av-help-copy-container>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showPrincipleModal.set(false)">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Модал помощи -->
+  <av-modal [(isOpen)]="showHelpModal" title="Настройка компонента Search" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Варианты конфигурации"
+        [content]="helpSearchCode"
+        bgColor="#1e293b"
+      ></av-help-copy-container>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showHelpModal.set(false)">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Модал сгенерированного кода -->
+  <av-modal [(isOpen)]="showGeneratedCodeModal" title="Сгенерированный код поиска" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Готовый код для вашего компонента"
+        [content]="generatedCode()"
+        bgColor="#0a0e1a"
+      ></av-help-copy-container>
+      <div
+        style="
+          margin-top: 1rem;
+          padding: 1rem;
+          background: rgba(24, 144, 255, 0.1);
+          border-radius: 8px;
+          border-left: 4px solid #1890ff;
+        "
+      >
+        <p style="margin: 0; font-size: 0.875rem; color: var(--text-secondary, #666)">
+          💡 <strong>Совет:</strong> Используйте [(value)] для двусторонней связи и (onSearch) для обработки
+          результатов.
+        </p>
+      </div>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showGeneratedCodeModal = false">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Интерактивная площадка -->
+  <section class="demo-section demo-section--playground">
+    <div class="demo-section__header">
+      <h2>🎮 Интерактивная площадка</h2>
+    </div>
+    <p class="demo-section__description">Настройте параметры поиска и проверьте работу в реальном времени</p>
+
+    <div class="playground">
+      <!-- Панель управления -->
+      <div class="playground__controls">
+        <h3>Настройки</h3>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Placeholder:</span>
+            <input type="text" class="control-input" [(ngModel)]="playgroundPlaceholder" />
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Текст кнопки:</span>
+            <input type="text" class="control-input" [(ngModel)]="playgroundButtonText" />
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Размер (avSize):</span>
+            <select class="control-select" [(ngModel)]="playgroundSize">
+              <option value="small">Small</option>
+              <option value="default">Default</option>
+              <option value="large">Large</option>
+              <option value="x-large">X-Large</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Задержка (Debounce, мс):</span>
+            <input type="number" class="control-input" [(ngModel)]="playgroundDebounce" step="100" min="0" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Превью -->
+      <div class="playground__preview">
+        <h3>Результат</h3>
+        <div class="preview-container">
+          <av-search
+            [(value)]="searchQuery"
+            [avPlaceholder]="playgroundPlaceholder()"
+            [avButtonText]="playgroundButtonText()"
+            [avSize]="playgroundSize()"
+            [avDebounceTime]="playgroundDebounce()"
+            (onSearch)="handleSearch($event)"
+          ></av-search>
+
+          <div class="search-status">
+            <div class="search-status__item">
+              <label>Текущее значение (Model):</label>
+              <span>{{ searchQuery() || 'пусто' }}</span>
+            </div>
+            <div class="search-status__item">
+              <label>Последнее событие (onSearch):</label>
+              <span>{{ lastSearchEvent() || 'ожидание...' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Кнопка генерации кода -->
+        <div style="margin-top: 2rem; text-align: center">
+          <button av-button avType="primary" avSize="large" (clicked)="generatePlaygroundCode()">
+            📋 Сгенерировать код настройки
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Примеры размеров -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Доступные размеры</h2>
+    </div>
+    <div class="demo-section__preview">
+      <div class="size-item">
+        <label>Small</label>
+        <av-search avSize="small" avPlaceholder="Маленький поиск..."></av-search>
+      </div>
+      <div class="size-item">
+        <label>Default</label>
+        <av-search avSize="default" avPlaceholder="Обычный поиск..."></av-search>
+      </div>
+      <div class="size-item">
+        <label>Large</label>
+        <av-search avSize="large" avPlaceholder="Большой поиск..."></av-search>
+      </div>
+      <div class="size-item">
+        <label>X-Large</label>
+        <av-search avSize="x-large" avPlaceholder="Экстра-большой поиск..."></av-search>
+      </div>
+    </div>
+  </section>
+</div>

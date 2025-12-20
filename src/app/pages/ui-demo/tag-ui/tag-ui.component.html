@@ -7,6 +7,7 @@
     <div class="header-actions">
       <button av-button avType="primary" (clicked)="showHelpModal = true">Примеры использования</button>
       <button av-button avType="default" (clicked)="showPrincipleModal = true">Принцип работы</button>
+      <button av-button avType="primary" (clicked)="generateIntegrationCode()">📦 Полная интеграция</button>
     </div>
   </div>
 
@@ -37,6 +38,225 @@
       <button av-button avType="default" (clicked)="showPrincipleModal = false">Закрыть</button>
     </div>
   </av-modal>
+
+  <!-- Модал полной интеграции -->
+  <av-modal [(isOpen)]="showIntegrationModal" title="Полный пример интеграции тегов" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Готовый компонент с тегами"
+        [content]="integrationCode()"
+        bgColor="#0a0e1a"
+      ></av-help-copy-container>
+      <div
+        style="
+          margin-top: 1rem;
+          padding: 1rem;
+          background: rgba(52, 211, 153, 0.1);
+          border-radius: 8px;
+          border-left: 4px solid #34d399;
+        "
+      >
+        <p style="margin: 0; font-size: 0.875rem; color: var(--text-secondary, #666)">
+          💡 <strong>Совет:</strong> Этот пример показывает полную интеграцию системы тегов в компонент: импорты,
+          состояние, обработчики событий, шаблон и стили. Скопируйте и адаптируйте под свои нужды!
+        </p>
+      </div>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showIntegrationModal = false">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Модал сгенерированного кода -->
+  <av-modal [(isOpen)]="showGeneratedCodeModal" title="Сгенерированный код тегов" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Готовый код для вашего компонента"
+        [content]="generatedCode()"
+        bgColor="#0a0e1a"
+      ></av-help-copy-container>
+      <div
+        style="
+          margin-top: 1rem;
+          padding: 1rem;
+          background: rgba(24, 144, 255, 0.1);
+          border-radius: 8px;
+          border-left: 4px solid #1890ff;
+        "
+      >
+        <p style="margin: 0; font-size: 0.875rem; color: var(--text-secondary, #666)">
+          💡 <strong>Совет:</strong> Используйте этот код как основу для своего компонента.
+        </p>
+      </div>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showGeneratedCodeModal = false">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Интерактивная площадка -->
+  <section class="demo-section demo-section--playground">
+    <div class="demo-section__header">
+      <h2>🎮 Интерактивная площадка</h2>
+    </div>
+    <p class="demo-section__description">Настройте параметры и посмотрите, как выглядят теги в реальном времени</p>
+
+    <div class="playground">
+      <!-- Панель управления -->
+      <div class="playground__controls">
+        <h3>Настройки</h3>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Текст тега:</span>
+            <input type="text" class="control-input" [(ngModel)]="playgroundLabel" />
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Размер:</span>
+            <select class="control-select" [(ngModel)]="playgroundSize">
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Вариант:</span>
+            <select class="control-select" [(ngModel)]="playgroundVariant">
+              <option value="soft">Soft (мягкий)</option>
+              <option value="filled">Filled (сплошной)</option>
+              <option value="outlined">Outlined (контурный)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Форма:</span>
+            <select class="control-select" [(ngModel)]="playgroundShape">
+              <option value="rounded">Rounded (скругленный)</option>
+              <option value="pill">Pill (овальный)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Цвет (пресет или Hex):</span>
+            <select class="control-select" [(ngModel)]="playgroundColor">
+              <option value="primary">Primary (основной)</option>
+              <option value="success">Success (успех)</option>
+              <option value="warning">Warning (предупреждение)</option>
+              <option value="error">Error (ошибка)</option>
+              <option value="info">Info (инфо)</option>
+              <option value="neutral">Neutral (нейтральный)</option>
+              <option value="#8b5cf6">Custom Purple</option>
+              <option value="#ec4899">Custom Pink</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Иконка:</span>
+            <select class="control-select" [(ngModel)]="playgroundIcon">
+              <option [ngValue]="null">Без иконки</option>
+              <option value="actions/av_settings">Settings</option>
+              <option value="actions/av_user">User</option>
+              <option value="actions/av_star">Star</option>
+              <option value="actions/av_trash">Trash</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group control-group--checkbox">
+          <label class="control-checkbox">
+            <input type="checkbox" [(ngModel)]="playgroundRemovable" />
+            <span>Удаляемый (removable)</span>
+          </label>
+        </div>
+
+        <div class="control-group control-group--checkbox">
+          <label class="control-checkbox">
+            <input type="checkbox" [(ngModel)]="playgroundClickable" />
+            <span>Кликабельный (clickable)</span>
+          </label>
+        </div>
+
+        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--border-color, #eee)" />
+        <h3>Tag Input</h3>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Placeholder:</span>
+            <input type="text" class="control-input" [(ngModel)]="playgroundPlaceholder" />
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Max Tags:</span>
+            <input type="number" class="control-input" [(ngModel)]="playgroundMaxTags" min="1" />
+          </label>
+        </div>
+
+        <div class="control-group control-group--checkbox">
+          <label class="control-checkbox">
+            <input type="checkbox" [(ngModel)]="playgroundAllowDuplicates" />
+            <span>Разрешить дубликаты</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Превью -->
+      <div class="playground__preview">
+        <h3>Результат</h3>
+
+        <div class="preview-container">
+          <div class="preview-section">
+            <h4>Одиночный тег (av-tag)</h4>
+            <av-tag
+              [label]="playgroundLabel()"
+              [size]="playgroundSize()"
+              [variant]="playgroundVariant()"
+              [color]="playgroundColor()"
+              [shape]="playgroundShape()"
+              [removable]="playgroundRemovable()"
+              [clickable]="playgroundClickable()"
+              [icon]="playgroundIcon()"
+              (removed)="onTagRemove(playgroundLabel())"
+              (clicked)="onTagClick(playgroundLabel())"
+            >
+            </av-tag>
+          </div>
+
+          <div class="preview-section" style="margin-top: 2rem">
+            <h4>Поле ввода (av-tag-input)</h4>
+            <av-tag-input
+              [(tags)]="playgroundTags"
+              [placeholder]="playgroundPlaceholder()"
+              [allowDuplicates]="playgroundAllowDuplicates()"
+              [maxTags]="playgroundMaxTags()"
+              [variant]="playgroundVariant()"
+              [color]="playgroundColor()"
+            ></av-tag-input>
+          </div>
+        </div>
+
+        <!-- Кнопка генерации кода -->
+        <div style="margin-top: 2rem; text-align: center">
+          <button av-button avType="primary" avSize="large" (clicked)="generatePlaygroundCode()">
+            📋 Сгенерировать код настройки
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Базовое использование -->
   <section class="demo-section">

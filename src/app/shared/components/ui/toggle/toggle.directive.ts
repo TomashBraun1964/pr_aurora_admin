@@ -1,5 +1,13 @@
 // src/app/shared/components/ui/toggle/toggle.directive.ts
-import { Directive, ElementRef, HostBinding, Input, OnInit, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 
 /**
  * Toggle Directive
@@ -26,7 +34,7 @@ import { Directive, ElementRef, HostBinding, Input, OnInit, Renderer2 } from '@a
     class: 'av-toggle-input',
   },
 })
-export class ToggleDirective implements OnInit {
+export class ToggleDirective implements OnInit, OnChanges {
   /**
    * Размер переключателя
    * - small: 36px × 18px
@@ -54,17 +62,31 @@ export class ToggleDirective implements OnInit {
   constructor(private el: ElementRef<HTMLInputElement>, private renderer: Renderer2) {}
 
   ngOnInit(): void {
-    this.applyClasses();
+    this.updateClasses();
+  }
+
+  ngOnChanges(): void {
+    this.updateClasses();
   }
 
   /**
-   * Применяет классы к родительскому label элементу
+   * Обновляет классы родительского label элемента
    */
-  private applyClasses(): void {
+  private updateClasses(): void {
     const input = this.el.nativeElement;
     const label = input.closest('.av-toggle');
 
     if (label) {
+      // Очищаем старые классы модификаторов
+      const classesToRemove = [
+        'av-toggle--small',
+        'av-toggle--large',
+        'av-toggle--success',
+        'av-toggle--warning',
+        'av-toggle--danger',
+      ];
+      classesToRemove.forEach((cls) => this.renderer.removeClass(label, cls));
+
       // Размер
       if (this.avSize !== 'default') {
         this.renderer.addClass(label, `av-toggle--${this.avSize}`);
@@ -74,11 +96,6 @@ export class ToggleDirective implements OnInit {
       if (this.avColor !== 'primary') {
         this.renderer.addClass(label, `av-toggle--${this.avColor}`);
       }
-    } else {
-      console.warn(
-        'ToggleDirective: input должен быть внутри элемента с классом .av-toggle',
-        input,
-      );
     }
   }
 }

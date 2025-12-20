@@ -1,0 +1,251 @@
+<div class="toggle-ui-demo">
+  <div class="toggle-ui-demo__header">
+    <div class="header-content">
+      <h1>Toggle Component</h1>
+      <p>Переключатели в стиле iOS и Android с поддержкой Signal, форм и различных стилей.</p>
+    </div>
+    <div class="header-actions">
+      <button av-button avType="primary" (clicked)="showHelpModal = true">Инструкция</button>
+    </div>
+  </div>
+
+  <!-- Модал помощи (Инструкция) -->
+  <av-modal [(isOpen)]="showHelpModal" title="Как использовать Toggle" size="large">
+    <div modal-body>
+      <div class="help-content">
+        <div class="help-step">
+          <strong>📦 Вариант 1: Директива (avToggle)</strong>
+          <p>Навешивается на нативный checkbox. Это самый быстрый и легкий способ.</p>
+          <pre class="code-example"><code>&lt;label class="av-toggle"&gt;
+  &lt;input type="checkbox" avToggle [(ngModel)]="value" /&gt;
+  &lt;span class="av-toggle__slider"&gt;&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+        </div>
+        <div class="help-step">
+          <strong>🎨 Вариант 2: Компонент (av-toggle)</strong>
+          <p>Готовый компонент с поддержкой контента (label) и NgModel/FormControl.</p>
+          <pre
+            class="code-example"
+          ><code>&lt;av-toggle [(checked)]="value"&gt;Включить уведомления&lt;/av-toggle&gt;</code></pre>
+        </div>
+        <div class="help-step">
+          <strong>🎯 Вариант 3: Labeled Toggle (av-toggle-labeled)</strong>
+          <p>iOS-стиль с текстовыми метками внутри переключателя.</p>
+          <pre
+            class="code-example"
+          ><code>&lt;av-toggle-labeled [(checked)]="value" leftLabel="OFF" rightLabel="ON"&gt;&lt;/av-toggle-labeled&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showHelpModal = false">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Модал сгенерированного кода -->
+  <av-modal [(isOpen)]="showGeneratedCodeModal" title="Сгенерированный код Toggle" size="large">
+    <div modal-body>
+      <av-help-copy-container
+        title="Готовый код для вашего компонента"
+        [content]="generatedCode()"
+        bgColor="#0a0e1a"
+      ></av-help-copy-container>
+    </div>
+    <div modal-footer>
+      <button av-button avType="default" (clicked)="showGeneratedCodeModal = false">Закрыть</button>
+    </div>
+  </av-modal>
+
+  <!-- Интерактивная площадка -->
+  <section class="demo-section demo-section--playground">
+    <div class="demo-section__header">
+      <h2>🎮 Интерактивная площадка</h2>
+    </div>
+    <p class="demo-section__description">Настройте параметры переключателя и проверьте результат в реальном времени</p>
+
+    <div class="playground">
+      <!-- Панель управления -->
+      <div class="playground__controls">
+        <h3>Настройки</h3>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Тип компонента:</span>
+            <select class="control-select" [(ngModel)]="playgroundType">
+              <option value="directive">Directive (avToggle)</option>
+              <option value="component">Component (av-toggle)</option>
+              <option value="labeled">Labeled (iOS Style)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Размер (Size):</span>
+            <select class="control-select" [(ngModel)]="playgroundSize">
+              <option value="small">Small</option>
+              <option value="default">Default</option>
+              <option value="large">Large</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <span>Цвет (Color):</span>
+            <select class="control-select" [(ngModel)]="playgroundColor">
+              <option value="primary">Primary (синий)</option>
+              <option value="success">Success (зеленый)</option>
+              <option value="warning">Warning (желтый)</option>
+              <option value="danger">Danger (красный)</option>
+            </select>
+          </label>
+        </div>
+
+        @if (playgroundType() === 'component') {
+        <div class="control-group">
+          <label class="control-label">
+            <span>Текст (Label):</span>
+            <input type="text" class="control-input" [(ngModel)]="playgroundLabel" />
+          </label>
+        </div>
+        } @if (playgroundType() === 'labeled') {
+        <div class="control-group">
+          <label class="control-label">
+            <span>Левая метка:</span>
+            <input type="text" class="control-input" [(ngModel)]="playgroundLeftLabel" />
+          </label>
+        </div>
+        <div class="control-group">
+          <label class="control-label">
+            <span>Правая метка:</span>
+            <input type="text" class="control-input" [(ngModel)]="playgroundRightLabel" />
+          </label>
+        </div>
+        }
+
+        <div class="control-group control-group--checkbox">
+          <label class="control-checkbox">
+            <input type="checkbox" [(ngModel)]="playgroundDisabled" />
+            <span>Отключен (Disabled)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Превью -->
+      <div class="playground__preview">
+        <h3>Результат</h3>
+        <div class="preview-container">
+          @if (playgroundType() === 'directive') {
+          <label class="av-toggle">
+            <input
+              type="checkbox"
+              avToggle
+              [(ngModel)]="playgroundChecked"
+              [avSize]="playgroundSize()"
+              [avColor]="playgroundColor()"
+              [disabled]="playgroundDisabled()"
+            />
+            <span class="av-toggle__slider"></span>
+          </label>
+          } @if (playgroundType() === 'component') {
+          <av-toggle
+            [(checked)]="playgroundChecked"
+            [size]="playgroundSize()"
+            [color]="playgroundColor()"
+            [disabled]="playgroundDisabled()"
+          >
+            {{ playgroundLabel() }}
+          </av-toggle>
+          } @if (playgroundType() === 'labeled') {
+          <av-toggle-labeled
+            [(checked)]="playgroundChecked"
+            [size]="playgroundSize()"
+            [color]="playgroundColor()"
+            [leftLabel]="playgroundLeftLabel()"
+            [rightLabel]="playgroundRightLabel()"
+            [disabled]="playgroundDisabled()"
+          ></av-toggle-labeled>
+          }
+
+          <div class="toggle-status-info">
+            <span
+              >Состояние: <strong>{{ playgroundChecked() ? 'ВКЛ (Checked)' : 'ВЫКЛ (Unchecked)' }}</strong></span
+            >
+          </div>
+        </div>
+
+        <!-- Кнопка генерации кода -->
+        <div style="margin-top: 2rem; text-align: center">
+          <button av-button avType="primary" avSize="large" (clicked)="generatePlaygroundCode()">
+            📋 Сгенерировать код настройки
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Визуальные примеры -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Доступные размеры</h2>
+    </div>
+    <div class="demo-section__preview">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem">
+        <av-toggle [size]="'small'" [checked]="true">Small Size</av-toggle>
+        <av-toggle [size]="'default'" [checked]="true">Default Size</av-toggle>
+        <av-toggle [size]="'large'" [checked]="true">Large Size</av-toggle>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 1.5rem">
+        <av-toggle-labeled size="small" leftLabel="OFF" rightLabel="ON"></av-toggle-labeled>
+        <av-toggle-labeled size="default" leftLabel="OFF" rightLabel="ON"></av-toggle-labeled>
+        <av-toggle-labeled size="large" leftLabel="OFF" rightLabel="ON"></av-toggle-labeled>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Цветовые схемы</h2>
+    </div>
+    <div class="demo-section__preview">
+      <av-toggle color="primary" [checked]="true">Primary</av-toggle>
+      <av-toggle color="success" [checked]="true">Success</av-toggle>
+      <av-toggle color="warning" [checked]="true">Warning</av-toggle>
+      <av-toggle color="danger" [checked]="true">Danger</av-toggle>
+    </div>
+  </section>
+
+  <!-- Сравнительная таблица -->
+  <section class="demo-section">
+    <div class="demo-section__header">
+      <h2>Выбор реализации</h2>
+    </div>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Вариант</th>
+          <th>Применение</th>
+          <th>Преимущества</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Directive</strong></td>
+          <td>Нативные чекбоксы</td>
+          <td>Максимальная производительность, полный контроль HTML</td>
+        </tr>
+        <tr>
+          <td><strong>Component</strong></td>
+          <td>Стандартные формы</td>
+          <td>Встроенный label, поддержка Angular Forms из коробки</td>
+        </tr>
+        <tr>
+          <td><strong>Labeled</strong></td>
+          <td>Сложные интерфейсы</td>
+          <td>Информативность (текст внутри), премиальный iOS вид</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

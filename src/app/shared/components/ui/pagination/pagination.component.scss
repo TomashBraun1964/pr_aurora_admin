@@ -269,39 +269,14 @@
   // === SHAPE VARIANTS ===
 
   &--square {
-    .pagination__btn {
+    .pagination__btn--page {
       border-radius: 0;
     }
 
+    // Select и Input всегда остаются со скругленными углами
     .pagination__select,
     .pagination__input {
-      border-radius: 0;
-    }
-
-    .pagination__wrapper {
-      gap: 0;
-    }
-
-    .pagination__pages {
-      gap: 0;
-    }
-
-    .pagination__btn--page {
-      border-right: none;
-
-      &:last-child {
-        border-right: 1px solid $color-border-base;
-      }
-    }
-
-    @include dark-theme {
-      .pagination__btn--page {
-        border-right: none;
-
-        &:last-child {
-          border-right: 1px solid $dark-border-base;
-        }
-      }
+      border-radius: $border-radius-base;
     }
   }
 
@@ -317,19 +292,11 @@
   }
 
   &--circle {
-    .pagination__btn {
+    .pagination__btn--page {
       border-radius: 50%;
       min-width: 32px;
       width: 32px;
       padding: 0;
-
-      &--prev,
-      &--next {
-        border-radius: 50%;
-        min-width: 32px;
-        width: 32px;
-        padding: 0;
-      }
     }
 
     .pagination__ellipsis {
@@ -337,21 +304,16 @@
       width: 32px;
     }
 
+    // Select и Input всегда остаются со скругленными углами
     .pagination__select,
     .pagination__input {
-      border-radius: 50%;
+      border-radius: $border-radius-base;
     }
 
     &.pagination--small {
-      .pagination__btn {
+      .pagination__btn--page {
         min-width: 24px;
         width: 24px;
-
-        &--prev,
-        &--next {
-          min-width: 24px;
-          width: 24px;
-        }
       }
 
       .pagination__ellipsis {
@@ -361,15 +323,9 @@
     }
 
     &.pagination--large {
-      .pagination__btn {
+      .pagination__btn--page {
         min-width: 40px;
         width: 40px;
-
-        &--prev,
-        &--next {
-          min-width: 40px;
-          width: 40px;
-        }
       }
 
       .pagination__ellipsis {

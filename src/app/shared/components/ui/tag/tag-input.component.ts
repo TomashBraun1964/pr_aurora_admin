@@ -12,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TagComponent, TagVariant } from './tag.component';
+import { TagColor, TagComponent, TagVariant } from './tag.component';
 
 @Component({
   selector: 'av-tag-input',
@@ -38,6 +38,7 @@ export class TagInputComponent implements ControlValueAccessor {
   allowDuplicates = input<boolean>(false);
   maxTags = input<number | undefined>(undefined);
   variant = input<TagVariant>('soft');
+  color = input<TagColor>('neutral');
   disabled = signal<boolean>(false);
 
   @Output() inputBlur = new EventEmitter<FocusEvent>();

@@ -1,15 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
 import { HelpCopyContainerComponent } from '../../../shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
 import { ModalComponent } from '../../../shared/components/ui/modal';
-import { TagComponent, TagInputComponent } from '../../../shared/components/ui/tag';
+import {
+  TagColor,
+  TagComponent,
+  TagInputComponent,
+  TagShape,
+  TagSize,
+  TagVariant,
+} from '../../../shared/components/ui/tag';
 
 @Component({
   selector: 'app-tag-ui',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     TagComponent,
     TagInputComponent,
     ButtonDirective,
@@ -22,6 +31,26 @@ import { TagComponent, TagInputComponent } from '../../../shared/components/ui/t
 export class TagUiComponent {
   showHelpModal = false;
   showPrincipleModal = false;
+  showIntegrationModal = false;
+  showGeneratedCodeModal = false;
+  integrationCode = signal('');
+  generatedCode = signal('');
+
+  // Playground Configuration
+  playgroundLabel = signal('Interactive Tag');
+  playgroundSize = signal<TagSize>('medium');
+  playgroundVariant = signal<TagVariant>('soft');
+  playgroundColor = signal<TagColor>('primary');
+  playgroundShape = signal<TagShape>('rounded');
+  playgroundRemovable = signal(false);
+  playgroundClickable = signal(false);
+  playgroundIcon = signal<string | null>(null);
+
+  // Tag Input Playground
+  playgroundTags = signal(['Interactive', 'Playground']);
+  playgroundPlaceholder = signal('Add more tags...');
+  playgroundAllowDuplicates = signal(false);
+  playgroundMaxTags = signal<number | undefined>(undefined);
 
   // Demo data
   basicTags = ['Angular', 'TypeScript', 'SCSS'];
@@ -136,5 +165,194 @@ myTags = signal(['Frontend', 'UI/UX']);`;
 
   onTagRemove(label: string) {
     console.log('Removed tag:', label);
+  }
+
+  // Генерация полного примера интеграции
+  generateIntegrationCode(): void {
+    const fullCode = `// ============================================
+// ПОЛНЫЙ ПРИМЕР ИНТЕГРАЦИИ СИСТЕМЫ ТЕГОВ
+// ============================================
+
+// 1. ИМПОРТЫ В КОМПОНЕНТЕ (TypeScript)
+import { Component, signal } from '@angular/core';
+import { TagComponent, TagInputComponent } from '@shared/components/ui/tag';
+
+@Component({
+  selector: 'app-user-profile',
+  standalone: true,
+  imports: [TagComponent, TagInputComponent],
+  templateUrl: './user-profile.component.html',
+})
+export class UserProfileComponent {
+  // Состояние тегов
+  skills = signal(['Angular', 'TypeScript', 'RxJS']);
+  interests = signal(['UI/UX', 'Design Systems']);
+
+  // Статические теги для отображения
+  userRoles = ['Admin', 'Developer', 'Designer'];
+
+  // Обработчики событий
+  onSkillRemove(skill: string) {
+    this.skills.update(current => current.filter(s => s !== skill));
+    console.log('Removed skill:', skill);
+  }
+
+  onInterestAdd(interest: string) {
+    console.log('Added interest:', interest);
+  }
+
+  onTagClick(tag: string) {
+    console.log('Clicked tag:', tag);
+  }
+}
+
+// ============================================
+// 2. ШАБЛОН (HTML)
+// ============================================
+
+<div class="user-profile">
+  <!-- Статические теги (только отображение) -->
+  <section class="profile-section">
+    <h3>Роли пользователя</h3>
+    <div class="tags-container">
+      @for (role of userRoles; track role) {
+        <av-tag
+          [label]="role"
+          color="primary"
+          variant="filled"
+          size="medium"
+        ></av-tag>
+      }
+    </div>
+  </section>
+
+  <!-- Интерактивные теги с удалением -->
+  <section class="profile-section">
+    <h3>Навыки</h3>
+    <div class="tags-container">
+      @for (skill of skills(); track skill) {
+        <av-tag
+          [label]="skill"
+          color="success"
+          variant="soft"
+          [removable]="true"
+          (removed)="onSkillRemove(skill)"
+        ></av-tag>
+      }
+    </div>
+  </section>
+
+  <!-- Tag Input для добавления новых тегов -->
+  <section class="profile-section">
+    <h3>Интересы</h3>
+    <av-tag-input
+      [(tags)]="interests"
+      placeholder="Добавьте интересы..."
+      [allowDuplicates]="false"
+      variant="soft"
+      color="info"
+      (tagAdded)="onInterestAdd($event)"
+    ></av-tag-input>
+  </section>
+
+  <!-- Кликабельные теги -->
+  <section class="profile-section">
+    <h3>Категории (кликабельные)</h3>
+    <div class="tags-container">
+      <av-tag
+        label="Frontend"
+        color="primary"
+        [clickable]="true"
+        (clicked)="onTagClick('Frontend')"
+      ></av-tag>
+      <av-tag
+        label="Backend"
+        color="warning"
+        [clickable]="true"
+        (clicked)="onTagClick('Backend')"
+      ></av-tag>
+    </div>
+  </section>
+</div>
+
+// ============================================
+// 3. СТИЛИ (SCSS) - опционально
+// ============================================
+
+.user-profile {
+  .profile-section {
+    margin-bottom: 2rem;
+
+    h3 {
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+  }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+// ============================================
+// 4. ДОПОЛНИТЕЛЬНЫЕ ПРИМЕРЫ
+// ============================================
+
+// Работа с FormControl (Reactive Forms)
+import { FormControl } from '@angular/forms';
+
+skillsControl = new FormControl(['Angular', 'TypeScript']);
+
+// В шаблоне:
+<av-tag-input [formControl]="skillsControl"></av-tag-input>
+
+// Кастомные цвета
+<av-tag label="Premium" color="#8b5cf6" variant="filled"></av-tag>
+
+// Теги с иконками
+<av-tag
+  label="Settings"
+  icon="actions/av_settings"
+  color="neutral"
+></av-tag>`;
+
+    this.integrationCode.set(fullCode);
+    this.showIntegrationModal = true;
+  }
+
+  // Генерация кода для Playground
+  generatePlaygroundCode(): void {
+    const isTagInput = this.playgroundTags().length > 0; // Simplified check or separate buttons
+
+    const tagHtml = `<av-tag
+  label="${this.playgroundLabel()}"
+  size="${this.playgroundSize()}"
+  variant="${this.playgroundVariant()}"
+  color="${this.playgroundColor()}"
+  shape="${this.playgroundShape()}"
+  [removable]="${this.playgroundRemovable()}"
+  [clickable]="${this.playgroundClickable()}"
+  ${this.playgroundIcon() ? `icon="${this.playgroundIcon()}"` : ''}
+></av-tag>`;
+
+    const tagInputHtml = `<av-tag-input
+  [(tags)]="myTags"
+  placeholder="${this.playgroundPlaceholder()}"
+  [allowDuplicates]="${this.playgroundAllowDuplicates()}"
+  ${this.playgroundMaxTags() ? `[maxTags]="${this.playgroundMaxTags()}"` : ''}
+  variant="${this.playgroundVariant()}"
+  color="${this.playgroundColor()}"
+></av-tag-input>`;
+
+    const tsCode = `// Состояние в коппоненте
+myTags = signal(${JSON.stringify(this.playgroundTags())});`;
+
+    const fullCode = `// HTML (Tag)\n${tagHtml}\n\n// HTML (Tag Input)\n${tagInputHtml}\n\n// TypeScript\n${tsCode}`;
+
+    this.generatedCode.set(fullCode);
+    this.showGeneratedCodeModal = true;
   }
 }
