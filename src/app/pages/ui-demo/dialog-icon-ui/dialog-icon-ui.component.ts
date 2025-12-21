@@ -85,7 +85,7 @@ openDialog() {
     title: '${this.pgTitle()}',
     centered: true,
     size: '${this.pgSize()}',
-    width: ${typeof this.pgWidth() === 'number' ? this.pgWidth() : `'${this.pgWidth()}'`},
+    avWidth: ${typeof this.pgWidth() === 'number' ? this.pgWidth() : `'${this.pgWidth()}'`},
     showBackdrop: ${this.pgShowBackdrop()},
     closeOnBackdrop: ${this.pgCloseOnBackdrop()},
     closeOnEsc: ${this.pgCloseOnEsc()},
@@ -98,7 +98,7 @@ openDialog() {
 }
 
 // HTML Template
-<av-modal [(isOpen)]="dialogOpen" [centered]="true">
+<av-modal [(isOpen)]="dialogOpen" [centered]="true" [avWidth]="'${this.pgWidth()}'">
   <div modal-body>
     <div style="text-align: center; padding: 24px;">
       <app-icon
