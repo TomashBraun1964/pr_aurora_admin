@@ -14,7 +14,6 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
 import { HelpCopyContainerComponent } from '../../../shared/components/ui/container-help-copy-ui';
-import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
 import { InputComponent } from '../../../shared/components/ui/input/input.component';
 import { InputDirective } from '../../../shared/components/ui/input/input.directive';
 
@@ -39,7 +38,6 @@ import { InputDirective } from '../../../shared/components/ui/input/input.direct
     ButtonDirective,
     InputDirective,
     InputComponent,
-    IconComponent,
     HelpCopyContainerComponent,
   ],
   templateUrl: './input-ui.component.html',

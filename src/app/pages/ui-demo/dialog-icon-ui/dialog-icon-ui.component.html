@@ -1,0 +1,356 @@
+<div class="ui-demo dialog-icon-playground">
+  <!-- Header -->
+  <div class="ui-demo__header">
+    <h1>Dialog Icon UI 💬</h1>
+    <p>Специальный режим для диалогов подтверждения и уведомлений с крупными иконками и центрированным текстом.</p>
+  </div>
+
+  <!-- Interactive Playground -->
+  <div class="playground-container">
+    <div nz-row [nzGutter]="32">
+      <!-- Left: Controls -->
+      <div nz-col [nzXs]="24" [nzLg]="10">
+        <nz-card nzTitle="Настройки диалога" [nzExtra]="resetTpl">
+          <ng-template #resetTpl>
+            <button av-button avType="text" avSize="small" (click)="resetAllSettings()" style="color: #ff4d4f">
+              Сбросить
+            </button>
+          </ng-template>
+
+          <div class="control-panel">
+            <!-- 1. Content -->
+            <div class="control-item">
+              <label nz-tooltip nzTooltipTitle="Заголовок диалога"> Заголовок: <span class="info-icon">ⓘ</span> </label>
+              <input
+                nz-input
+                [ngModel]="pgTitle()"
+                (ngModelChange)="pgTitle.set($event)"
+                placeholder="Введите заголовок"
+              />
+            </div>
+
+            <div class="control-item">
+              <label nz-tooltip nzTooltipTitle="Основное сообщение диалога">
+                Сообщение: <span class="info-icon">ⓘ</span>
+              </label>
+              <textarea
+                nz-input
+                [ngModel]="pgMessage()"
+                (ngModelChange)="pgMessage.set($event)"
+                placeholder="Введите сообщение"
+                [rows]="3"
+              ></textarea>
+            </div>
+
+            <!-- 2. Icon Configuration -->
+            <div
+              style="
+                background: #f9f9f9;
+                border: 1px solid #e8e8e8;
+                border-radius: 8px;
+                padding: 16px;
+                margin-bottom: 20px;
+              "
+            >
+              <div class="control-item" style="margin-bottom: 12px">
+                <label nz-tooltip nzTooltipTitle="Выберите иконку для диалога">
+                  Иконка: <span class="info-icon">ⓘ</span>
+                </label>
+
+                <!-- Icon Presets -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px">
+                  @for (preset of iconPresets; track preset.value) {
+                  <button
+                    av-button
+                    avType="default"
+                    avSize="small"
+                    [avBlock]="true"
+                    (click)="selectIconPreset(preset)"
+                    [style.border-color]="pgIcon() === preset.value ? preset.color : undefined"
+                    [style.background]="pgIcon() === preset.value ? preset.color + '15' : undefined"
+                  >
+                    <app-icon [type]="preset.value" [size]="16" [color]="preset.color"></app-icon>
+                    <span style="margin-left: 8px; font-size: 11px">{{ preset.label.split(' ')[0] }}</span>
+                  </button>
+                  }
+                </div>
+
+                <nz-select [ngModel]="pgIcon()" (ngModelChange)="pgIcon.set($event)" style="width: 100%">
+                  @for (preset of iconPresets; track preset.value) {
+                  <nz-option [nzValue]="preset.value" [nzLabel]="preset.label"></nz-option>
+                  }
+                </nz-select>
+              </div>
+
+              <!-- Icon Size -->
+              <div class="control-item" style="margin-bottom: 12px">
+                <label nz-tooltip nzTooltipTitle="Размер иконки в пикселях">
+                  Размер иконки: <span class="info-icon">ⓘ</span>
+                </label>
+                <div nz-row [nzGutter]="12" nzAlign="middle">
+                  <div nz-col nzFlex="auto">
+                    <nz-slider
+                      [nzMin]="32"
+                      [nzMax]="128"
+                      [ngModel]="pgIconSize()"
+                      (ngModelChange)="pgIconSize.set($event)"
+                    ></nz-slider>
+                  </div>
+                  <div nz-col style="width: 70px">
+                    <nz-input-number
+                      style="width: 100%"
+                      [nzMin]="32"
+                      [nzMax]="128"
+                      [ngModel]="pgIconSize()"
+                      (ngModelChange)="pgIconSize.set($event)"
+                    ></nz-input-number>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Icon Color -->
+              <div class="control-item" style="margin-bottom: 0">
+                <label nz-tooltip nzTooltipTitle="Цвет иконки"> Цвет иконки: <span class="info-icon">ⓘ</span> </label>
+                <div style="display: flex; flex-direction: column; gap: 10px">
+                  <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap">
+                    @for (color of colorPresets; track color) {
+                    <div
+                      class="color-preset"
+                      [style.background-color]="color"
+                      [class.active]="pgIconColor() === color"
+                      (click)="pgIconColor.set(color)"
+                      [nz-tooltip]="color"
+                    ></div>
+                    }
+                  </div>
+                  <div style="display: flex; gap: 8px; align-items: center">
+                    <nz-color-picker
+                      [ngModel]="pgIconColor()"
+                      (ngModelChange)="pgIconColor.set($event)"
+                    ></nz-color-picker>
+                    <input
+                      nz-input
+                      [ngModel]="pgIconColor()"
+                      (ngModelChange)="pgIconColor.set($event)"
+                      placeholder="HEX, RGB..."
+                      style="flex: 1; height: 32px"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Button Configuration -->
+            <div class="control-item">
+              <label nz-tooltip nzTooltipTitle="Текст кнопки подтверждения">
+                Текст кнопки подтверждения: <span class="info-icon">ⓘ</span>
+              </label>
+              <input
+                nz-input
+                [ngModel]="pgConfirmText()"
+                (ngModelChange)="pgConfirmText.set($event)"
+                placeholder="Подтвердить"
+              />
+            </div>
+
+            <div class="control-item">
+              <label nz-tooltip nzTooltipTitle="Тип кнопки подтверждения">
+                Тип кнопки: <span class="info-icon">ⓘ</span>
+              </label>
+              <nz-select [ngModel]="pgConfirmType()" (ngModelChange)="pgConfirmType.set($event)" style="width: 100%">
+                <nz-option nzValue="primary" nzLabel="Primary (Синий)"></nz-option>
+                <nz-option nzValue="default" nzLabel="Default (Серый)"></nz-option>
+                <nz-option nzValue="danger" nzLabel="Danger (Красный)"></nz-option>
+              </nz-select>
+            </div>
+
+            <div class="control-item">
+              <label nz-tooltip nzTooltipTitle="Показывать кнопку отмены">
+                Показать кнопку отмены: <span class="info-icon">ⓘ</span>
+              </label>
+              <div style="display: flex; align-items: center; justify-content: space-between">
+                <input
+                  nz-input
+                  [ngModel]="pgCancelText()"
+                  (ngModelChange)="pgCancelText.set($event)"
+                  placeholder="Отмена"
+                  style="flex: 1; margin-right: 12px"
+                  [disabled]="!pgShowCancelButton()"
+                />
+                <nz-switch
+                  [ngModel]="pgShowCancelButton()"
+                  (ngModelChange)="pgShowCancelButton.set($event)"
+                ></nz-switch>
+              </div>
+            </div>
+
+            <!-- 4. Dialog Settings -->
+            <div class="control-item">
+              <label nz-tooltip nzTooltipTitle="Размер диалога">
+                Размер диалога: <span class="info-icon">ⓘ</span>
+              </label>
+              <nz-select [ngModel]="pgSize()" (ngModelChange)="pgSize.set($event)" style="width: 100%">
+                <nz-option nzValue="small" nzLabel="Small (400px)"></nz-option>
+                <nz-option nzValue="medium" nzLabel="Medium (450px)"></nz-option>
+                <nz-option nzValue="large" nzLabel="Large (600px)"></nz-option>
+              </nz-select>
+            </div>
+
+            <div class="control-item">
+              <label nz-tooltip nzTooltipTitle="Пользовательская ширина диалога">
+                Ширина (Custom): <span class="info-icon">ⓘ</span>
+              </label>
+              <input
+                nz-input
+                [ngModel]="pgWidth()"
+                (ngModelChange)="pgWidth.set($event)"
+                placeholder="e.g. 450px or 80%"
+              />
+            </div>
+
+            <!-- 5. States -->
+            <div class="states-box">
+              <div nz-row [nzGutter]="16">
+                <div nz-col [nzSpan]="12">
+                  <div class="state-switch">
+                    <span>Backdrop</span>
+                    <nz-switch
+                      [ngModel]="pgShowBackdrop()"
+                      (ngModelChange)="pgShowBackdrop.set($event)"
+                      nzSize="small"
+                    ></nz-switch>
+                  </div>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <div class="state-switch">
+                    <span>Close Button</span>
+                    <nz-switch
+                      [ngModel]="pgShowCloseButton()"
+                      (ngModelChange)="pgShowCloseButton.set($event)"
+                      nzSize="small"
+                    ></nz-switch>
+                  </div>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <div class="state-switch">
+                    <span>Close on Backdrop</span>
+                    <nz-switch
+                      [ngModel]="pgCloseOnBackdrop()"
+                      (ngModelChange)="pgCloseOnBackdrop.set($event)"
+                      nzSize="small"
+                    ></nz-switch>
+                  </div>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <div class="state-switch">
+                    <span>Close on Esc</span>
+                    <nz-switch
+                      [ngModel]="pgCloseOnEsc()"
+                      (ngModelChange)="pgCloseOnEsc.set($event)"
+                      nzSize="small"
+                    ></nz-switch>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px">
+              <button av-button avType="primary" [avBlock]="true" (click)="openDialog()">Открыть диалог</button>
+            </div>
+          </div>
+        </nz-card>
+      </div>
+
+      <!-- Right: Preview & Code -->
+      <div nz-col [nzXs]="24" [nzLg]="14">
+        <nz-card nzTitle="Предпросмотр">
+          <div class="preview-area">
+            <div class="dialog-preview">
+              <div class="dialog-preview__icon">
+                <app-icon [type]="pgIcon()" [size]="pgIconSize()" [color]="pgIconColor()"></app-icon>
+              </div>
+              <h3 class="dialog-preview__title">{{ pgTitle() }}</h3>
+              <p class="dialog-preview__message">{{ pgMessage() }}</p>
+              <div class="dialog-preview__buttons">
+                @if (pgShowCancelButton()) {
+                <button av-button avType="default" disabled>{{ pgCancelText() }}</button>
+                }
+                <button av-button [avType]="pgConfirmType()" disabled>{{ pgConfirmText() }}</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px">
+            <av-help-copy-container
+              title="Сгенерированный код"
+              [content]="pgGeneratedCode()"
+              bgColor="#1e293b"
+            ></av-help-copy-container>
+          </div>
+        </nz-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Documentation -->
+  <div style="margin-top: 48px">
+    <div style="margin-bottom: 16px">
+      <h2 style="margin: 0; font-size: 20px; font-weight: 600">Технический интерфейс (API)</h2>
+    </div>
+
+    <nz-card class="api-docs-card">
+      <av-help-copy-container
+        title="Interface: DialogIconConfig"
+        [content]="apiInterfaceCode"
+        bgColor="#0a0e1a"
+      ></av-help-copy-container>
+
+      <div style="margin-top: 24px; padding: 16px; background: #fffbe6; border: 1px solid #ffe58f; border-radius: 8px">
+        <h4 style="margin-bottom: 8px; color: #856404">💡 Полезный совет</h4>
+        <p style="margin: 0; font-size: 13px; color: #856404">
+          Используйте <code>centered: true</code> в конфигурации модального окна для активации режима диалогов с
+          иконками. Этот режим оптимизирован для небольших информационных сообщений и подтверждений.
+        </p>
+      </div>
+    </nz-card>
+  </div>
+
+  <!-- Actual Modal Component -->
+  @if (refreshTrigger()) {
+  <av-modal
+    [(isOpen)]="isOpen"
+    [size]="pgSize()"
+    [width]="pgWidth()"
+    [showBackdrop]="pgShowBackdrop()"
+    [closeOnBackdrop]="pgCloseOnBackdrop()"
+    [closeOnEsc]="pgCloseOnEsc()"
+    [showCloseButton]="pgShowCloseButton()"
+    [centered]="true"
+  >
+    <div modal-body>
+      <div style="text-align: center; padding: 24px">
+        <div style="margin-bottom: 16px">
+          <app-icon [type]="pgIcon()" [size]="pgIconSize()" [color]="pgIconColor()"></app-icon>
+        </div>
+        <h3 style="margin: 16px 0 8px; font-size: 20px; font-weight: 600">{{ pgTitle() }}</h3>
+        <p style="color: #8c8c8c; margin: 0">{{ pgMessage() }}</p>
+      </div>
+    </div>
+    <div modal-footer style="text-align: center; justify-content: center; gap: 12px">
+      @if (pgShowCancelButton()) {
+      <button av-button avType="default" (click)="isOpen.set(false)">{{ pgCancelText() }}</button>
+      }
+      <button av-button [avType]="pgConfirmType()" (click)="isOpen.set(false); showMessage('Действие подтверждено!')">
+        {{ pgConfirmText() }}
+      </button>
+    </div>
+  </av-modal>
+  }
+
+  <!-- Toast Notification -->
+  @if (message()) {
+  <div class="message-display">
+    {{ message() }}
+  </div>
+  }
+</div>

@@ -88,6 +88,16 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
               },
             },
             {
+              id: 'dialog-icon-ui',
+              label: 'Dialog Icon UI',
+              route: '/ui-demo/dialog-icon-ui',
+              icon: 'message',
+              badge: {
+                value: 'New',
+                intent: 'success',
+              },
+            },
+            {
               id: 'search-ui',
               label: 'Search UI',
               route: '/ui-demo/search-ui',

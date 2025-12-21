@@ -38,6 +38,11 @@ export const UI_DEMO_ROUTES: Routes = [
       import('./modal-ui-new/modal-ui-new.component').then((m) => m.ModalUiNewComponent),
   },
   {
+    path: 'dialog-icon-ui',
+    loadComponent: () =>
+      import('./dialog-icon-ui/dialog-icon-ui.component').then((m) => m.DialogIconUiComponent),
+  },
+  {
     path: 'search-ui',
     loadComponent: () => import('./search-ui/search-ui.component').then((m) => m.SearchUiComponent),
   },
