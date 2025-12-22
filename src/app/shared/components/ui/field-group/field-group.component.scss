@@ -1,0 +1,221 @@
+@use "styles/abstracts/variables" as *;
+@use "styles/abstracts/mixins" as *;
+
+.av-field-group {
+  position: relative;
+  border: 1px solid var(--color-border-base, #d9d9d9);
+  border-radius: 8px;
+  padding: 16px 12px 12px;
+  background: rgba(24, 144, 255, 0.02);
+  margin-top: 10px;
+  width: 100%;
+  transition: all 0.2s ease;
+
+  &.is-collapsed {
+    padding-bottom: 4px;
+    min-height: auto;
+  }
+
+  &:hover {
+    border-color: var(--color-primary, #1890ff);
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.1);
+  }
+
+  &__header {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    display: flex;
+    align-items: center;
+    background: #ffffff; // Фон должен быть непрозрачным
+    padding: 0 6px;
+    height: 20px;
+    border-radius: 4px;
+    z-index: 2;
+
+    @include dark-theme {
+      background: #1f1f1f;
+    }
+
+    &.is-clickable {
+      cursor: pointer;
+      &:hover .av-field-group__label {
+        color: var(--color-primary, #1890ff);
+      }
+    }
+  }
+
+  &__label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-secondary, #8c8c8c);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent; // Без фона
+    border: none; // Без обводки
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    color: var(--color-text-secondary, #8c8c8c);
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary, #1890ff);
+      transform: scale(1.15);
+    }
+  }
+
+  &__content {
+    display: block;
+    width: 100%;
+
+    // Для лучшего отображения дочерних элементов
+    > * {
+      width: 100%;
+    }
+
+    // Стили для flex контейнеров внутри
+    .flex-container {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .grid-container {
+      display: grid;
+      gap: 8px;
+    }
+  }
+
+  // Поддержка вложенности
+  & .av-field-group {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.4); // Более светлый фон для вложенных
+    border-style: dashed; // Делаем вложенные группы визуально легче
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.6);
+    }
+  }
+}
+
+// Темная тема (через хост или глобально)
+:host-context([data-theme="dark"]) {
+  .av-field-group {
+    border-color: var(--dark-border-base, #434343);
+    background: rgba(24, 144, 255, 0.05);
+
+    &:hover {
+      border-color: var(--color-primary, #1890ff);
+      box-shadow: 0 2px 4px rgba(24, 144, 255, 0.2);
+    }
+
+    &__header {
+      background: var(--dark-bg-container, #1f1f1f);
+      color: var(--dark-text-secondary, #bfbfbf);
+    }
+
+    &__toggle {
+      background: transparent;
+      border: none;
+      color: var(--dark-text-secondary, #bfbfbf);
+
+      &:hover {
+        color: var(--color-primary, #1890ff);
+      }
+    }
+  }
+}
+
+// Варианты стилей
+:host([variant="minimal"]) {
+  .av-field-group {
+    border: 1px dashed var(--color-border-base, #d9d9d9);
+    background: transparent;
+    padding: 12px;
+
+    &__header {
+      background: var(--color-bg-container, #ffffff);
+    }
+
+    &__label {
+      background: transparent;
+      color: var(--color-text-tertiary, #bfbfbf);
+    }
+
+    &__toggle {
+      background: transparent;
+    }
+  }
+}
+
+:host([variant="filled"]) {
+  .av-field-group {
+    border: none;
+    background: var(--color-fill-quaternary, #f5f5f5);
+    padding: 16px;
+
+    &__header {
+      background: var(--color-fill-quaternary, #f5f5f5);
+    }
+
+    &__label {
+      background: var(--color-fill-quaternary, #f5f5f5);
+    }
+
+    &__toggle {
+      background: var(--color-fill-quaternary, #f5f5f5);
+    }
+  }
+}
+
+:host([variant="highlighted"]) {
+  .av-field-group {
+    border: 2px solid var(--color-primary, #1890ff);
+    background: rgba(24, 144, 255, 0.05);
+    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
+
+    &__label {
+      color: var(--color-primary, #1890ff);
+      font-weight: 600;
+    }
+
+    &__toggle {
+      border-color: var(--color-primary, #1890ff);
+      color: var(--color-primary, #1890ff);
+    }
+  }
+}
+
+// Размеры
+:host([size="small"]) {
+  .av-field-group {
+    padding: 12px 8px 8px;
+
+    &__label {
+      font-size: 10px;
+      padding: 0 6px;
+    }
+  }
+}
+
+:host([size="large"]) {
+  .av-field-group {
+    padding: 20px 16px 16px;
+
+    &__label {
+      font-size: 12px;
+      padding: 0 10px;
+    }
+  }
+}

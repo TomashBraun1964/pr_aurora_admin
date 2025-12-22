@@ -141,156 +141,7 @@
 
                 <!-- Иконка (ADVANCED CONTROL) -->
                 <av-field-group label="Иконка (Advanced)" [collapsible]="true">
-                  <div class="control-item">
-                    <label>Выбор иконки:</label>
-                    <nz-select
-                      [ngModel]="pgIcon()"
-                      (ngModelChange)="pgIcon.set($event)"
-                      nzShowSearch
-                      nzAllowClear
-                      nzPlaceHolder="Без иконки"
-                      style="width: 100%"
-                    >
-                      @for (preset of iconPresets; track preset.value) {
-                      <nz-option nzCustomContent [nzValue]="preset.value" [nzLabel]="preset.label">
-                        <div style="display: flex; align-items: center; gap: 8px">
-                          <av-icon [type]="preset.value" [size]="16"></av-icon>
-                          <span>{{ preset.label }}</span>
-                        </div>
-                      </nz-option>
-                      }
-                    </nz-select>
-                  </div>
-
-                  @if (pgIcon()) {
-                  <div nz-row [nzGutter]="8" style="margin-top: 12px">
-                    <div nz-col [nzSpan]="12">
-                      <div class="control-item">
-                        <label>Размер ({{ pgIconSize() }}px):</label>
-                        <nz-slider
-                          [nzMin]="8"
-                          [nzMax]="64"
-                          [ngModel]="pgIconSize()"
-                          (ngModelChange)="pgIconSize.set($event)"
-                        ></nz-slider>
-                      </div>
-                    </div>
-                    <div nz-col [nzSpan]="12">
-                      <av-picker avTitle="Цвет иконки" [(selectedColor)]="pgIconColor"></av-picker>
-                    </div>
-                  </div>
-
-                  <av-field-group label="Трансформации" size="small" [collapsible]="true">
-                    <div nz-row [nzGutter]="8">
-                      <div nz-col [nzSpan]="12">
-                        <label style="font-size: 10px">Поворот ({{ pgIconRotation() }}°)</label>
-                        <nz-slider
-                          [nzMin]="0"
-                          [nzMax]="360"
-                          [nzStep]="15"
-                          [ngModel]="pgIconRotation()"
-                          (ngModelChange)="pgIconRotation.set($event)"
-                        ></nz-slider>
-                      </div>
-                      <div nz-col [nzSpan]="12">
-                        <label style="font-size: 10px">Масштаб ({{ pgIconScale() }})</label>
-                        <nz-slider
-                          [nzMin]="0.1"
-                          [nzMax]="3"
-                          [nzStep]="0.1"
-                          [ngModel]="pgIconScale()"
-                          (ngModelChange)="pgIconScale.set($event)"
-                        ></nz-slider>
-                      </div>
-                    </div>
-                    <div nz-row [nzGutter]="8" nzAlign="middle">
-                      <div nz-col [nzSpan]="12">
-                        <div style="display: flex; flex-direction: column; gap: 4px">
-                          <div style="display: flex; align-items: center; justify-content: space-between">
-                            <span style="font-size: 10px">Flip X</span>
-                            <nz-switch
-                              [ngModel]="pgIconFlipX()"
-                              (ngModelChange)="pgIconFlipX.set($event)"
-                              nzSize="small"
-                            ></nz-switch>
-                          </div>
-                          <div style="display: flex; align-items: center; justify-content: space-between">
-                            <span style="font-size: 10px">Flip Y</span>
-                            <nz-switch
-                              [ngModel]="pgIconFlipY()"
-                              (ngModelChange)="pgIconFlipY.set($event)"
-                              nzSize="small"
-                            ></nz-switch>
-                          </div>
-                        </div>
-                      </div>
-                      <div nz-col [nzSpan]="12">
-                        <label style="font-size: 10px">Опасити ({{ pgIconOpacity() }})</label>
-                        <nz-slider
-                          [nzMin]="0.1"
-                          [nzMax]="1"
-                          [nzStep]="0.1"
-                          [ngModel]="pgIconOpacity()"
-                          (ngModelChange)="pgIconOpacity.set($event)"
-                        ></nz-slider>
-                      </div>
-                    </div>
-                  </av-field-group>
-
-                  <av-field-group label="Стиль и Граница" size="small" [collapsible]="true">
-                    <av-picker
-                      avTitle="Фон иконки"
-                      [(selectedColor)]="pgIconBackground"
-                      [allowTransparent]="true"
-                    ></av-picker>
-                    <div nz-row [nzGutter]="8" style="margin-top: 8px" nzAlign="middle">
-                      <div nz-col [nzSpan]="12">
-                        <label style="font-size: 10px">Padding: {{ pgIconPadding() }}px</label>
-                        <nz-slider
-                          [nzMin]="0"
-                          [nzMax]="24"
-                          [ngModel]="pgIconPadding()"
-                          (ngModelChange)="pgIconPadding.set($event)"
-                        ></nz-slider>
-                      </div>
-                      <div nz-col [nzSpan]="12">
-                        <div style="display: flex; align-items: center; justify-content: space-between">
-                          <span style="font-size: 10px">Граница</span>
-                          <nz-switch
-                            [ngModel]="pgIconBorderShow()"
-                            (ngModelChange)="pgIconBorderShow.set($event)"
-                            nzSize="small"
-                          ></nz-switch>
-                        </div>
-                      </div>
-                    </div>
-                    @if (pgIconBorderShow()) {
-                    <div style="margin-top: 8px; padding: 4px; border: 1px dashed #ddd; border-radius: 4px">
-                      <av-picker avTitle="Цвет границы" [(selectedColor)]="pgIconBorderColor"></av-picker>
-                      <div nz-row [nzGutter]="8" style="margin-top: 4px">
-                        <div nz-col [nzSpan]="12">
-                          <label style="font-size: 10px">W: {{ pgIconBorderWidth() }}px</label>
-                          <nz-slider
-                            [nzMin]="1"
-                            [nzMax]="5"
-                            [ngModel]="pgIconBorderWidth()"
-                            (ngModelChange)="pgIconBorderWidth.set($event)"
-                          ></nz-slider>
-                        </div>
-                        <div nz-col [nzSpan]="12">
-                          <label style="font-size: 10px">R: {{ pgIconBorderRadius() }}px</label>
-                          <nz-slider
-                            [nzMin]="0"
-                            [nzMax]="25"
-                            [ngModel]="pgIconBorderRadius()"
-                            (ngModelChange)="pgIconBorderRadius.set($event)"
-                          ></nz-slider>
-                        </div>
-                      </div>
-                    </div>
-                    }
-                  </av-field-group>
-                  }
+                  <av-icon-settings-control [(value)]="pgIconConfig" [presets]="iconPresets"></av-icon-settings-control>
                 </av-field-group>
               </div>
             </nz-card>
@@ -318,29 +169,33 @@
                   [avShape]="pgShape()"
                   [avColor]="pgColor()"
                   [avTextColor]="pgTextColor()"
-                  [avIconColor]="pgIconColor()"
+                  [avIconColor]="pgIconConfig().color"
                   [avLoading]="pgLoading()"
                   [avBlock]="pgBlock()"
                   [avVisible]="pgVisible()"
                   [avWidth]="pgWidth()"
                   [avHeight]="pgHeight()"
                   [avRadius]="pgRadius()"
-                  [avIconSize]="pgIconSize()"
+                  [avIconSize]="pgIconConfig().size"
                 >
-                  @if (pgIcon()) {
+                  @if (pgIconConfig().type) {
                   <av-icon
-                    [type]="pgIcon()!"
-                    [size]="pgIconSize()"
-                    [color]="pgIconColor()"
-                    [rotation]="pgIconRotation()"
-                    [scale]="pgIconScale()"
-                    [opacity]="pgIconOpacity()"
-                    [flipX]="pgIconFlipX()"
-                    [flipY]="pgIconFlipY()"
-                    [padding]="pgIconPadding()"
-                    [background]="pgIconBackground()"
-                    [border]="pgIconBorderShow() ? pgIconBorderWidth() + 'px solid ' + pgIconBorderColor() : null"
-                    [radius]="pgIconBorderRadius()"
+                    [type]="pgIconConfig().type!"
+                    [size]="pgIconConfig().size"
+                    [color]="pgIconConfig().color"
+                    [rotation]="pgIconConfig().rotation"
+                    [scale]="pgIconConfig().scale"
+                    [opacity]="pgIconConfig().opacity"
+                    [flipX]="pgIconConfig().flipX"
+                    [flipY]="pgIconConfig().flipY"
+                    [padding]="pgIconConfig().padding"
+                    [background]="pgIconConfig().background"
+                    [border]="
+                      pgIconConfig().borderShow
+                        ? pgIconConfig().borderWidth + 'px solid ' + pgIconConfig().borderColor
+                        : null
+                    "
+                    [radius]="pgIconConfig().borderRadius"
                   ></av-icon>
                   @if (pgLabel()) {
                   <span style="margin-left: 8px">{{ pgLabel() }}</span>

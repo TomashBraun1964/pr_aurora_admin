@@ -2,61 +2,86 @@
 @use "styles/abstracts/mixins" as *;
 
 .av-picker-host {
-  &--with-title {
-    position: relative;
-    border: 1px solid $color-border-base;
-    border-radius: 8px;
-    padding: 16px 12px 12px;
-    background: rgba($color-primary, 0.02);
-    margin-top: 8px;
+  /* Переменная для управления цветом фона извне (Slate 800) */
+  --av-picker-bg: #1e293b;
+
+  display: flex;
+  flex-direction: column;
+  background: var(--av-picker-bg);
+  padding: 20px; /* Base padding */
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 12px 0;
+
+  &__header {
+    margin-bottom: 16px;
   }
 
   &__title {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    background: #fff;
-    padding: 0 8px;
-    font-size: 11px;
-    font-weight: $font-weight-medium;
-    color: $color-text-secondary;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
   }
 }
 
 .av-picker {
+  /* Внутреннее окно редактора */
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px; /* Base window padding */
+  border: 1px solid #cbd5e1;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  box-sizing: border-box;
 
-  &__label {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    color: $color-text-secondary;
-    margin-bottom: 8px;
+  &--no-border {
+    border: none;
   }
 
-  // Custom colors section
-  &__custom {
+  @include dark-theme {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &__section {
     display: flex;
     flex-direction: column;
-  }
-
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
     gap: 8px;
   }
 
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    @include dark-theme {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
   &__swatch {
-    width: 40px;
-    height: 40px;
-    border: 2px solid $color-border-base;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
     cursor: pointer;
-    transition: all $transition-base;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     display: flex;
     align-items: center;
@@ -65,148 +90,93 @@
     background-clip: padding-box;
 
     &:hover {
-      transform: scale(1.1);
-      border-color: $color-primary;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     &--selected {
       border-color: $color-primary;
-      border-width: 3px;
       box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
     }
 
-    &:focus-visible {
-      @include focus-ring($color-primary);
+    @include dark-theme {
+      border-color: rgba(255, 255, 255, 0.1);
     }
   }
 
   &__check {
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    pointer-events: none;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
   }
 
   &__reset-btn {
-    background: none;
-    border: none;
-    padding: 0 4px;
-    font-size: 12px;
-    color: $color-text-secondary;
+    background: rgba(100, 116, 139, 0.05);
+    border: 1px solid rgba(100, 116, 139, 0.1);
+    border-radius: 4px;
+    padding: 0 12px;
+    height: 32px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
     cursor: pointer;
-    transition: color $transition-base;
-    display: flex;
-    align-items: center;
+    transition: all 0.2s;
+    text-transform: uppercase;
 
     &:hover {
+      background: rgba($color-primary, 0.1);
       color: $color-primary;
     }
-  }
 
-  // Color picker section
-  &__picker {
-    display: flex;
-    flex-direction: column;
+    @include dark-theme {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.7);
+    }
   }
 
   &__picker-wrapper {
     display: flex;
-    align-items: stretch;
-    gap: 8px;
-    flex-wrap: nowrap;
-  }
-
-  &__color-display {
-    width: 40px;
-    height: 32px;
-    border: 1px solid $color-border-base;
-    border-radius: 4px;
-    flex-shrink: 0;
-    transition: all $transition-base;
-    cursor: pointer;
-
-    &:hover {
-      border-color: $color-primary;
-      box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
-    }
+    align-items: center;
+    gap: 12px;
   }
 
   &__input {
     flex: 1;
-    min-width: 100px;
     height: 32px;
     padding: 0 12px;
-    border: 1px solid $color-border-base;
+    border: 1px solid #cbd5e1;
     border-radius: 4px;
-    font-size: $font-size-sm;
-    font-family: $font-family-monospace;
-    transition: all $transition-base;
-
-    &:hover {
-      border-color: $color-primary;
-    }
+    font-size: 13px;
+    font-family: "Fira Code", "Cascadia Code", monospace;
+    color: #1e293b;
+    background: #f8fafc;
+    transition: all 0.2s;
 
     &:focus {
       outline: none;
       border-color: $color-primary;
-      box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+      background: #fff;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
     }
 
-    &::placeholder {
-      color: $color-text-tertiary;
-    }
-  }
-
-  // Transparent option
-  &__transparent {
-    padding-top: 8px;
-    border-top: 1px solid $color-border-light;
-  }
-
-  &__transparent-btn {
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 12px;
-    background: #fff;
-    border: 2px solid $color-border-base;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all $transition-base;
-    font-size: $font-size-sm;
-    color: $color-text-primary;
-
-    &:hover {
-      border-color: $color-primary;
-      color: $color-primary;
-    }
-
-    &--selected {
-      border-color: $color-primary;
-      color: $color-primary;
-      background: rgba($color-primary, 0.05);
-    }
-
-    &:focus-visible {
-      @include focus-ring($color-primary);
+    @include dark-theme {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
     }
   }
 
   &__transparent-pattern {
     width: 24px;
     height: 24px;
-    background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-image: linear-gradient(45deg, #ddd 25%, transparent 25%),
+      linear-gradient(-45deg, #ddd 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ddd 75%),
+      linear-gradient(-45deg, transparent 75%, #ddd 75%);
     background-size: 8px 8px;
     background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
-    border-radius: 50%;
-    border: 1px solid $color-border-base;
+    border-radius: 4px;
   }
 
   &__swatch--transparent {
@@ -219,149 +189,44 @@
       width: 100%;
       height: 100%;
       border: none;
+      border-radius: 0;
     }
 
     .av-picker__check {
       z-index: 1;
-      color: #000; // Black check on light pattern
+      color: #000;
+      text-shadow: none;
     }
   }
 
-  // Compact mode
   &--compact {
+    padding: 12px;
     gap: 12px;
-
-    .av-picker__row {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .av-picker__label {
-      min-width: 60px;
-      margin-bottom: 0;
-      flex-shrink: 0;
-      font-size: 13px;
-      padding-top: 4px; // Align with first row of buttons
-    }
-
-    .av-picker__grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      flex: 1;
-    }
 
     .av-picker__swatch {
       width: 24px;
       height: 24px;
-      border-width: 1px;
-      border-radius: 50%;
-
-      &--selected {
-        border-width: 2px;
-      }
     }
-
+    .av-picker__reset-btn,
+    .av-picker__input {
+      height: 24px;
+      font-size: 11px;
+    }
     .av-picker__check {
       font-size: 12px;
-    }
-
-    .av-picker__picker-wrapper {
-      flex: 1;
-      height: 28px;
-      gap: 6px;
-    }
-
-    .av-picker__color-display {
-      width: 28px;
-      height: 28px;
-    }
-
-    .av-picker__input {
-      height: 28px;
-      padding: 0 8px;
-      font-size: 12px;
-    }
-
-    // Adapt ng-zorro color picker
-    ::v-deep .ant-color-picker-trigger {
-      width: 28px !important;
-      height: 28px !important;
-      padding: 3px !important;
     }
   }
 }
 
-// Dark theme support
-:host-context([data-theme="dark"]) {
-  .av-picker-host {
-    &--with-title {
-      border-color: $dark-border-base;
-      background: rgba($color-primary, 0.05);
-    }
-    &__title {
-      background: #1f1f1f; // Standard dark card bg or similar
-      color: $dark-text-secondary;
-    }
-  }
+/* Стили для ng-zorro триггера */
+::v-deep .ant-color-picker-trigger {
+  width: 32px !important;
+  height: 32px !important;
+  padding: 4px !important;
+  background: transparent !important;
+  border-color: #cbd5e1 !important;
 
-  .av-picker {
-    &__swatch {
-      border-color: $dark-border-base;
-
-      &:hover {
-        border-color: $color-primary;
-      }
-    }
-
-    &__color-display {
-      border-color: $dark-border-base;
-
-      &:hover {
-        border-color: $color-primary;
-      }
-    }
-
-    &__reset-btn {
-      color: $dark-text-secondary;
-
-      &:hover {
-        color: $color-primary;
-      }
-    }
-
-    &__input {
-      background-color: $dark-bg-card;
-      border-color: $dark-border-base;
-      color: $dark-text-primary;
-
-      &:hover {
-        border-color: $color-primary;
-      }
-
-      &:focus {
-        border-color: $color-primary;
-      }
-    }
-
-    &__transparent-btn {
-      background-color: $dark-bg-card;
-      border-color: $dark-border-base;
-      color: $dark-text-primary;
-
-      &:hover {
-        border-color: $color-primary;
-        color: $color-primary;
-      }
-    }
-
-    &__swatch--transparent {
-      background-color: $dark-bg-card;
-
-      .av-picker__check {
-        color: #fff; // White check on dark pattern? Wait, pattern is still light.
-      }
-    }
+  @include dark-theme {
+    border-color: rgba(255, 255, 255, 0.2) !important;
   }
 }

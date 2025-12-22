@@ -37,11 +37,18 @@ import { MenuItem, SidebarConfig, SidebarState, SubMenuItem } from './sidebar.mo
       class="left-sidebar"
       [class.is-collapsed]="state() === 'collapsed'"
       [class.is-expanded]="state() === 'expanded'"
+      [class.is-resizing]="isResizing()"
+      [style.width]="sidebarWidth()"
     >
       <!-- Toggle Button -->
       <div class="sidebar-toggle" (click)="toggleSidebar()">
         <span nz-icon [nzType]="state() === 'collapsed' ? 'menu-unfold' : 'menu-fold'"></span>
       </div>
+
+      <!-- Resize Handle -->
+      @if (state() === 'expanded') {
+      <div class="sidebar-resizer" (mousedown)="startResizing($event)"></div>
+      }
 
       <!-- Close Submenu Button -->
       @if (showCloseSubmenuButton()) {
@@ -155,6 +162,36 @@ import { MenuItem, SidebarConfig, SidebarState, SubMenuItem } from './sidebar.mo
       </nav>
     </aside>
   `,
+  styles: [
+    `
+      .left-sidebar {
+        &.is-resizing {
+          transition: none !important;
+          user-select: none;
+        }
+      }
+
+      .sidebar-resizer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 6px;
+        cursor: col-resize;
+        z-index: 100;
+        transition: background 0.3s;
+
+        &:hover {
+          background: rgba(24, 144, 255, 0.3);
+        }
+
+        .is-resizing & {
+          background: #1890ff;
+          width: 2px;
+        }
+      }
+    `,
+  ],
   styleUrls: ['./left-sidebar.component.scss'],
 })
 export class LeftSidebarComponent implements OnInit {
@@ -169,7 +206,17 @@ export class LeftSidebarComponent implements OnInit {
   openSubmenuId = signal<string | undefined>(undefined);
   activeMenuId = signal<string | undefined>(undefined);
 
+  // Resize state
+  currentWidth = signal<number>(256);
+  isResizing = signal<boolean>(false);
+  private readonly minSidebarWidth = 200;
+  private readonly maxSidebarWidth = 600;
+
   // Computed
+  sidebarWidth = computed(() => {
+    if (this.state() === 'collapsed') return '80px';
+    return `${this.currentWidth()}px`;
+  });
   menuGroups = computed(() => {
     const groups = this.config()?.menuGroups || [];
     console.log('[LeftSidebar] menuGroups computed:', groups.length, 'groups');
@@ -226,6 +273,46 @@ export class LeftSidebarComponent implements OnInit {
       type: 'sidebarToggled',
       payload: { state: newState },
     });
+  }
+
+  /**
+   * Resizing logic
+   */
+  startResizing(event: MouseEvent): void {
+    if (this.state() === 'collapsed') return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    this.isResizing.set(true);
+
+    const startX = event.clientX;
+    const startWidth = this.currentWidth();
+
+    const mouseMoveHandler = (moveEvent: MouseEvent) => {
+      const deltaX = moveEvent.clientX - startX;
+      const newWidth = Math.min(
+        this.maxSidebarWidth,
+        Math.max(this.minSidebarWidth, startWidth + deltaX),
+      );
+      this.currentWidth.set(newWidth);
+
+      // Publish width change if needed
+      this.eventBus.publish({
+        type: 'sidebarResized',
+        payload: { width: newWidth },
+      });
+    };
+
+    const mouseUpHandler = () => {
+      this.isResizing.set(false);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+      document.body.style.cursor = 'default';
+    };
+
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+    document.body.style.cursor = 'col-resize';
   }
 
   /**

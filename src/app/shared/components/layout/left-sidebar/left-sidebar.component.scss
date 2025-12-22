@@ -5,18 +5,16 @@
 
 .left-sidebar {
   position: relative;
-  width: 256px;
+  // width handled by [style.width] in component
   height: 100%;
   background: #001529;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
+  overflow: visible; // Allow resizer to be visible at edge
   display: flex;
   flex-direction: column;
 
   // State: collapsed
   &.is-collapsed {
-    width: 80px;
-
     .menu-item__label,
     .menu-item__badge,
     .menu-item__arrow {
@@ -29,9 +27,7 @@
   }
 
   // State: expanded
-  &.is-expanded {
-    width: 256px;
-  }
+  // Width is dynamic via [style.width] in component
 }
 
 // Sidebar Toggle Button

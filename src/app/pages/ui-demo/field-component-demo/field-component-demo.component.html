@@ -1,7 +1,7 @@
 <div class="ui-help-container">
   <div class="ui-help-header">
-    <h1>UI Help Base ⭐</h1>
-    <p class="text-secondary">Базовая структура для компонентов помощи</p>
+    <h1>Field Component Demo 📦</h1>
+    <p class="text-secondary">Демонстрация компонента av-field-group</p>
   </div>
 
   <div class="ui-help-content">
@@ -23,7 +23,7 @@
             [content]="section1Content"
             [bgColor]="section1BgColor"
             [showHelpButton]="true"
-            [helpContent]="section1HelpContent"
+            [defaultCollapsed]="false"
           ></av-help-copy-container>
         </div>
       </div>
@@ -38,7 +38,7 @@
             [size]="20"
           ></av-icon>
         </button>
-        <h2>🎮 Интерактивная площадка UI Help Base</h2>
+        <h2>🎮 Интерактивная площадка</h2>
       </div>
       @if (isSection2Visible()) {
       <div class="playground-container">
@@ -79,7 +79,7 @@
             [size]="20"
           ></av-icon>
         </button>
-        <h2>Секция 3: Документация шаблона</h2>
+        <h2>📚 Документация и примеры</h2>
       </div>
       @if (isSection3Visible()) {
       <div class="section-content">
@@ -89,47 +89,8 @@
             [content]="section3Content"
             [bgColor]="section3BgColor"
             [showHelpButton]="true"
-            [helpContent]="section3HelpContent"
             [defaultCollapsed]="false"
           ></av-help-copy-container>
-        </div>
-      </div>
-      }
-    </div>
-
-    <div class="ui-help-section">
-      <div class="section-header">
-        <button class="collapse-toggle" (click)="toggleSection4()">
-          <av-icon
-            [type]="isSection4Visible() ? 'arrows/av_chevron-up' : 'arrows/av_chevron-down'"
-            [size]="20"
-          ></av-icon>
-        </button>
-        <h2>Секция 4</h2>
-      </div>
-      @if (isSection4Visible()) {
-      <div class="section-content">
-        <div class="content-block">
-          <div class="block-placeholder">Блок 1</div>
-        </div>
-      </div>
-      }
-    </div>
-
-    <div class="ui-help-section">
-      <div class="section-header">
-        <button class="collapse-toggle" (click)="toggleSection5()">
-          <av-icon
-            [type]="isSection5Visible() ? 'arrows/av_chevron-up' : 'arrows/av_chevron-down'"
-            [size]="20"
-          ></av-icon>
-        </button>
-        <h2>Секция 5</h2>
-      </div>
-      @if (isSection5Visible()) {
-      <div class="section-content">
-        <div class="content-block">
-          <div class="block-placeholder">Блок 1</div>
         </div>
       </div>
       }

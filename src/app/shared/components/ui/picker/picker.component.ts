@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
@@ -37,7 +38,7 @@ import { DEFAULT_CUSTOM_COLORS, type CustomColor, type PickerMode } from './pick
 @Component({
   selector: 'av-picker',
   standalone: true,
-  imports: [FormsModule, NzColorPickerModule],
+  imports: [CommonModule, FormsModule, NzColorPickerModule],
   templateUrl: './picker.component.html',
   styleUrl: './picker.component.scss',
 })
@@ -50,6 +51,8 @@ export class PickerComponent {
   showInput = input<boolean>(true);
   showAlpha = input<boolean>(false);
   avTitle = input<string | undefined>();
+  showWrapper = input<boolean>(true);
+  showBorder = input<boolean>(true);
 
   // Two-way binding
   selectedColor = model<string>('#1890ff');

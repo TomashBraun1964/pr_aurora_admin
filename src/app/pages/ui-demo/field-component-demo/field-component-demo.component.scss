@@ -1,107 +1,50 @@
 .ui-help-container {
-  .field-group-playground {
-    padding: 32px;
-    .playground-container {
-      max-width: 1600px;
-      margin-top: 24px;
+  padding: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
 
-      margin: 0 auto;
-    }
+.ui-help-header {
+  margin-bottom: 40px;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #1890ff 0%, #722ed1 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  h3 {
-    .ui-help-header {
-      border-bottom: 2px solid #1890ff;
+  .text-secondary {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 1rem;
+  }
+}
 
-      margin-bottom: 40px;
-      padding-bottom: 8px;
-    }
+.ui-help-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
-    h1 {
-      font-size: 2.5rem;
-      code {
-        font-weight: 800;
-        background: #f5f5f5;
+.ui-help-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-        margin-bottom: 8px;
-        padding: 2px 6px;
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
-        background: linear-gradient(135deg, #1890ff 0%, #722ed1 100%);
-        border-radius: 3px;
-
-        background-clip: text;
-        font-family: "Courier New", monospace;
-
-        -webkit-background-clip: text;
-        font-size: 12px;
-
-        -webkit-text-fill-color: transparent;
-        color: #d63384;
-      }
-    }
-
-    .text-secondary {
-      ul {
-        color: var(--text-secondary);
-        li {
-          margin: 0;
-          margin-bottom: 4px;
-
-          font-size: 1rem;
-          color: #595959;
-        }
-      }
-      code {
-        margin: 0 2px;
-
-        .ui-help-content {
-        }
-
-        display: flex;
-      }
-
-      flex-direction: column;
-    }
-
-    gap: 24px;
-  } // Dark theme adjustments
-
-  :host-context(.dark-theme) {
-    .ui-help-section {
-      h3 {
-        display: flex;
-        color: #f0f0f0;
-
-        flex-direction: column;
-        border-bottom-color: #1890ff;
-
-        gap: 16px;
-      }
-
-      .section-header {
-        code {
-          display: flex;
-          background: #262626;
-
-          align-items: center;
-          color: #ff85c0;
-
-          gap: 12px;
-        }
-
-        h2 {
-          ul li {
-            margin: 0;
-            color: #bfbfbf;
-
-            font-size: 18px;
-          }
-
-          font-weight: 600;
-        }
-
-        color: #262626;
-      }
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #262626;
     }
   }
 

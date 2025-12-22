@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AV_UI_COMPONENTS } from '@shared/components/ui';
+import { AvIconConfig, IconSettingsControlComponent } from '@shared/components/ui/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -24,6 +25,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzInputNumberModule,
     NzToolTipModule,
     AV_UI_COMPONENTS,
+    IconSettingsControlComponent,
   ],
   templateUrl: './button-ui-new.component.html',
   styleUrl: './button-ui-new.component.scss',
@@ -86,7 +88,6 @@ export interface AvButtonProps {
 
   // Playground - Colors
   pgColor = signal<string>('');
-  pgIconColor = signal<string>('');
   pgTextColor = signal<string>('');
 
   // Playground - Geometry
@@ -95,19 +96,22 @@ export interface AvButtonProps {
   pgRadius = signal<string | number | null>(null);
 
   // Playground - Advanced Icon Controls
-  pgIcon = signal<string | null>(null);
-  pgIconSize = signal(16);
-  pgIconRotation = signal(0);
-  pgIconScale = signal(1);
-  pgIconOpacity = signal(1);
-  pgIconFlipX = signal(false);
-  pgIconFlipY = signal(false);
-  pgIconPadding = signal(0);
-  pgIconBackground = signal('');
-  pgIconBorderShow = signal(false);
-  pgIconBorderColor = signal('#d9d9d9');
-  pgIconBorderWidth = signal(1);
-  pgIconBorderRadius = signal(0);
+  pgIconConfig = signal<AvIconConfig>({
+    type: null,
+    size: 16,
+    color: '',
+    rotation: 0,
+    scale: 1,
+    opacity: 1,
+    flipX: false,
+    flipY: false,
+    padding: 0,
+    background: '',
+    borderShow: false,
+    borderColor: '#d9d9d9',
+    borderWidth: 1,
+    borderRadius: 0,
+  });
 
   // Computeds for safety
   safePgSize = computed(() => (this.pgSize() === 'custom' ? 'default' : this.pgSize()) as any);
@@ -147,8 +151,8 @@ export interface AvButtonProps {
     { category: 'user', value: 'user/av_profile', label: 'Profile' },
   ];
 
-  // Computed code
   pgGeneratedCode = computed(() => {
+    const iconConfig = this.pgIconConfig();
     let code = `<button av-button\n  avType="${this.pgType()}"`;
 
     if (this.pgSize() !== 'default' && this.pgSize() !== 'custom') {
@@ -163,30 +167,30 @@ export interface AvButtonProps {
 
     if (this.pgColor()) code += `\n  avColor="${this.pgColor()}"`;
     if (this.pgTextColor()) code += `\n  avTextColor="${this.pgTextColor()}"`;
-    if (this.pgIconColor()) code += `\n  avIconColor="${this.pgIconColor()}"`;
+    if (iconConfig.color) code += `\n  avIconColor="${iconConfig.color}"`;
 
     if (this.pgWidth()) code += `\n  avWidth="${this.pgWidth()}"`;
     if (this.pgHeight()) code += `\n  avHeight="${this.pgHeight()}"`;
     if (this.pgRadius()) code += `\n  avRadius="${this.pgRadius()}"`;
-    if (this.pgIconSize() !== 16) code += `\n  avIconSize="${this.pgIconSize()}"`;
+
+    if (iconConfig.size !== 16) code += `\n  avIconSize="${iconConfig.size}"`;
 
     code += `\n>`;
 
-    if (this.pgIcon()) {
-      let iconCode = `\n  <av-icon\n    type="${this.pgIcon()}"\n    [size]="${this.pgIconSize()}"`;
-      if (this.pgIconColor()) iconCode += `\n    color="${this.pgIconColor()}"`;
-      if (this.pgIconRotation() !== 0) iconCode += `\n    [rotation]="${this.pgIconRotation()}"`;
-      if (this.pgIconScale() !== 1) iconCode += `\n    [scale]="${this.pgIconScale()}"`;
-      if (this.pgIconOpacity() !== 1) iconCode += `\n    [opacity]="${this.pgIconOpacity()}"`;
-      if (this.pgIconFlipX()) iconCode += `\n    [flipX]="true"`;
-      if (this.pgIconFlipY()) iconCode += `\n    [flipY]="true"`;
-      if (this.pgIconPadding() > 0) iconCode += `\n    [padding]="${this.pgIconPadding()}"`;
-      if (this.pgIconBackground()) iconCode += `\n    background="${this.pgIconBackground()}"`;
-      if (this.pgIconBorderShow()) {
-        const border = `${this.pgIconBorderWidth()}px solid ${this.pgIconBorderColor()}`;
+    if (iconConfig.type) {
+      let iconCode = `\n  <av-icon\n    type="${iconConfig.type}"\n    [size]="${iconConfig.size}"`;
+      if (iconConfig.color) iconCode += `\n    color="${iconConfig.color}"`;
+      if (iconConfig.rotation !== 0) iconCode += `\n    [rotation]="${iconConfig.rotation}"`;
+      if (iconConfig.scale !== 1) iconCode += `\n    [scale]="${iconConfig.scale}"`;
+      if (iconConfig.opacity !== 1) iconCode += `\n    [opacity]="${iconConfig.opacity}"`;
+      if (iconConfig.flipX) iconCode += `\n    [flipX]="true"`;
+      if (iconConfig.flipY) iconCode += `\n    [flipY]="true"`;
+      if (iconConfig.padding > 0) iconCode += `\n    [padding]="${iconConfig.padding}"`;
+      if (iconConfig.background) iconCode += `\n    background="${iconConfig.background}"`;
+      if (iconConfig.borderShow) {
+        const border = `${iconConfig.borderWidth}px solid ${iconConfig.borderColor}`;
         iconCode += `\n    border="${border}"`;
-        if (this.pgIconBorderRadius() > 0)
-          iconCode += `\n    [radius]="${this.pgIconBorderRadius()}"`;
+        if (iconConfig.borderRadius > 0) iconCode += `\n    [radius]="${iconConfig.borderRadius}"`;
       }
       iconCode += `\n  ></av-icon>`;
       code += iconCode;
@@ -234,7 +238,6 @@ export interface AvButtonProps {
 
     // Reset Colors
     this.pgColor.set('');
-    this.pgIconColor.set('');
     this.pgTextColor.set('');
 
     // Reset Geometry
@@ -243,18 +246,21 @@ export interface AvButtonProps {
     this.pgRadius.set(null);
 
     // Reset Icon
-    this.pgIcon.set(null);
-    this.pgIconSize.set(16);
-    this.pgIconRotation.set(0);
-    this.pgIconScale.set(1);
-    this.pgIconOpacity.set(1);
-    this.pgIconFlipX.set(false);
-    this.pgIconFlipY.set(false);
-    this.pgIconPadding.set(0);
-    this.pgIconBackground.set('');
-    this.pgIconBorderShow.set(false);
-    this.pgIconBorderColor.set('#d9d9d9');
-    this.pgIconBorderWidth.set(1);
-    this.pgIconBorderRadius.set(0);
+    this.pgIconConfig.set({
+      type: null,
+      size: 16,
+      color: '',
+      rotation: 0,
+      scale: 1,
+      opacity: 1,
+      flipX: false,
+      flipY: false,
+      padding: 0,
+      background: '',
+      borderShow: false,
+      borderColor: '#d9d9d9',
+      borderWidth: 1,
+      borderRadius: 0,
+    });
   }
 }

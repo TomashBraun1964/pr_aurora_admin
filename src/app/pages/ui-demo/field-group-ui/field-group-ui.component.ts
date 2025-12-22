@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
 import { HelpCopyContainerComponent } from '../../../shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
 import { FieldGroupComponent } from '../../../shared/components/ui/field-group';
 import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
@@ -22,7 +21,6 @@ import { IconComponent } from '../../../shared/components/ui/icon/icon.component
     NzInputModule,
     NzSelectModule,
     NzSwitchModule,
-    ButtonDirective,
     FieldGroupComponent,
     IconComponent,
     HelpCopyContainerComponent,
@@ -31,6 +29,41 @@ import { IconComponent } from '../../../shared/components/ui/icon/icon.component
   styleUrl: './field-group-ui.component.scss',
 })
 export class FieldGroupUiComponent {
+  // Section visibility
+  isSection1Visible = signal(true);
+  isSection2Visible = signal(true);
+  isSection3Visible = signal(true);
+
+  toggleSection1() {
+    this.isSection1Visible.set(!this.isSection1Visible());
+  }
+
+  toggleSection2() {
+    this.isSection2Visible.set(!this.isSection2Visible());
+  }
+
+  toggleSection3() {
+    this.isSection3Visible.set(!this.isSection3Visible());
+  }
+
+  // Section 1 - Technical Interface
+  section1Title = 'Interface: FieldGroupComponent';
+  section1BgColor = '#0a0e1a';
+  section1Content = `export interface FieldGroupProps {
+  label?: string;                    // Текст метки для группы
+  variant?: 'default' | 'minimal' | 'filled' | 'highlighted';
+  size?: 'small' | 'medium' | 'large';
+  collapsible?: boolean;            // Возможность сворачивания
+  isCollapsed?: boolean;            // Состояние (свернуто/развернуто)
+}
+
+// Inputs:
+label: string
+variant: 'default' | 'minimal' | 'filled' | 'highlighted' (default: 'default')
+size: 'small' | 'medium' | 'large' (default: 'medium')
+collapsible: boolean (default: false)
+isCollapsed: boolean (two-way binding через model)`;
+
   // Demo state
   userName = signal('');
   email = signal('');
@@ -131,6 +164,17 @@ export class FieldGroupUiComponent {
     <span style="color: #52c41a; font-weight: 500;">Успешно завершено</span>
   </div>
 </av-field-group>`;
+
+  generatedCode = computed(() => {
+    const variant = this.selectedVariant();
+    const size = this.selectedSize();
+    const variantAttr = variant !== 'default' ? ` variant="${variant}"` : '';
+    const sizeAttr = size !== 'medium' ? ` size="${size}"` : '';
+
+    return `<av-field-group label="Демо поле"${variantAttr}${sizeAttr}>
+  <input av-input placeholder="Введите текст..." />
+</av-field-group>`;
+  });
 
   submitForm(): void {
     console.log('Form submitted:', {

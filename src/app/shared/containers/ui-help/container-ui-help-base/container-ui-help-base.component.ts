@@ -1,10 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonDirective } from '@shared/components/ui/button/button.directive';
 import { HelpCopyContainerComponent } from '@shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
-import { FieldGroupComponent } from '@shared/components/ui/field-group';
 import { IconComponent } from '@shared/components/ui/icon/icon.component';
-import { PickerComponent } from '@shared/components/ui/picker/picker.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -21,11 +18,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzInputModule,
     NzSelectModule,
     NzSwitchModule,
-    ButtonDirective,
-    FieldGroupComponent,
     HelpCopyContainerComponent,
     IconComponent,
-    PickerComponent,
   ],
   templateUrl: './container-ui-help-base.component.html',
   styleUrl: './container-ui-help-base.component.scss',
@@ -67,60 +61,69 @@ export class ContainerUiHelpBaseComponent {
   // Section 1 - Technical Interface
   section1Title = 'Interface: ComponentProps';
   section1BgColor = '#0a0e1a';
-  section1Content = `/**
- * Технический интерфейс компонента
- */
-export interface ComponentProps {
-  // Основные параметры
-  title?: string;           // Заголовок компонента
-  subtitle?: string;        // Подзаголовок
-  size?: 'small' | 'medium' | 'large';  // Размер
+  section1Content = `Заглушка`;
+  section1HelpContent = ``;
 
-  // Состояние
-  disabled?: boolean;       // Отключен ли компонент
-  loading?: boolean;        // Состояние загрузки
-  visible?: boolean;        // Видимость
+  // Section 3 - Documentation for the layout
+  section3Title = 'Документация: Структура и Верстка';
+  section3BgColor = '#1e293b';
+  section3Content = `<!-- Иерархия классов и структура шаблона -->
+<div class="ui-help-container">
+  <!-- Заголовок -->
+  <div class="ui-help-header">
+    <h1>Заголовок</h1>
+    <p>Описание</p>
+  </div>
 
-  // Стилизация
-  className?: string;       // CSS класс
-  style?: React.CSSProperties; // Inline стили
-}`;
+  <div class="ui-help-content">
+    <!-- Секция (Разборный блок) -->
+    <div class="ui-help-section">
+      <div class="section-header">
+        <button class="collapse-toggle" (click)="toggle()">...</button>
+        <h2>Заголовок секции</h2>
+      </div>
 
-  section1HelpContent = `/**
- * Технический интерфейс компонента
- */
+      <div class="section-content">
+        <!-- Обычный блок контента -->
+        <div class="content-block">...</div>
 
-Основные возможности:
-1. Гибкая настройка размеров через size
-2. Управление состоянием (disabled, loading, visible)
-3. Кастомизация внешнего вида через className и style
-4. Поддержка заголовков и подзаголовков
+        <!-- Блок без внутренних стилей (для вставки контейнеров) -->
+        <div class="content-block no-style">
+           <av-help-copy-container ...></av-help-copy-container>
+        </div>
+      </div>
+    </div>
 
-Используйте TypeScript для автодополнения и проверки типов.`;
+    <!-- Контейнер площадки (Playground) -->
+    <div class="playground-container">
+      <div nz-row [nzGutter]="[24, 24]">
+        <!-- 1. Настройки (Слева) -->
+        <div nz-col [nzXs]="24" [nzLg]="10">
+          <nz-card nzTitle="Настройки">...</nz-card>
+        </div>
+
+        <!-- 2. Результат и Код (Справа) -->
+        <div nz-col [nzXs]="24" [nzLg]="14">
+          <!-- Превью результата -->
+          <nz-card nzTitle="Результат">...</nz-card>
+
+          <!-- Сгенерированный код -->
+          <div class="content-block no-style">
+            <av-help-copy-container title="Код" [content]="..."></av-help-copy-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+  section3HelpContent = `Подробное руководство по использованию этого шаблона для создания новых страниц документации UI компонентов.`;
 
   pgGeneratedCode = computed(() => {
-    let code = `<button av-button`;
-
-    code += `\n  avType="${this.pgButtonType()}"`;
-    code += `\n  avSize="${this.pgButtonSize()}"`;
-
-    if (this.pgButtonShape() !== 'default') {
-      code += `\n  avShape="${this.pgButtonShape()}"`;
-    }
-
-    if (this.pgButtonColor()) {
-      code += `\n  avColor="${this.pgButtonColor()}"`;
-    }
-
-    code += `\n>\n  Кнопка ${this.pgButtonType()}\n</button>`;
-
-    return code;
+    return `Заглушка`;
   });
 
   resetAllSettings() {
-    this.pgButtonType.set('primary');
-    this.pgButtonSize.set('default');
-    this.pgButtonShape.set('default');
-    this.pgButtonColor.set('#1890ff');
+    // Reset logic here
   }
 }
