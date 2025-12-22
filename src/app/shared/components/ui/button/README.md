@@ -1,37 +1,10 @@
-# Button Component & Directive
+# Button Directive ⭐
 
-Кнопки Aurora Admin доступны в двух вариантах API:
+Директива `av-button` на обычных кнопках — основной способ создания кнопок в Aurora Admin.
 
-## 1. Component API (старый подход)
+## Использование
 
-Использует Angular компонент `<app-button>`:
-
-```html
-<app-button type="primary" size="large" [loading]="isLoading()" (clicked)="handleClick()">
-  Сохранить
-</app-button>
-
-<app-button type="danger" icon="delete" [iconOnly]="true" (clicked)="handleDelete()" />
-```
-
-### Преимущества:
-
-- ✅ Поддержка иконок (prefix, suffix, icon-only)
-- ✅ Автоматическая обработка loading индикатора
-- ✅ Полная инкапсуляция стилей
-- ✅ Удобный контент через `<ng-content>`
-
-### Недостатки:
-
-- ❌ Не нативный элемент
-- ❌ Сложнее для форм и accessibility
-- ❌ Больше DOM узлов
-
----
-
-## 2. Directive API (новый подход) ⭐
-
-Использует директиву `av-button` на нативных элементах:
+Использует директиву `av-button` на нативных элементах для создания производительных и семантически корректных кнопок.
 
 ```html
 <button
@@ -47,125 +20,60 @@
 <button av-button avType="danger" disabled>Удалить</button>
 ```
 
-### Преимущества:
+### Кнопки с иконками
 
-- ✅ Нативный `<button>` элемент
-- ✅ Лучше для accessibility
-- ✅ Проще для форм
-- ✅ Меньше DOM узлов
-- ✅ Полная совместимость с HTML атрибутами
-
-### Недостатки:
-
-- ❌ Нет встроенной поддержки иконок (нужно добавлять вручную)
-- ❌ Loading индикатор через CSS ::before
-
----
-
-## API Reference
-
-### Component (`<app-button>`)
-
-| Input        | Type         | Default     | Description                                              |
-| ------------ | ------------ | ----------- | -------------------------------------------------------- |
-| `type`       | `ButtonType` | `'default'` | Тип кнопки: primary, default, dashed, text, link, danger |
-| `size`       | `ButtonSize` | `'default'` | Размер: small, default, large                            |
-| `htmlType`   | `string`     | `'button'`  | HTML type атрибут                                        |
-| `icon`       | `string`     | -           | Иконка (nz-icon name)                                    |
-| `suffixIcon` | `string`     | -           | Иконка справа                                            |
-| `iconOnly`   | `boolean`    | `false`     | Только иконка без текста                                 |
-| `loading`    | `boolean`    | `false`     | Состояние загрузки                                       |
-| `disabled`   | `boolean`    | `false`     | Отключена                                                |
-| `block`      | `boolean`    | `false`     | На всю ширину                                            |
-
-| Output    | Type                       | Description    |
-| --------- | -------------------------- | -------------- |
-| `clicked` | `EventEmitter<MouseEvent>` | Клик по кнопке |
-
-### Directive (`av-button`)
-
-| Input       | Type         | Default     | Description        |
-| ----------- | ------------ | ----------- | ------------------ |
-| `avType`    | `ButtonType` | `'default'` | Тип кнопки         |
-| `avSize`    | `ButtonSize` | `'default'` | Размер             |
-| `avLoading` | `boolean`    | `false`     | Состояние загрузки |
-| `avBlock`   | `boolean`    | `false`     | На всю ширину      |
-
-| Output    | Type                       | Description    |
-| --------- | -------------------------- | -------------- |
-| `clicked` | `EventEmitter<MouseEvent>` | Клик по кнопке |
-
----
-
-## Styling
-
-Обе версии используют BEM классы:
-
-### Component
-
-- `.button` - базовый класс
-- `.button--primary`, `.button--danger` - модификаторы типа
-- `.button--small`, `.button--large` - модификаторы размера
-- `.button__icon`, `.button__content` - элементы
-
-### Directive
-
-- `.av-btn` - базовый класс
-- `.av-btn--primary`, `.av-btn--danger` - модификаторы типа
-- `.av-btn--small`, `.av-btn--large` - модификаторы размера
-- `.av-btn--loading`, `.av-btn--block` - модификаторы состояния
-
----
-
-## Рекомендации
-
-### Используйте Component когда:
-
-- Нужны иконки
-- Требуется сложная компоновка контента
-- Используете в списках/таблицах
-
-### Используйте Directive когда:
-
-- Простые текстовые кнопки
-- Важна семантика и accessibility
-- Работаете с формами
-- Нужна максимальная производительность
-
----
-
-## Примеры
-
-### Component с иконкой
+Для кнопок с иконками используйте компонент `<av-icon>` внутри кнопки:
 
 ```html
-<app-button type="primary" icon="plus" (clicked)="onCreate()"> Создать </app-button>
-```
+<button av-button avType="primary">
+  <av-icon type="plus" [size]="16"></av-icon>
+  <span style="margin-left: 8px;">Создать</span>
+</button>
 
-### Directive с loading
-
-```html
-<button av-button avType="primary" [avLoading]="isSaving">
-  {{ isSaving ? 'Сохранение...' : 'Сохранить' }}
+<button av-button avType="default" class="av-btn--icon-only">
+  <av-icon type="search" [size]="16"></av-icon>
 </button>
 ```
 
-### Группа кнопок
+## API Reference
 
-```html
-<div class="button-group">
-  <button av-button avType="default">Отмена</button>
-  <button av-button avType="primary">OK</button>
-</div>
-```
+### Directive (`av-button`)
 
----
+| Input         | Type                                                                         | Default     | Description                               |
+| ------------- | ---------------------------------------------------------------------------- | ----------- | ----------------------------------------- |
+| `avType`      | `'primary' \| 'default' \| 'dashed' \| 'text' \| 'link' \| 'danger'`         | `'default'` | Тип кнопки                                |
+| `avSize`      | `'small' \| 'default' \| 'large'`                                            | `'default'` | Размер                                    |
+| `avShape`     | `'default' \| 'circle' \| 'square' \| 'round' \| 'rounded' \| 'rounded-big'` | `'default'` | Форма кнопки                              |
+| `avLoading`   | `boolean`                                                                    | `false`     | Состояние загрузки                        |
+| `avBlock`     | `boolean`                                                                    | `false`     | На всю ширину                             |
+| `avVisible`   | `boolean`                                                                    | `true`      | Видимость с плавной анимацией             |
+| `avColor`     | `string \| null`                                                             | `null`      | Кастомный цвет (фон и границы)            |
+| `avTextColor` | `string \| null`                                                             | `null`      | Кастомный цвет текста                     |
+| `avWidth`     | `string \| number`                                                           | `null`      | Кастомная ширина                          |
+| `avHeight`    | `string \| number`                                                           | `null`      | Кастомная высота                          |
+| `avRadius`    | `string \| number`                                                           | `null`      | Кастомный радиус скругления               |
+| `avIconOnly`  | `boolean`                                                                    | `false`     | Режим "только иконка" (влияет на отступы) |
+| `avIconSize`  | `string \| number`                                                           | `null`      | Размер иконок внутри кнопки               |
+| `avIconColor` | `string \| null`                                                             | `null`      | Цвет иконок внутри кнопки                 |
+
+| Output    | Type                       | Description    |
+| --------- | -------------------------- | -------------- |
+| `clicked` | `EventEmitter<MouseEvent>` | Клик по кнопке |
+
+## Styling
+
+Директива использует BEM классы с префиксом `av-btn`:
+
+- `.av-btn` - базовый класс
+- `.av-btn--primary`, `.av-btn--danger`, ... - модификаторы типа
+- `.av-btn--small`, `.av-btn--large` - модификаторы размера
+- `.av-btn--shape-circle`, `.av-btn--shape-square`, ... - модификаторы формы
+- `.av-btn--loading` - состояние загрузки
+- `.av-btn--block` - на всю ширину
+- `.av-btn--icon-only` - оптимизация для кнопок без текста
 
 ## Импорт
 
 ```typescript
-import { ButtonComponent, ButtonDirective } from '@shared/components/ui/button';
-// или
-import { ButtonComponent } from '@shared/components/ui/button/button.component';
 import { ButtonDirective } from '@shared/components/ui/button/button.directive';
 ```

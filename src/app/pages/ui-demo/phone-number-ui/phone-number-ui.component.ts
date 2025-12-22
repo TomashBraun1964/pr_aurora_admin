@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
-import { ButtonComponent } from '../../../shared/components/ui/button/button.component';
+import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
 import { FormFieldComponent } from '../../../shared/components/ui/form-field/form-field.component';
+import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
 import { PhoneInputComponent } from '../../../shared/components/ui/phone-input/phone-input.component';
 
 @Component({
@@ -15,7 +16,8 @@ import { PhoneInputComponent } from '../../../shared/components/ui/phone-input/p
     ReactiveFormsModule,
     PhoneInputComponent,
     FormFieldComponent,
-    ButtonComponent,
+    ButtonDirective,
+    IconComponent,
     AlertComponent,
   ],
   templateUrl: './phone-number-ui.component.html',
@@ -78,7 +80,7 @@ export class PhoneNumberUiComponent {
 
     if (this.formPhoneControl.valid && this.formEmailControl.valid) {
       this.formMessage.set(
-        `Form submitted! Phone: ${this.formPhoneControl.value}, Email: ${this.formEmailControl.value}`
+        `Form submitted! Phone: ${this.formPhoneControl.value}, Email: ${this.formEmailControl.value}`,
       );
     } else {
       this.formMessage.set('Please fill in all required fields ❌');

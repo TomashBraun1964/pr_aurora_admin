@@ -1,6 +1,15 @@
 // src/app/shared/components/ui/button/button.directive.ts
 import { Directive, HostBinding, HostListener, input, output } from '@angular/core';
-import type { ButtonSize, ButtonType } from './button.component';
+
+/**
+ * Button Types
+ */
+export type ButtonType = 'primary' | 'default' | 'dashed' | 'text' | 'link' | 'danger';
+
+/**
+ * Button Sizes
+ */
+export type ButtonSize = 'small' | 'default' | 'large' | 'square';
 
 /**
  * Button Directive

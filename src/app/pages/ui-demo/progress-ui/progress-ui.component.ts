@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '@shared/components/ui/button/button.component';
+import { ButtonDirective } from '@shared/components/ui/button/button.directive';
 import { HelpCopyContainerComponent } from '@shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
+import { IconComponent } from '@shared/components/ui/icon/icon.component';
 import { ModalComponent } from '@shared/components/ui/modal';
 import { AvProgressComponent } from '@shared/components/ui/progress';
 import {
@@ -30,7 +31,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CommonModule,
     FormsModule,
     AvProgressComponent,
-    ButtonComponent,
+    ButtonDirective,
+    IconComponent,
     HelpCopyContainerComponent,
     ModalComponent,
     NzCardModule,

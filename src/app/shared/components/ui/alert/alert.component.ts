@@ -29,7 +29,7 @@ export type AlertType = 'success' | 'info' | 'warning' | 'error';
  * - Кастомная обёртка над ng-zorro
  */
 @Component({
-  selector: 'app-alert',
+  selector: 'av-alert',
   standalone: true,
   imports: [CommonModule, NzIconModule],
   template: `

@@ -6,8 +6,8 @@
       <p class="page-subtitle">Высокопроизводительный компонент индикации прогресса на основе Angular Signals и SVG.</p>
     </div>
     <div class="header-actions">
-      <app-button type="primary" (clicked)="showHelpModal = true">Примеры использования</app-button>
-      <app-button type="default" (clicked)="showPrincipleModal = true">Принцип работы</app-button>
+      <button av-button avType="primary" (clicked)="showHelpModal = true">Примеры использования</button>
+      <button av-button avType="default" (clicked)="showPrincipleModal = true">Принцип работы</button>
     </div>
   </div>
 
@@ -21,7 +21,7 @@
       ></av-help-copy-container>
     </div>
     <div modal-footer>
-      <app-button type="default" (clicked)="showHelpModal = false">Закрыть</app-button>
+      <button av-button avType="default" (clicked)="showHelpModal = false">Закрыть</button>
     </div>
   </av-modal>
 
@@ -35,7 +35,7 @@
       ></av-help-copy-container>
     </div>
     <div modal-footer>
-      <app-button type="default" (clicked)="showPrincipleModal = false">Закрыть</app-button>
+      <button av-button avType="default" (clicked)="showPrincipleModal = false">Закрыть</button>
     </div>
   </av-modal>
 
@@ -49,7 +49,7 @@
       ></av-help-copy-container>
     </div>
     <div modal-footer>
-      <app-button type="default" (clicked)="showGeneratedCodeModal = false">Закрыть</app-button>
+      <button av-button avType="default" (clicked)="showGeneratedCodeModal = false">Закрыть</button>
     </div>
   </av-modal>
 
@@ -115,14 +115,17 @@
                 class="preview-actions"
                 style="margin-top: 24px; width: 100%; max-width: 400px; display: flex; justify-content: center"
               >
-                <app-button
-                  [type]="isSimulating() ? 'danger' : 'default'"
+                <button
+                  av-button
+                  [avType]="isSimulating() ? 'danger' : 'default'"
                   (clicked)="toggleSimulation()"
-                  [icon]="isSimulating() ? 'close' : 'play-circle'"
-                  [block]="true"
+                  [avBlock]="true"
                 >
-                  {{ isSimulating() ? 'Остановить пример' : '🚀 Живой пример (Simulate)' }}
-                </app-button>
+                  <av-icon [type]="isSimulating() ? 'close' : 'play-circle'" [size]="16"></av-icon>
+                  <span style="margin-left: 8px">{{
+                    isSimulating() ? 'Остановить пример' : '🚀 Живой пример (Simulate)'
+                  }}</span>
+                </button>
               </div>
             </div>
           </div>
@@ -148,8 +151,12 @@
                     style="width: 70px"
                   ></nz-input-number>
                   <nz-space>
-                    <app-button (clicked)="decrease()" icon="minus" size="small" type="default"></app-button>
-                    <app-button (clicked)="increase()" icon="plus" size="small" type="default"></app-button>
+                    <button av-button avType="default" avSize="small" (clicked)="decrease()" class="av-btn--icon-only">
+                      <av-icon type="minus" [size]="14"></av-icon>
+                    </button>
+                    <button av-button avType="default" avSize="small" (clicked)="increase()" class="av-btn--icon-only">
+                      <av-icon type="plus" [size]="14"></av-icon>
+                    </button>
                   </nz-space>
                 </div>
               </div>
@@ -177,7 +184,7 @@
                         (ngModelChange)="playgroundStrokeColor.set($event)"
                         style="flex: 1"
                       />
-                      <app-button size="small" (clicked)="playgroundStrokeColor.set(undefined)">Reset</app-button>
+                      <button av-button avSize="small" (clicked)="playgroundStrokeColor.set(undefined)">Reset</button>
                     </div>
                   </ng-container>
 
@@ -315,9 +322,10 @@
               </div>
 
               <div class="playground-actions">
-                <app-button type="primary" [block]="true" (clicked)="generateCode()" icon="code">
-                  📋 Сгенерировать код настройки
-                </app-button>
+                <button av-button avType="primary" [avBlock]="true" (clicked)="generateCode()">
+                  <av-icon type="code" [size]="16"></av-icon>
+                  <span style="margin-left: 8px">📋 Сгенерировать код настройки</span>
+                </button>
               </div>
             </div>
           </div>

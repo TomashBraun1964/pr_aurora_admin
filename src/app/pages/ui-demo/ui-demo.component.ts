@@ -4,7 +4,6 @@ import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ThemeService } from '../../core/services/theme/theme.service';
 import { AlertComponent } from '../../shared/components/ui/alert/alert.component';
-import { ButtonComponent } from '../../shared/components/ui/button/button.component';
 import { ButtonDirective } from '../../shared/components/ui/button/button.directive';
 import { FormFieldComponent } from '../../shared/components/ui/form-field/form-field.component';
 import { IconComponent } from '../../shared/components/ui/icon/icon.component';
@@ -31,7 +30,6 @@ import { PhoneInputComponent } from '../../shared/components/ui/phone-input/phon
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ButtonComponent,
     ButtonDirective,
     FormFieldComponent,
     AlertComponent,
@@ -46,9 +44,10 @@ import { PhoneInputComponent } from '../../shared/components/ui/phone-input/phon
 
         <!-- Theme Switcher -->
         <div style="margin-top: 16px;">
-          <app-button type="default" icon="bulb" (clicked)="toggleTheme()">
+          <button av-button avType="default" (clicked)="toggleTheme()">
+            <av-icon type="bulb" [size]="16" style="margin-right: 8px;"></av-icon>
             @if (currentTheme() === 'light') { Тёмная тема } @else { Светлая тема }
-          </app-button>
+          </button>
         </div>
       </div>
 
@@ -695,27 +694,27 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
       <section class="demo-section">
         <h2>Alerts</h2>
 
-        <app-alert type="success" [closable]="true">
+        <av-alert type="success" [closable]="true">
           <strong>Success!</strong> Your changes have been saved successfully.
-        </app-alert>
+        </av-alert>
 
-        <app-alert
+        <av-alert
           type="info"
           title="Information"
           description="This is an informational message with title and description."
-        ></app-alert>
+        ></av-alert>
 
-        <app-alert type="warning" [closable]="true">
+        <av-alert type="warning" [closable]="true">
           <strong>Warning!</strong> Please review your input before submitting.
-        </app-alert>
+        </av-alert>
 
-        <app-alert
+        <av-alert
           type="error"
           title="Error occurred"
           description="Unable to save changes. Please try again later."
-        ></app-alert>
+        ></av-alert>
 
-        <app-alert type="info" [showIcon]="false"> Alert without icon </app-alert>
+        <av-alert type="info" [showIcon]="false"> Alert without icon </av-alert>
       </section>
 
       <!-- Form Fields Section -->
@@ -758,8 +757,8 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
           </app-form-field>
 
           <div class="button-row">
-            <app-button type="primary" (clicked)="validateForm()"> Validate Form </app-button>
-            <app-button type="default" (clicked)="resetForm()"> Reset </app-button>
+            <button av-button avType="primary" (clicked)="validateForm()">Validate Form</button>
+            <button av-button avType="default" (clicked)="resetForm()">Reset</button>
           </div>
         </div>
       </section>
@@ -1375,11 +1374,20 @@ export class UiDemoComponent {
 <button av-button avType="primary" avSize="default">Default</button>
 <button av-button avType="primary" avSize="large">Large</button>`;
 
-  readonly buttonIconsCode = `<!-- С иконками пока используем app-button компонент -->
-<app-button type="primary" icon="check">With Icon</app-button>
-<app-button type="default" icon="download" suffixIcon="down">Download</app-button>
-<app-button type="primary" icon="plus" [iconOnly]="true"></app-button>
-<app-button type="danger" icon="delete" [iconOnly]="true"></app-button>`;
+  readonly buttonIconsCode = `<button av-button avType="primary" (clicked)="handleClick()">
+  <av-icon type="check" [size]="16"></av-icon>
+  <span style="margin-left: 8px;">With Icon</span>
+</button>
+<button av-button avType="default" (clicked)="handleClick()">
+  <av-icon type="download" [size]="16"></av-icon>
+  <span style="margin-left: 8px;">Download</span>
+</button>
+<button av-button avType="primary" class="av-btn--icon-only" (clicked)="handleClick()">
+  <av-icon type="plus" [size]="16"></av-icon>
+</button>
+<button av-button avType="danger" class="av-btn--icon-only" (clicked)="handleClick()">
+  <av-icon type="delete" [size]="16"></av-icon>
+</button>`;
 
   readonly buttonStatesCode = `<button av-button avType="primary" [avLoading]="isLoading()">
   @if (isLoading()) {{ '{' }}
