@@ -5,7 +5,6 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
 import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
 import { FormFieldComponent } from '../../../shared/components/ui/form-field/form-field.component';
-import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
 import { PhoneInputComponent } from '../../../shared/components/ui/phone-input/phone-input.component';
 
 @Component({
@@ -17,7 +16,6 @@ import { PhoneInputComponent } from '../../../shared/components/ui/phone-input/p
     PhoneInputComponent,
     FormFieldComponent,
     ButtonDirective,
-    IconComponent,
     AlertComponent,
   ],
   templateUrl: './phone-number-ui.component.html',

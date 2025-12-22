@@ -41,11 +41,7 @@
         <div nz-row [nzGutter]="[24, 24]">
           <!-- Left: Controls -->
           <div nz-col [nzXs]="24" [nzLg]="10">
-            <nz-card nzTitle="Настройки" [nzExtra]="resetTpl" class="control-card">
-              <ng-template #resetTpl>
-                <button av-button avType="text" avTextColor="#f43f5e" (click)="resetAllSettings()">Сбросить все</button>
-              </ng-template>
-
+            <nz-card nzTitle="Настройки" class="control-card">
               <div class="control-panel">
                 <!-- ГЛАВНЫЙ КОНТЕЙНЕР -->
                 <av-field-group label="Настройки иконки" [collapsible]="true">
@@ -63,13 +59,13 @@
                     >
                       Текущая<br />иконка:
                     </label>
-                    <div style="flex: 1">
+                    <div style="flex: 1; display: flex; align-items: center; gap: 8px">
                       <nz-select
                         [ngModel]="pgIcon()"
                         (ngModelChange)="pgIcon.set($event)"
                         nzShowSearch
                         nzPlaceHolder="Выберите иконку"
-                        class="full-width"
+                        style="flex: 1"
                         nzSize="large"
                         [nzCustomTemplate]="selectedIconTpl"
                       >
@@ -87,6 +83,10 @@
                         </nz-option>
                         }
                       </nz-select>
+
+                      <button av-button avType="text" avSize="small" avTextColor="#f43f5e" (click)="resetAllSettings()">
+                        Сбросить
+                      </button>
 
                       <ng-template #selectedIconTpl let-selected>
                         <div style="display: flex; align-items: center; gap: 10px; height: 32px">

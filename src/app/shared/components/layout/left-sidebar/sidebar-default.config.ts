@@ -48,6 +48,16 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
               icon: 'block',
             },
             {
+              id: 'button-ui-new',
+              label: 'Button UI New',
+              route: '/ui-demo/button-ui-new',
+              icon: 'appstore',
+              badge: {
+                value: 'New',
+                intent: 'success',
+              },
+            },
+            {
               id: 'toggle-ui',
               label: 'Toggle UI',
               route: '/ui-demo/toggle-ui',

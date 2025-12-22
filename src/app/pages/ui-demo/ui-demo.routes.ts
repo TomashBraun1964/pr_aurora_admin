@@ -12,6 +12,11 @@ export const UI_DEMO_ROUTES: Routes = [
     loadComponent: () => import('./button-ui/button-ui.component').then((m) => m.ButtonUiComponent),
   },
   {
+    path: 'button-ui-new',
+    loadComponent: () =>
+      import('./button-ui-new/button-ui-new.component').then((m) => m.ButtonUiNewComponent),
+  },
+  {
     path: 'toggle-ui',
     loadComponent: () => import('./toggle-ui/toggle-ui.component').then((m) => m.ToggleUiComponent),
   },
