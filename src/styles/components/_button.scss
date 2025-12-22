@@ -194,7 +194,7 @@
     gap: 0;
 
     // Ensure icon is perfectly centered
-    app-icon,
+    av-icon,
     .anticon,
     nz-icon {
       flex-shrink: 0;
@@ -233,7 +233,7 @@
     }
 
     // Ensure icon and text (if any) are centered
-    app-icon,
+    av-icon,
     .anticon,
     nz-icon {
       flex-shrink: 0;
@@ -271,7 +271,7 @@
       border-radius: 0 !important;
     }
 
-    app-icon,
+    av-icon,
     .anticon,
     nz-icon {
       flex-shrink: 0;

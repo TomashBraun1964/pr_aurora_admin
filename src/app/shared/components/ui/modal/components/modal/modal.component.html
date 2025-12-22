@@ -43,7 +43,7 @@
           (click)="toggleFullscreen($event)"
           [attr.aria-label]="isFullscreen ? 'Свернуть' : 'Развернуть'"
         >
-          <app-icon [type]="isFullscreen ? 'actions/av_compress' : 'actions/av_expand'" [size]="18"></app-icon>
+          <av-icon [type]="isFullscreen ? 'actions/av_compress' : 'actions/av_expand'" [size]="18"></av-icon>
         </button>
 
         <button
@@ -53,7 +53,7 @@
           (click)="close()"
           aria-label="Закрыть"
         >
-          <app-icon type="actions/av_close" [size]="20"></app-icon>
+          <av-icon type="actions/av_close" [size]="20"></av-icon>
         </button>
       </div>
     </div>

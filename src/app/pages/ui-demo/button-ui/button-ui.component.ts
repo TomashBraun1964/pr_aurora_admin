@@ -103,7 +103,7 @@ export class ButtonUiComponent {
     tpl += `\n  (clicked)="handleClick()"\n>`;
 
     if (this.pgIcon()) {
-      tpl += `\n  <app-icon type="${this.pgIcon()}" [size]="${this.getIconSize()}"></app-icon>`;
+      tpl += `\n  <av-icon type="${this.pgIcon()}" [size]="${this.getIconSize()}"></av-icon>`;
       if (!isIconOnly) {
         tpl += `\n  <span style="margin-left: 8px;">${this.pgLabel()}</span>`;
       }
@@ -293,7 +293,7 @@ import { IconComponent } from '@shared/components/ui/icon'; // опционал�
   avSize="default"
   (clicked)="handleClick()"
 >
-  <app-icon type="download" [size]="16"></app-icon>
+  <av-icon type="download" [size]="16"></av-icon>
   <span style="margin-left: 8px;">Скачать</span>
 </button>
 
@@ -303,7 +303,7 @@ import { IconComponent } from '@shared/components/ui/icon'; // опционал�
   avType="default"
   [avIconOnly]="true"
 >
-  <app-icon type="search" [size]="16"></app-icon>
+  <av-icon type="search" [size]="16"></av-icon>
 </button>
 
 // Кастомные цвета (Фон, Текст и Иконка раздельно)
@@ -313,7 +313,7 @@ import { IconComponent } from '@shared/components/ui/icon'; // опционал�
   avTextColor="#f8fafc"
   avIconColor="#38bdf8"
 >
-  <app-icon type="settings"></app-icon>
+  <av-icon type="settings"></av-icon>
   <span style="margin-left:8px">Настройки</span>
 </button>`;
 
@@ -331,6 +331,6 @@ import { IconComponent } from '@shared/components/ui/icon'; // опционал�
   readonly sharpCode = `<button av-button avShape="square">Sharp Corners</button>
 <button av-button avType="primary" avShape="square">Sharp Primary</button>
 <button av-button [avIconOnly]="true" avShape="square">
-  <app-icon type="search"></app-icon>
+  <av-icon type="search"></av-icon>
 </button>`;
 }

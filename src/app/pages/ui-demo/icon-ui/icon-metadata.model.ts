@@ -1,6 +1,6 @@
 export interface AvIcon {
   name: string; // Имя для отображения и поиска
-  type: string; // Имя для передачи в app-icon (полный путь без расширения)
+  type: string; // Имя для передачи в av-icon (полный путь без расширения)
   category: string; // Категория (папка)
 }
 

@@ -37,11 +37,11 @@ import { InputDirective } from './input.directive';
       >
         @if (prefixIcon()) {
         <div class="av-input-prefix">
-          <app-icon
+          <av-icon
             [type]="prefixIcon()!"
             [size]="getPrefixIconSize()"
             [color]="iconColor() || prefixIconColor()"
-          ></app-icon>
+          ></av-icon>
         </div>
         }
 
@@ -78,11 +78,11 @@ import { InputDirective } from './input.directive';
 
         @if (suffixIcon() && !(type() === 'password' && showPasswordToggle())) {
         <div class="av-input-suffix">
-          <app-icon
+          <av-icon
             [type]="suffixIcon()!"
             [size]="getSuffixIconSize()"
             [color]="iconColor() || suffixIconColor()"
-          ></app-icon>
+          ></av-icon>
         </div>
         } @if (type() === 'password' && showPasswordToggle()) {
         <button
@@ -153,7 +153,7 @@ import { InputDirective } from './input.directive';
           z-index: 1;
           transition: all 0.3s;
 
-          app-icon,
+          av-icon,
           .anticon,
           nz-icon {
             font-size: var(--av-input-icon-size, inherit);
@@ -170,7 +170,7 @@ import { InputDirective } from './input.directive';
 
         .av-input-prefix {
           left: 12px;
-          app-icon,
+          av-icon,
           .anticon,
           nz-icon {
             font-size: var(--av-prefix-icon-size, inherit);
@@ -183,7 +183,7 @@ import { InputDirective } from './input.directive';
 
         .av-input-suffix {
           right: 12px;
-          app-icon,
+          av-icon,
           .anticon,
           nz-icon {
             font-size: var(--av-suffix-icon-size, inherit);

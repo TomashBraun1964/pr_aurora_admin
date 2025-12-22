@@ -29,6 +29,11 @@ export const UI_DEMO_ROUTES: Routes = [
     loadComponent: () => import('./icon-ui/icon-ui.component').then((m) => m.IconUiComponent),
   },
   {
+    path: 'icon-control',
+    loadComponent: () =>
+      import('./icon-control/icon-control.component').then((m) => m.IconControlComponent),
+  },
+  {
     path: 'modal-ui',
     loadComponent: () => import('./modal-ui/modal-ui.component').then((m) => m.ModalUiComponent),
   },
@@ -41,6 +46,11 @@ export const UI_DEMO_ROUTES: Routes = [
     path: 'dialog-icon-ui',
     loadComponent: () =>
       import('./dialog-icon-ui/dialog-icon-ui.component').then((m) => m.DialogIconUiComponent),
+  },
+  {
+    path: 'field-group-ui',
+    loadComponent: () =>
+      import('./field-group-ui/field-group-ui.component').then((m) => m.FieldGroupUiComponent),
   },
   {
     path: 'search-ui',
@@ -71,5 +81,9 @@ export const UI_DEMO_ROUTES: Routes = [
     path: 'progress-ui',
     loadComponent: () =>
       import('./progress-ui/progress-ui.component').then((m) => m.ProgressUiComponent),
+  },
+  {
+    path: 'picker-ui',
+    loadComponent: () => import('./picker-ui/picker-ui.component').then((m) => m.PickerUiComponent),
   },
 ];

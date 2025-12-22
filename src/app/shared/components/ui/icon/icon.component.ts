@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IconService } from '@core/services/icon/icon.service';
 
@@ -9,7 +9,7 @@ import { IconService } from '@core/services/icon/icon.service';
  * Улучшенная версия с поддержкой Signals и автоматической очисткой SVG.
  */
 @Component({
-  selector: 'app-icon',
+  selector: 'av-icon',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -18,6 +18,12 @@ import { IconService } from '@core/services/icon/icon.service';
       [style.width.px]="size()"
       [style.height.px]="size()"
       [style.--av-icon-color]="color()"
+      [style.transform]="transformStyle()"
+      [style.opacity]="opacity()"
+      [style.padding]="paddingStyle()"
+      [style.background]="background()"
+      [style.border]="border()"
+      [style.border-radius]="radiusStyle()"
       [innerHTML]="svgContent()"
     ></div>
   `,
@@ -71,6 +77,55 @@ export class IconComponent {
 
   /** Цвет иконки (напр. '#ff0000', 'red', 'currentColor') */
   color = input<string | null>(null);
+
+  /** Угол поворота в градусах */
+  rotation = input<number>(0);
+
+  /** Масштаб (1 - оригинальный размер) */
+  scale = input<number>(1);
+
+  /** Прозрачность (0-1) */
+  opacity = input<number>(1);
+
+  /** Отразить по горизонтали */
+  flipX = input<boolean>(false);
+
+  /** Отразить по вертикали */
+  flipY = input<boolean>(false);
+
+  /** Внутренние отступы (число = px, или строка с единицами) */
+  padding = input<number | string>(0);
+
+  /** Фон иконки */
+  background = input<string>('transparent');
+
+  /** Граница (напр. '1px solid #ccc') */
+  border = input<string | null>(null);
+
+  /** Радиус скругления */
+  radius = input<number | string>(0);
+
+  /** Вычисляемая строка трансформации */
+  transformStyle = computed(() => {
+    const parts = [];
+    if (this.rotation() !== 0) parts.push(`rotate(${this.rotation()}deg)`);
+    if (this.scale() !== 1) parts.push(`scale(${this.scale()})`);
+    if (this.flipX()) parts.push('scaleX(-1)');
+    if (this.flipY()) parts.push('scaleY(-1)');
+    return parts.join(' ');
+  });
+
+  /** Хелпер для отступов */
+  paddingStyle = computed(() => {
+    const p = this.padding();
+    return typeof p === 'number' ? `${p}px` : p;
+  });
+
+  /** Хелпер для радиуса */
+  radiusStyle = computed(() => {
+    const r = this.radius();
+    return typeof r === 'number' ? `${r}px` : r;
+  });
 
   /** Обработанное содержимое SVG */
   svgContent = signal<SafeHtml>('');

@@ -11,7 +11,7 @@ import { IconComponent } from '../../../shared/components/ui/icon/icon.component
 import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
 
 @Component({
-  selector: 'app-icon-manager',
+  selector: 'av-icon-manager',
   standalone: true,
   imports: [
     CommonModule,
@@ -34,7 +34,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
           <div class="sidebar-header">
             <div class="brand">
               <div class="brand-icon">
-                <app-icon type="system/av_cog" [size]="20"></app-icon>
+                <av-icon type="system/av_cog" [size]="20"></av-icon>
               </div>
               <div class="brand-text">
                 <h2>IconStudio</h2>
@@ -51,12 +51,12 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                 [class.active]="selectedCategory() === null"
                 (click)="selectedCategory.set(null)"
               >
-                <app-icon type="general/av_home" [size]="18"></app-icon>
+                <av-icon type="general/av_home" [size]="18"></av-icon>
                 <span>All Assets</span>
                 <span class="badge">{{ totalIcons() }}</span>
               </div>
               <div class="nav-item">
-                <app-icon type="general/av_tag" [size]="18"></app-icon>
+                <av-icon type="general/av_tag" [size]="18"></av-icon>
                 <span>Recently Added</span>
               </div>
             </div>
@@ -65,7 +65,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
               <div class="section-header">
                 <label>Collections</label>
                 <button class="icon-btn-small">
-                  <app-icon type="actions/av_add" [size]="14"></app-icon>
+                  <av-icon type="actions/av_add" [size]="14"></av-icon>
                 </button>
               </div>
               @for (cat of categories(); track cat.category) {
@@ -74,7 +74,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                 [class.active]="selectedCategory() === cat.category"
                 (click)="selectedCategory.set(cat.category)"
               >
-                <app-icon type="folder_icon-icons.com_70963" [size]="18"></app-icon>
+                <av-icon type="folder_icon-icons.com_70963" [size]="18"></av-icon>
                 <span>{{ cat.category }}</span>
                 <span class="count">{{ cat.icons.length }}</span>
               </div>
@@ -100,7 +100,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
         <div class="main">
           <header class="main-header">
             <div class="search-wrapper">
-              <app-icon type="actions/av_search" [size]="18"></app-icon>
+              <av-icon type="actions/av_search" [size]="18"></av-icon>
               <input
                 type="text"
                 [(ngModel)]="searchQuery"
@@ -109,7 +109,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
               />
               @if (searchQuery()) {
               <button class="clear-btn" (click)="searchQuery.set('')">
-                <app-icon type="actions/av_close" [size]="14"></app-icon>
+                <av-icon type="actions/av_close" [size]="14"></av-icon>
               </button>
               }
               <kbd>/</kbd>
@@ -117,15 +117,15 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
 
             <div class="header-actions">
               <button class="btn-outline" (click)="isBatchLabOpen.set(true)">
-                <app-icon type="system/av_cog" [size]="16"></app-icon>
+                <av-icon type="system/av_cog" [size]="16"></av-icon>
                 Batch Lab
               </button>
               <button class="btn-outline">
-                <app-icon type="system/av_settings" [size]="16"></app-icon>
+                <av-icon type="system/av_settings" [size]="16"></av-icon>
                 Settings
               </button>
               <button class="btn-primary" (click)="onUploadClick()">
-                <app-icon type="actions/av_upload" [size]="16"></app-icon>
+                <av-icon type="actions/av_upload" [size]="16"></av-icon>
                 Upload SVG
               </button>
             </div>
@@ -137,7 +137,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                 <h1>{{ selectedCategory() || 'All Assets' }}</h1>
                 <div class="breadcrumbs">
                   <span class="link" (click)="selectedCategory.set(null)">Library</span>
-                  <app-icon type="arrows/av_arrow_right" [size]="12"></app-icon>
+                  <av-icon type="arrows/av_arrow_right" [size]="12"></av-icon>
                   <span class="current">{{ selectedCategory() || 'All Assets' }}</span>
                 </div>
               </div>
@@ -145,10 +145,10 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
               <div class="view-controls">
                 <div class="control-group">
                   <button class="icon-btn active">
-                    <app-icon type="system/av_barcode" [size]="18"></app-icon>
+                    <av-icon type="system/av_barcode" [size]="18"></av-icon>
                   </button>
                   <button class="icon-btn">
-                    <app-icon type="system/av_notification" [size]="18"></app-icon>
+                    <av-icon type="system/av_notification" [size]="18"></av-icon>
                   </button>
                 </div>
                 <div class="divider"></div>
@@ -162,7 +162,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
 
             @if (filteredIcons().length === 0) {
             <div class="empty-state">
-              <app-icon type="system/av_info" [size]="48"></app-icon>
+              <av-icon type="system/av_info" [size]="48"></av-icon>
               <h3>No icons found</h3>
               <p>Try adjusting your search or category</p>
             </div>
@@ -172,7 +172,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
               <div class="icon-card shadow-sm" (click)="openEditor(icon)">
                 <div class="card-preview">
                   <div class="preview-inner">
-                    <app-icon [type]="icon.type" [size]="32"></app-icon>
+                    <av-icon [type]="icon.type" [size]="32"></av-icon>
                   </div>
                   <div class="card-overlay">
                     <button
@@ -180,14 +180,14 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                       title="Quick Copy"
                       (click)="$event.stopPropagation(); copyCode(icon.type)"
                     >
-                      <app-icon type="actions/av_eye" [size]="16"></app-icon>
+                      <av-icon type="actions/av_eye" [size]="16"></av-icon>
                     </button>
                     <button
                       class="overlay-btn"
                       title="Edit / Optimize"
                       (click)="$event.stopPropagation(); openEditor(icon)"
                     >
-                      <app-icon type="system/av_cog" [size]="16"></app-icon>
+                      <av-icon type="system/av_cog" [size]="16"></av-icon>
                     </button>
                   </div>
                 </div>
@@ -218,7 +218,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
               <div class="preview-box raw">
                 <label>Original</label>
                 <div class="icon-wrapper">
-                  <app-icon [type]="icon.type" [size]="64"></app-icon>
+                  <av-icon [type]="icon.type" [size]="64"></av-icon>
                 </div>
               </div>
               <div class="preview-box optimized" [class.active]="cleanedSvgCode()">
@@ -247,13 +247,13 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
             <div class="passport-card" [class.standard]="passport.isStandard">
               <div class="passport-header">
                 <div class="passport-title">
-                  <app-icon type="system/av_info" [size]="14"></app-icon>
+                  <av-icon type="system/av_info" [size]="14"></av-icon>
                   <span>Технический паспорт</span>
                 </div>
                 <div class="passport-actions">
                   @if (!passport.isStandard) {
                   <button class="fix-btn" (click)="normalizeToStandard()">
-                    <app-icon type="actions/av_hammer" [size]="12"></app-icon>
+                    <av-icon type="actions/av_hammer" [size]="12"></av-icon>
                     Исправить на 24x24
                   </button>
                   }
@@ -330,7 +330,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                     </div>
                   </div>
                   <button nz-button nzType="dashed" nzBlock (click)="applyMetadata()">
-                    <app-icon type="actions/av_add" [size]="14"></app-icon>
+                    <av-icon type="actions/av_add" [size]="14"></av-icon>
                     Inject Metadata into Code
                   </button>
                 </div>
@@ -345,7 +345,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
             <!-- Actions Footer -->
             <div class="editor-footer">
               <button nz-button nzType="default" (click)="optimizeSvg()">
-                <app-icon type="system/av_cog" [size]="16"></app-icon>
+                <av-icon type="system/av_cog" [size]="16"></av-icon>
                 Optimize & Clean
               </button>
               <div class="spacer"></div>
@@ -355,7 +355,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                 [disabled]="!cleanedSvgCode()"
                 (click)="saveChanges()"
               >
-                <app-icon type="actions/av_check_mark" [size]="16"></app-icon>
+                <av-icon type="actions/av_check_mark" [size]="16"></av-icon>
                 Save Changes
               </button>
             </div>
@@ -403,7 +403,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
             <div class="batch-actions-grid">
               <div class="batch-action-card" (click)="startBatchProcess('optimize')">
                 <div class="action-icon">
-                  <app-icon type="actions/av_eraser" [size]="20"></app-icon>
+                  <av-icon type="actions/av_eraser" [size]="20"></av-icon>
                 </div>
                 <div class="action-info">
                   <h4>Batch Optimize</h4>
@@ -413,7 +413,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
 
               <div class="batch-action-card" (click)="startBatchProcess('normalize')">
                 <div class="action-icon">
-                  <app-icon type="arrows/av_expand" [size]="20"></app-icon>
+                  <av-icon type="arrows/av_expand" [size]="20"></av-icon>
                 </div>
                 <div class="action-info">
                   <h4>Standardize 24x24</h4>
@@ -426,7 +426,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
               <h4
                 style="margin: 0 0 12px 0; font-size: 14px; color: #1e293b; display: flex; align-items: center; gap: 8px;"
               >
-                <app-icon type="actions/av_search" [size]="14"></app-icon>
+                <av-icon type="actions/av_search" [size]="14"></av-icon>
                 Массовое редактирование кода
               </h4>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
@@ -455,7 +455,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                 [disabled]="!batchSearchQuery()"
                 (click)="startBatchProcess('replace')"
               >
-                <app-icon type="actions/av_save" [size]="14"></app-icon>
+                <av-icon type="actions/av_save" [size]="14"></av-icon>
                 Применить замену ко всем
               </button>
             </div>
@@ -467,7 +467,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
               <h4
                 style="margin: 0 0 12px 0; font-size: 14px; color: #1e293b; display: flex; align-items: center; gap: 8px;"
               >
-                <app-icon type="actions/av_eye" [size]="14"></app-icon>
+                <av-icon type="actions/av_eye" [size]="14"></av-icon>
                 Массовое обогащение (Enrich / Meta)
               </h4>
               <div class="enrich-form" style="padding: 0;">
@@ -528,11 +528,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
                   style="height: 24px; padding: 0 8px; font-size: 10px; border-radius: 6px;"
                   (click)="copyBatchLog()"
                 >
-                  <app-icon
-                    type="actions/av_save"
-                    [size]="10"
-                    style="margin-right: 4px;"
-                  ></app-icon>
+                  <av-icon type="actions/av_save" [size]="10" style="margin-right: 4px;"></av-icon>
                   Copy Detailed Log
                 </button>
                 }
@@ -557,11 +553,11 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
             @if (isBatchProcessing()) {
             <div class="progress-overlay">
               <div style="margin-bottom: 24px;">
-                <app-icon
+                <av-icon
                   type="system/av_cog"
                   [size]="48"
                   style="animation: spin 2s linear infinite;"
-                ></app-icon>
+                ></av-icon>
                 <style>
                   @keyframes spin {
                     from {
@@ -1242,7 +1238,7 @@ import { ICON_REGISTRY } from '../../ui-demo/icon-ui/icon-registry';
           transform: translateY(-1px);
         }
 
-        app-icon {
+        av-icon {
           filter: brightness(0) invert(1);
         }
       }
@@ -1914,7 +1910,7 @@ export class IconManagerComponent {
   }
 
   copyCode(type: string) {
-    const code = `<app-icon type="${type}" [size]="24"></app-icon>`;
+    const code = `<av-icon type="${type}" [size]="24"></av-icon>`;
     navigator.clipboard.writeText(code);
     this.showToast('Код компонента скопирован!');
   }

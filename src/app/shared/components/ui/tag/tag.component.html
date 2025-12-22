@@ -7,7 +7,7 @@
   (click)="onTagClick($event)"
 >
   @if (icon()) {
-  <app-icon [type]="icon()!" class="av-tag__icon"></app-icon>
+  <av-icon [type]="icon()!" class="av-tag__icon"></av-icon>
   }
 
   <span class="av-tag__label">
@@ -16,7 +16,7 @@
 
   @if (removable()) {
   <button type="button" class="av-tag__remove" (click)="onRemoveClick($event)">
-    <app-icon type="actions/av_close" class="av-tag__remove-icon"></app-icon>
+    <av-icon type="actions/av_close" class="av-tag__remove-icon"></av-icon>
   </button>
   }
 </div>

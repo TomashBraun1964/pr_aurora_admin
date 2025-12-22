@@ -72,6 +72,16 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
               icon: 'picture',
             },
             {
+              id: 'icon-control',
+              label: 'Icon Control UI',
+              route: '/ui-demo/icon-control',
+              icon: 'control',
+              badge: {
+                value: 'New',
+                intent: 'success',
+              },
+            },
+            {
               id: 'modal-ui',
               label: 'Modal UI',
               route: '/ui-demo/modal-ui',
@@ -92,6 +102,16 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
               label: 'Dialog Icon UI',
               route: '/ui-demo/dialog-icon-ui',
               icon: 'message',
+              badge: {
+                value: 'New',
+                intent: 'success',
+              },
+            },
+            {
+              id: 'field-group-ui',
+              label: 'Field Group UI',
+              route: '/ui-demo/field-group-ui',
+              icon: 'group',
               badge: {
                 value: 'New',
                 intent: 'success',
@@ -132,6 +152,12 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
               label: 'Progress UI',
               route: '/ui-demo/progress-ui',
               icon: 'line-chart',
+            },
+            {
+              id: 'picker-ui',
+              label: 'Color Picker UI 🎨',
+              route: '/ui-demo/picker-ui',
+              icon: 'bg-colors',
             },
           ],
         },

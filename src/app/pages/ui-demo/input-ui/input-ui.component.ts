@@ -139,11 +139,11 @@ export class InputUiComponent {
       if (this.pgPrefixIcon() || this.pgSuffixIcon()) {
         code = `<div class="av-input-container">\n`;
         if (this.pgPrefixIcon()) {
-          code += `  <div class="av-input-prefix">\n    <app-icon type="${this.pgPrefixIcon()}"></app-icon>\n  </div>\n`;
+          code += `  <div class="av-input-prefix">\n    <av-icon type="${this.pgPrefixIcon()}"></av-icon>\n  </div>\n`;
         }
         code += `  ${inputTpl.split('\n').join('\n  ')}\n`;
         if (this.pgSuffixIcon()) {
-          code += `  <div class="av-input-suffix">\n    <app-icon type="${this.pgSuffixIcon()}"></app-icon>\n  </div>\n`;
+          code += `  <div class="av-input-suffix">\n    <av-icon type="${this.pgSuffixIcon()}"></av-icon>\n  </div>\n`;
         }
         code += `</div>`;
       } else {

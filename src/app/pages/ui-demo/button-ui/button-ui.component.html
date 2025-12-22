@@ -428,7 +428,7 @@
                 [avTextColor]="pgTextColor()"
                 (clicked)="showMessage('Interactive button clicked!')"
               >
-                @if(pgIcon()){<app-icon [type]="pgIcon()!" [size]="getIconSize()"></app-icon>@if(!pgIconOnly()){<span
+                @if(pgIcon()){<av-icon [type]="pgIcon()!" [size]="getIconSize()"></av-icon>@if(!pgIconOnly()){<span
                   style="margin-left: 8px"
                   >{{ pgLabel() }}</span
                 >}}@else{{{ pgLabel() }}}
@@ -590,7 +590,7 @@
             <button av-button avType="dashed" avShape="square">Sharp Dashed</button>
             <button av-button avType="danger" avShape="square">Sharp Danger</button>
             <button av-button [avIconOnly]="true" avShape="square">
-              <app-icon type="search" [size]="16"></app-icon>
+              <av-icon type="search" [size]="16"></av-icon>
             </button>
 
             <button av-button avType="text" avSize="small" (click)="toggleCode('sharp')" style="margin-left: auto">

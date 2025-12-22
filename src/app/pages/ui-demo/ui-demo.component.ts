@@ -127,22 +127,22 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
 
 &lt;!-- Кнопка с иконкой и текстом --&gt;
 &lt;button av-button avType="primary"&gt;
-  &lt;app-icon type="download" [size]="16"&gt;&lt;/app-icon&gt;
+  &lt;av-icon type="download" [size]="16"&gt;&lt;/av-icon&gt;
   &lt;span style="margin-left: 8px;"&gt;Download&lt;/span&gt;
 &lt;/button&gt;
 
 &lt;!-- Квадратная кнопка с одной иконкой --&gt;
 &lt;button av-button avType="primary" class="av-btn--icon-only"&gt;
-  &lt;app-icon type="search" [size]="16"&gt;&lt;/app-icon&gt;
+  &lt;av-icon type="search" [size]="16"&gt;&lt;/av-icon&gt;
 &lt;/button&gt;
 
 &lt;!-- Разные размеры кнопок с иконками --&gt;
 &lt;button av-button avType="primary" avSize="small" class="av-btn--icon-only"&gt;
-  &lt;app-icon type="plus" [size]="14"&gt;&lt;/app-icon&gt;
+  &lt;av-icon type="plus" [size]="14"&gt;&lt;/av-icon&gt;
 &lt;/button&gt;
 
 &lt;button av-button avType="primary" avSize="large" class="av-btn--icon-only"&gt;
-  &lt;app-icon type="settings" [size]="20"&gt;&lt;/app-icon&gt;
+  &lt;av-icon type="settings" [size]="20"&gt;&lt;/av-icon&gt;
 &lt;/button&gt;
 
 &lt;!-- Доступные типы иконок --&gt;
@@ -481,7 +481,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
           <!-- Icon + Text Primary -->
           <div class="button-demo-item">
             <button av-button avType="primary" (click)="showMessage('Download clicked')">
-              <app-icon type="download" [size]="16"></app-icon>
+              <av-icon type="download" [size]="16"></av-icon>
               <span style="margin-left: 8px;">Download</span>
             </button>
             <button
@@ -490,14 +490,14 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               avSize="small"
               (click)="copyCode(buttonIconTextPrimaryCode)"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
+              <av-icon type="copy" [size]="14"></av-icon>
               Копировать
             </button>
             <button av-button avType="text" avSize="small" (click)="toggleCodeIconTextPrimary()">
               @if (showCodeIconTextPrimary()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
+              <av-icon type="chevron-up" [size]="14"></av-icon>
               Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
+              <av-icon type="chevron-down" [size]="14"></av-icon>
               Показать код }
             </button>
             @if (showCodeIconTextPrimary()) {
@@ -508,7 +508,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
           <!-- Icon + Text Default -->
           <div class="button-demo-item">
             <button av-button avType="default" (click)="showMessage('Upload clicked')">
-              <app-icon type="upload" [size]="16"></app-icon>
+              <av-icon type="upload" [size]="16"></av-icon>
               <span style="margin-left: 8px;">Upload</span>
             </button>
             <button
@@ -517,14 +517,14 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               avSize="small"
               (click)="copyCode(buttonIconTextDefaultCode)"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
+              <av-icon type="copy" [size]="14"></av-icon>
               Копировать
             </button>
             <button av-button avType="text" avSize="small" (click)="toggleCodeIconTextDefault()">
               @if (showCodeIconTextDefault()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
+              <av-icon type="chevron-up" [size]="14"></av-icon>
               Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
+              <av-icon type="chevron-down" [size]="14"></av-icon>
               Показать код }
             </button>
             @if (showCodeIconTextDefault()) {
@@ -535,7 +535,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
           <!-- Icon + Text Danger -->
           <div class="button-demo-item">
             <button av-button avType="danger" (click)="showMessage('Delete clicked')">
-              <app-icon type="delete" [size]="16"></app-icon>
+              <av-icon type="delete" [size]="16"></av-icon>
               <span style="margin-left: 8px;">Delete</span>
             </button>
             <button
@@ -544,14 +544,14 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               avSize="small"
               (click)="copyCode(buttonIconTextDangerCode)"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
+              <av-icon type="copy" [size]="14"></av-icon>
               Копировать
             </button>
             <button av-button avType="text" avSize="small" (click)="toggleCodeIconTextDanger()">
               @if (showCodeIconTextDanger()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
+              <av-icon type="chevron-up" [size]="14"></av-icon>
               Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
+              <av-icon type="chevron-down" [size]="14"></av-icon>
               Показать код }
             </button>
             @if (showCodeIconTextDanger()) {
@@ -571,7 +571,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               class="av-btn--icon-only"
               (click)="showMessage('Search clicked')"
             >
-              <app-icon type="search" [size]="16"></app-icon>
+              <av-icon type="search" [size]="16"></av-icon>
             </button>
             <button
               av-button
@@ -579,14 +579,14 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               avSize="small"
               (click)="copyCode(buttonIconOnlyPrimaryCode)"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
+              <av-icon type="copy" [size]="14"></av-icon>
               Копировать
             </button>
             <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlyPrimary()">
               @if (showCodeIconOnlyPrimary()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
+              <av-icon type="chevron-up" [size]="14"></av-icon>
               Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
+              <av-icon type="chevron-down" [size]="14"></av-icon>
               Показать код }
             </button>
             @if (showCodeIconOnlyPrimary()) {
@@ -603,7 +603,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               class="av-btn--icon-only"
               (click)="showMessage('Plus clicked')"
             >
-              <app-icon type="plus" [size]="14"></app-icon>
+              <av-icon type="plus" [size]="14"></av-icon>
             </button>
             <button
               av-button
@@ -611,14 +611,14 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               avSize="small"
               (click)="copyCode(buttonIconOnlySmallCode)"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
+              <av-icon type="copy" [size]="14"></av-icon>
               Копировать
             </button>
             <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlySmall()">
               @if (showCodeIconOnlySmall()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
+              <av-icon type="chevron-up" [size]="14"></av-icon>
               Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
+              <av-icon type="chevron-down" [size]="14"></av-icon>
               Показать код }
             </button>
             @if (showCodeIconOnlySmall()) {
@@ -635,7 +635,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               class="av-btn--icon-only"
               (click)="showMessage('Settings clicked')"
             >
-              <app-icon type="settings" [size]="20"></app-icon>
+              <av-icon type="settings" [size]="20"></av-icon>
             </button>
             <button
               av-button
@@ -643,14 +643,14 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               avSize="small"
               (click)="copyCode(buttonIconOnlyLargeCode)"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
+              <av-icon type="copy" [size]="14"></av-icon>
               Копировать
             </button>
             <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlyLarge()">
               @if (showCodeIconOnlyLarge()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
+              <av-icon type="chevron-up" [size]="14"></av-icon>
               Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
+              <av-icon type="chevron-down" [size]="14"></av-icon>
               Показать код }
             </button>
             @if (showCodeIconOnlyLarge()) {
@@ -666,7 +666,7 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               class="av-btn--icon-only"
               (click)="showMessage('Close clicked')"
             >
-              <app-icon type="close" [size]="16"></app-icon>
+              <av-icon type="close" [size]="16"></av-icon>
             </button>
             <button
               av-button
@@ -674,14 +674,14 @@ import {{ '{' }} IconComponent {{ '}' }} from '&#64;shared/components/ui/icon';
               avSize="small"
               (click)="copyCode(buttonIconOnlyDangerCode)"
             >
-              <app-icon type="copy" [size]="14"></app-icon>
+              <av-icon type="copy" [size]="14"></av-icon>
               Копировать
             </button>
             <button av-button avType="text" avSize="small" (click)="toggleCodeIconOnlyDanger()">
               @if (showCodeIconOnlyDanger()) {
-              <app-icon type="chevron-up" [size]="14"></app-icon>
+              <av-icon type="chevron-up" [size]="14"></av-icon>
               Скрыть код } @else {
-              <app-icon type="chevron-down" [size]="14"></app-icon>
+              <av-icon type="chevron-down" [size]="14"></av-icon>
               Показать код }
             </button>
             @if (showCodeIconOnlyDanger()) {
@@ -1334,35 +1334,35 @@ export class UiDemoComponent {
 
   // Code examples for button icon + text
   readonly buttonIconTextPrimaryCode = `<button av-button avType="primary" (click)="handleClick()">
-  <app-icon type="download" [size]="16"></app-icon>
+  <av-icon type="download" [size]="16"></av-icon>
   <span style="margin-left: 8px;">Download</span>
 </button>`;
 
   readonly buttonIconTextDefaultCode = `<button av-button avType="default" (click)="handleClick()">
-  <app-icon type="upload" [size]="16"></app-icon>
+  <av-icon type="upload" [size]="16"></av-icon>
   <span style="margin-left: 8px;">Upload</span>
 </button>`;
 
   readonly buttonIconTextDangerCode = `<button av-button avType="danger" (click)="handleClick()">
-  <app-icon type="delete" [size]="16"></app-icon>
+  <av-icon type="delete" [size]="16"></av-icon>
   <span style="margin-left: 8px;">Delete</span>
 </button>`;
 
   // Code examples for button icon only
   readonly buttonIconOnlyPrimaryCode = `<button av-button avType="primary" class="av-btn--icon-only" (click)="handleClick()">
-  <app-icon type="search" [size]="16"></app-icon>
+  <av-icon type="search" [size]="16"></av-icon>
 </button>`;
 
   readonly buttonIconOnlySmallCode = `<button av-button avType="primary" avSize="small" class="av-btn--icon-only" (click)="handleClick()">
-  <app-icon type="plus" [size]="14"></app-icon>
+  <av-icon type="plus" [size]="14"></av-icon>
 </button>`;
 
   readonly buttonIconOnlyLargeCode = `<button av-button avType="primary" avSize="large" class="av-btn--icon-only" (click)="handleClick()">
-  <app-icon type="settings" [size]="20"></app-icon>
+  <av-icon type="settings" [size]="20"></av-icon>
 </button>`;
 
   readonly buttonIconOnlyDangerCode = `<button av-button avType="danger" class="av-btn--icon-only" (click)="handleClick()">
-  <app-icon type="close" [size]="16"></app-icon>
+  <av-icon type="close" [size]="16"></av-icon>
 </button>`; // Code examples
   readonly buttonTypesCode = `<button av-button avType="primary" (clicked)="handleClick()">Primary</button>
 <button av-button avType="default" (clicked)="handleClick()">Default</button>

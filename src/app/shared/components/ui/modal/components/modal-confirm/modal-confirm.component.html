@@ -12,11 +12,11 @@
   <div modal-body class="confirm-body" [class.confirm-body--centered]="config.centered">
     <div class="confirm-content">
       <div class="confirm-icon" *ngIf="config.icon || config.confirmType">
-        <app-icon
+        <av-icon
           [type]="config.icon || getDefaultIcon()"
           [size]="config.centered ? 80 : 32"
           [class]="'icon-' + (config.confirmType || 'primary')"
-        ></app-icon>
+        ></av-icon>
       </div>
       <div class="confirm-text-container">
         <h2 class="confirm-title" *ngIf="config.centered && config.title">{{ config.title }}</h2>

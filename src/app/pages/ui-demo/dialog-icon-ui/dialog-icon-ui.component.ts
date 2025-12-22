@@ -103,11 +103,11 @@ openDialog() {
 <av-modal [(isOpen)]="dialogOpen" [centered]="true" [avWidth]="'${this.pgWidth()}'" [draggable]="${this.pgDraggable()}">
   <div modal-body>
     <div style="text-align: center; padding: 24px;">
-      <app-icon
+      <av-icon
         type="${this.pgIcon()}"
         [size]="${this.pgIconSize()}"
         [color]="'${this.pgIconColor()}'"
-      ></app-icon>
+      ></av-icon>
       <h3 style="margin: 16px 0 8px;">${this.pgTitle()}</h3>
       <p style="color: #8c8c8c;">${this.pgMessage()}</p>
     </div>
@@ -212,7 +212,7 @@ handleConfirm() {
 >
   <div modal-body>
     <div style="text-align: center; padding: 24px;">
-      <app-icon type="check" [size]="64" color="#52c41a"></app-icon>
+      <av-icon type="check" [size]="64" color="#52c41a"></av-icon>
       <h3 style="margin: 16px 0 8px;">Успешно!</h3>
       <p style="color: #8c8c8c;">Операция выполнена успешно.</p>
     </div>
@@ -246,7 +246,7 @@ handleErrorClose() {
 >
   <div modal-body>
     <div style="text-align: center; padding: 24px;">
-      <app-icon type="close" [size]="64" color="#ff4d4f"></app-icon>
+      <av-icon type="close" [size]="64" color="#ff4d4f"></av-icon>
       <h3 style="margin: 16px 0 8px;">Ошибка</h3>
       <p style="color: #8c8c8c;">{{ errorMessage() }}</p>
     </div>
@@ -302,7 +302,7 @@ handleCancel() {
 >
   <div modal-body>
     <div style="text-align: center; padding: 24px;">
-      <app-icon type="delete" [size]="64" color="#ff4d4f"></app-icon>
+      <av-icon type="delete" [size]="64" color="#ff4d4f"></av-icon>
       <h3 style="margin: 16px 0 8px;">Подтвердите удаление</h3>
       <p style="color: #8c8c8c;">
         Вы уверены, что хотите удалить этот элемент?
@@ -362,7 +362,7 @@ handleStayOnPage() {
 >
   <div modal-body>
     <div style="text-align: center; padding: 24px;">
-      <app-icon type="exclamation" [size]="64" color="#faad14"></app-icon>
+      <av-icon type="exclamation" [size]="64" color="#faad14"></av-icon>
       <h3 style="margin: 16px 0 8px;">Несохранённые изменения</h3>
       <p style="color: #8c8c8c;">
         У вас есть несохранённые изменения.
@@ -408,7 +408,7 @@ handleInfoConfirm() {
 >
   <div modal-body>
     <div style="text-align: center; padding: 24px;">
-      <app-icon type="info" [size]="64" color="#1890ff"></app-icon>
+      <av-icon type="info" [size]="64" color="#1890ff"></av-icon>
       <h3 style="margin: 16px 0 8px;">{{ infoTitle() }}</h3>
       <p style="color: #8c8c8c;">{{ infoMessage() }}</p>
     </div>

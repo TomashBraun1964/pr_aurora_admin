@@ -1,0 +1,91 @@
+<div class="av-picker-host" [class.av-picker-host--with-title]="avTitle()">
+  @if (avTitle()) {
+  <span class="av-picker-host__title">Выбор цвета ({{ avTitle() }})</span>
+  }
+
+  <div class="av-picker" [class.av-picker--compact]="avSize() === 'compact'">
+    <!-- Row 1: Custom Colors Grid -->
+    @if (shouldShowCustomColors()) {
+    <div class="av-picker__row">
+      <div class="av-picker__label">Custom:</div>
+      <div class="av-picker__grid">
+        @for (color of customColors(); track color.value) {
+        <button
+          class="av-picker__swatch"
+          [class.av-picker__swatch--selected]="isColorSelected(color.value)"
+          [style.backgroundColor]="color.value"
+          [title]="color.name"
+          (click)="onColorSelect(color.value)"
+          type="button"
+        >
+          @if (isColorSelected(color.value)) {
+          <span class="av-picker__check">✓</span>
+          }
+        </button>
+        }
+
+        <!-- Reset button -->
+        <button class="av-picker__reset-btn" (click)="onReset()" type="button" title="Сбросить цвет">Сброс</button>
+
+        <!-- Compact transparent button -->
+        @if (avSize() === 'compact' && allowTransparent()) {
+        <button
+          class="av-picker__swatch av-picker__swatch--transparent"
+          [class.av-picker__swatch--selected]="selectedColor() === 'transparent'"
+          (click)="onColorSelect('transparent')"
+          title="Прозрачный"
+          type="button"
+        >
+          <span class="av-picker__transparent-pattern"></span>
+          @if (selectedColor() === 'transparent') {
+          <span class="av-picker__check">✓</span>
+          }
+        </button>
+        }
+      </div>
+    </div>
+    }
+
+    <!-- Row 2: Color Picker -->
+    @if (shouldShowPicker()) {
+    <div class="av-picker__row">
+      <div class="av-picker__label">Picker:</div>
+      <div class="av-picker__picker-wrapper">
+        <nz-color-picker
+          [(ngModel)]="selectedColor"
+          [nzShowText]="false"
+          [nzDisabledAlpha]="!showAlpha()"
+          (ngModelChange)="onPickerChange($event)"
+        ></nz-color-picker>
+
+        <div class="av-picker__color-display" [style.backgroundColor]="selectedColor()"></div>
+
+        @if (showInput()) {
+        <input
+          type="text"
+          class="av-picker__input"
+          [(ngModel)]="selectedColor"
+          (ngModelChange)="onPickerChange($event)"
+          placeholder="#1890ff"
+        />
+        }
+      </div>
+    </div>
+    }
+
+    <!-- Default transparent option -->
+    @if (avSize() !== 'compact' && allowTransparent() && shouldShowCustomColors()) {
+    <div class="av-picker__transparent">
+      <button
+        class="av-picker__transparent-btn"
+        [class.av-picker__transparent-btn--selected]="selectedColor() === 'transparent'"
+        (click)="onColorSelect('transparent')"
+        type="button"
+      >
+        <span class="av-picker__transparent-pattern"></span>
+        <span>Прозрачный</span>
+      </button>
+    </div>
+    }
+  </div>
+</div>

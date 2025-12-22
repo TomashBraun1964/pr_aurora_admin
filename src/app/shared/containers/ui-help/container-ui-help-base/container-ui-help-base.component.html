@@ -8,10 +8,10 @@
     <div class="ui-help-section">
       <div class="section-header">
         <button class="collapse-toggle" (click)="toggleSection1()">
-          <app-icon
+          <av-icon
             [type]="isSection1Visible() ? 'arrows/av_chevron-up' : 'arrows/av_chevron-down'"
             [size]="20"
-          ></app-icon>
+          ></av-icon>
         </button>
         <h2>🛠️ Технический интерфейс</h2>
       </div>
@@ -33,19 +33,19 @@
     <div class="ui-help-section">
       <div class="section-header">
         <button class="collapse-toggle" (click)="toggleSection2()">
-          <app-icon
+          <av-icon
             [type]="isSection2Visible() ? 'arrows/av_chevron-up' : 'arrows/av_chevron-down'"
             [size]="20"
-          ></app-icon>
+          ></av-icon>
         </button>
-        <h2>🎮 Интерактивная площадка</h2>
+        <h2>🎮 Интерактивная площадка UI Help Base</h2>
       </div>
       @if (isSection2Visible()) {
       <div class="playground-container">
         <div nz-row [nzGutter]="[24, 24]">
-          <!-- Controls -->
+          <!-- Left: Controls -->
           <div nz-col [nzXs]="24" [nzLg]="10">
-            <nz-card nzTitle="Настройки кнопки" [nzExtra]="resetTpl" class="control-card">
+            <nz-card nzTitle="Настройки" [nzExtra]="resetTpl" class="control-card">
               <ng-template #resetTpl>
                 <button av-button avType="text" avTextColor="#f43f5e" (clicked)="resetAllSettings()">
                   Сбросить все !
@@ -95,33 +95,65 @@
                 </div>
               </div>
 
-              <div class="preview-actions" style="margin-top: 24px">
-                <p style="margin-bottom: 12px; font-weight: 600; font-size: 13px">Предпросмотр кнопки:</p>
-                <div
-                  style="
-                    display: flex;
-                    justify-content: center;
-                    padding: 32px;
-                    background: #fff;
-                    border-radius: 8px;
-                    border: 1px solid #e8e8e8;
-                  "
-                >
-                  <button av-button [avType]="pgButtonType()" [avSize]="pgButtonSize()" [avShape]="pgButtonShape()">
-                    Кнопка {{ pgButtonType() }}
-                  </button>
-                </div>
-              </div>
+              <!-- Выбор цвета (button) -->
+              <av-field-group label="Выбор цвета (button)">
+                <av-picker
+                  mode="custom-and-picker"
+                  avSize="compact"
+                  [(selectedColor)]="pgButtonColor"
+                  [showInput]="true"
+                ></av-picker>
+              </av-field-group>
             </nz-card>
           </div>
 
-          <!-- Code View -->
+          <!-- Right: Result, Code, Other -->
           <div nz-col [nzXs]="24" [nzLg]="14">
+            <!-- Top: Result (Preview) -->
+            <nz-card nzTitle="Результат" class="result-card" style="margin-bottom: 24px">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  padding: 48px 32px;
+                  background: #fafafa;
+                  border-radius: 8px;
+                  border: 1px dashed #d9d9d9;
+                  min-height: 120px;
+                "
+              >
+                <button
+                  av-button
+                  [avType]="pgButtonType()"
+                  [avSize]="pgButtonSize()"
+                  [avShape]="pgButtonShape()"
+                  [avColor]="pgButtonColor()"
+                >
+                  Кнопка {{ pgButtonType() }}
+                </button>
+              </div>
+            </nz-card>
+
+            <!-- Middle: Code -->
             <av-help-copy-container
-              title="Generated Code"
+              title="Код"
               [content]="pgGeneratedCode()"
               [defaultCollapsed]="false"
+              style="margin-bottom: 24px; display: block"
             ></av-help-copy-container>
+
+            <!-- Bottom: Other (Optional) -->
+            @if (pgShowOtherBlock()) {
+            <nz-card nzTitle="Разное" [nzExtra]="closeOtherTpl" class="other-card">
+              <ng-template #closeOtherTpl>
+                <button av-button avType="text" avSize="small" (clicked)="pgShowOtherBlock.set(false)">
+                  <av-icon type="common/av_close" [size]="16"></av-icon>
+                </button>
+              </ng-template>
+              <p style="color: #8c8c8c">Дополнительная информация и примечания</p>
+            </nz-card>
+            }
           </div>
         </div>
       </div>
@@ -131,10 +163,10 @@
     <div class="ui-help-section">
       <div class="section-header">
         <button class="collapse-toggle" (click)="toggleSection3()">
-          <app-icon
+          <av-icon
             [type]="isSection3Visible() ? 'arrows/av_chevron-up' : 'arrows/av_chevron-down'"
             [size]="20"
-          ></app-icon>
+          ></av-icon>
         </button>
         <h2>Секция 3</h2>
       </div>
@@ -150,10 +182,10 @@
     <div class="ui-help-section">
       <div class="section-header">
         <button class="collapse-toggle" (click)="toggleSection4()">
-          <app-icon
+          <av-icon
             [type]="isSection4Visible() ? 'arrows/av_chevron-up' : 'arrows/av_chevron-down'"
             [size]="20"
-          ></app-icon>
+          ></av-icon>
         </button>
         <h2>Секция 4</h2>
       </div>
@@ -169,10 +201,10 @@
     <div class="ui-help-section">
       <div class="section-header">
         <button class="collapse-toggle" (click)="toggleSection5()">
-          <app-icon
+          <av-icon
             [type]="isSection5Visible() ? 'arrows/av_chevron-up' : 'arrows/av_chevron-down'"
             [size]="20"
-          ></app-icon>
+          ></av-icon>
         </button>
         <h2>Секция 5</h2>
       </div>

@@ -82,15 +82,12 @@ import { ToggleDirective } from './toggle.directive';
         <span class="av-toggle__slider"></span>
 
         @if (checkedIcon()) {
-        <app-icon
-          [type]="checkedIcon()!"
-          class="av-toggle__icon av-toggle__icon--checked"
-        ></app-icon>
+        <av-icon [type]="checkedIcon()!" class="av-toggle__icon av-toggle__icon--checked"></av-icon>
         } @if (uncheckedIcon()) {
-        <app-icon
+        <av-icon
           [type]="uncheckedIcon()!"
           class="av-toggle__icon av-toggle__icon--unchecked"
-        ></app-icon>
+        ></av-icon>
         }
       </label>
 

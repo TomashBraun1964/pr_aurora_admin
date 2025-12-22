@@ -7,7 +7,7 @@ import { AvIconCategory } from './icon-metadata.model';
 import { ICON_REGISTRY } from './icon-registry';
 
 @Component({
-  selector: 'app-icon-ui',
+  selector: 'av-icon-ui',
   standalone: true,
   imports: [CommonModule, FormsModule, IconComponent, NzColorPickerModule],
   template: `
@@ -23,7 +23,7 @@ import { ICON_REGISTRY } from './icon-registry';
           </div>
 
           <div class="search-box">
-            <app-icon type="actions/av_search" [size]="18" class="search-icon"></app-icon>
+            <av-icon type="actions/av_search" [size]="18" class="search-icon"></av-icon>
             <input
               type="text"
               [(ngModel)]="searchQuery"
@@ -32,7 +32,7 @@ import { ICON_REGISTRY } from './icon-registry';
             />
             @if (searchQuery()) {
             <button class="clear-btn" (click)="searchQuery.set('')">
-              <app-icon type="actions/av_close" [size]="14"></app-icon>
+              <av-icon type="actions/av_close" [size]="14"></av-icon>
             </button>
             }
           </div>
@@ -72,7 +72,7 @@ import { ICON_REGISTRY } from './icon-registry';
       <div class="icon-ui__content">
         @if (filteredCategories().length === 0) {
         <div class="empty-state">
-          <app-icon type="system/av_info" [size]="48"></app-icon>
+          <av-icon type="system/av_info" [size]="48"></av-icon>
           <h3>Ничего не найдено</h3>
           <p>Попробуйте изменить поисковый запрос</p>
         </div>
@@ -87,12 +87,12 @@ import { ICON_REGISTRY } from './icon-registry';
             @for (icon of cat.icons; track icon.type) {
             <div class="icon-card" (click)="copyToClipboard(icon.type)">
               <div class="icon-preview" [style.color]="activeColor()">
-                <app-icon [type]="icon.type" [size]="iconSize()"></app-icon>
+                <av-icon [type]="icon.type" [size]="iconSize()"></av-icon>
               </div>
               <div class="icon-info">
                 <span class="icon-name" [title]="icon.name">{{ icon.name }}</span>
                 <button class="copy-hint" (click)="$event.stopPropagation(); copyCode(icon.type)">
-                  <app-icon type="actions/av_save" [size]="12"></app-icon>
+                  <av-icon type="actions/av_save" [size]="12"></av-icon>
                   Code
                 </button>
               </div>
@@ -425,7 +425,7 @@ export class IconUiComponent {
   }
 
   copyCode(type: string) {
-    const code = `<app-icon type="${type}" [size]="${this.iconSize()}"></app-icon>`;
+    const code = `<av-icon type="${type}" [size]="${this.iconSize()}"></av-icon>`;
     navigator.clipboard.writeText(code);
     this.showToast('Код компонента скопирован!');
   }

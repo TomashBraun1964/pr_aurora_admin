@@ -2,7 +2,9 @@ import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonDirective } from '@shared/components/ui/button/button.directive';
 import { HelpCopyContainerComponent } from '@shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
+import { FieldGroupComponent } from '@shared/components/ui/field-group';
 import { IconComponent } from '@shared/components/ui/icon/icon.component';
+import { PickerComponent } from '@shared/components/ui/picker/picker.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -20,8 +22,10 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzSelectModule,
     NzSwitchModule,
     ButtonDirective,
+    FieldGroupComponent,
     HelpCopyContainerComponent,
     IconComponent,
+    PickerComponent,
   ],
   templateUrl: './container-ui-help-base.component.html',
   styleUrl: './container-ui-help-base.component.scss',
@@ -37,6 +41,8 @@ export class ContainerUiHelpBaseComponent {
   pgButtonType = signal<'primary' | 'default' | 'dashed' | 'text' | 'link' | 'danger'>('primary');
   pgButtonSize = signal<'small' | 'default' | 'large'>('default');
   pgButtonShape = signal<'default' | 'circle' | 'square' | 'round' | 'rounded'>('default');
+  pgButtonColor = signal<string>('#1890ff');
+  pgShowOtherBlock = signal(true);
 
   toggleSection1() {
     this.isSection1Visible.set(!this.isSection1Visible());
@@ -102,6 +108,10 @@ export interface ComponentProps {
       code += `\n  avShape="${this.pgButtonShape()}"`;
     }
 
+    if (this.pgButtonColor()) {
+      code += `\n  avColor="${this.pgButtonColor()}"`;
+    }
+
     code += `\n>\n  Кнопка ${this.pgButtonType()}\n</button>`;
 
     return code;
@@ -111,5 +121,6 @@ export interface ComponentProps {
     this.pgButtonType.set('primary');
     this.pgButtonSize.set('default');
     this.pgButtonShape.set('default');
+    this.pgButtonColor.set('#1890ff');
   }
 }

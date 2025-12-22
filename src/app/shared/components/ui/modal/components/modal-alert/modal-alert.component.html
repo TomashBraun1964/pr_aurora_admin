@@ -12,11 +12,11 @@
   <div modal-body class="alert-body" [class.alert-body--centered]="config.centered">
     <div class="alert-content">
       <div class="alert-icon" *ngIf="config.icon || config.alertType">
-        <app-icon
+        <av-icon
           [type]="config.icon || getDefaultIcon()"
           [size]="config.centered ? 80 : 32"
           [class]="'icon-' + (config.alertType || 'info')"
-        ></app-icon>
+        ></av-icon>
       </div>
       <h2 class="alert-title" *ngIf="config.centered && config.title">{{ config.title }}</h2>
       <div class="alert-message">

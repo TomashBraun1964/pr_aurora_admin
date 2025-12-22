@@ -69,7 +69,7 @@
                     [style.border-color]="pgIcon() === preset.value ? preset.color : undefined"
                     [style.background]="pgIcon() === preset.value ? preset.color + '15' : undefined"
                   >
-                    <app-icon [type]="preset.value" [size]="16" [color]="preset.color"></app-icon>
+                    <av-icon [type]="preset.value" [size]="16" [color]="preset.color"></av-icon>
                     <span style="margin-left: 8px; font-size: 11px">{{ preset.label.split(' ')[0] }}</span>
                   </button>
                   }
@@ -277,7 +277,7 @@
           <div class="preview-area">
             <div class="dialog-preview">
               <div class="dialog-preview__icon">
-                <app-icon [type]="pgIcon()" [size]="pgIconSize()" [color]="pgIconColor()"></app-icon>
+                <av-icon [type]="pgIcon()" [size]="pgIconSize()" [color]="pgIconColor()"></av-icon>
               </div>
               <h3 class="dialog-preview__title">{{ pgTitle() }}</h3>
               <p class="dialog-preview__message">{{ pgMessage() }}</p>
@@ -392,7 +392,7 @@
     <div modal-body>
       <div style="text-align: center; padding: 24px">
         <div style="margin-bottom: 16px">
-          <app-icon [type]="pgIcon()" [size]="pgIconSize()" [color]="pgIconColor()"></app-icon>
+          <av-icon [type]="pgIcon()" [size]="pgIconSize()" [color]="pgIconColor()"></av-icon>
         </div>
         <h3 style="margin: 16px 0 8px; font-size: 20px; font-weight: 600">{{ pgTitle() }}</h3>
         <p style="color: #8c8c8c; margin: 0">{{ pgMessage() }}</p>

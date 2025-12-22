@@ -1,0 +1,367 @@
+@use "styles/abstracts/variables" as *;
+@use "styles/abstracts/mixins" as *;
+
+.av-picker-host {
+  &--with-title {
+    position: relative;
+    border: 1px solid $color-border-base;
+    border-radius: 8px;
+    padding: 16px 12px 12px;
+    background: rgba($color-primary, 0.02);
+    margin-top: 8px;
+  }
+
+  &__title {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: #fff;
+    padding: 0 8px;
+    font-size: 11px;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.av-picker {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    margin-bottom: 8px;
+  }
+
+  // Custom colors section
+  &__custom {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 8px;
+  }
+
+  &__swatch {
+    width: 40px;
+    height: 40px;
+    border: 2px solid $color-border-base;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all $transition-base;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-clip: padding-box;
+
+    &:hover {
+      transform: scale(1.1);
+      border-color: $color-primary;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &--selected {
+      border-color: $color-primary;
+      border-width: 3px;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-primary);
+    }
+  }
+
+  &__check {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
+  &__reset-btn {
+    background: none;
+    border: none;
+    padding: 0 4px;
+    font-size: 12px;
+    color: $color-text-secondary;
+    cursor: pointer;
+    transition: color $transition-base;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  // Color picker section
+  &__picker {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__picker-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  &__color-display {
+    width: 40px;
+    height: 32px;
+    border: 1px solid $color-border-base;
+    border-radius: 4px;
+    flex-shrink: 0;
+    transition: all $transition-base;
+    cursor: pointer;
+
+    &:hover {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+    }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 100px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid $color-border-base;
+    border-radius: 4px;
+    font-size: $font-size-sm;
+    font-family: $font-family-monospace;
+    transition: all $transition-base;
+
+    &:hover {
+      border-color: $color-primary;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+    }
+
+    &::placeholder {
+      color: $color-text-tertiary;
+    }
+  }
+
+  // Transparent option
+  &__transparent {
+    padding-top: 8px;
+    border-top: 1px solid $color-border-light;
+  }
+
+  &__transparent-btn {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    background: #fff;
+    border: 2px solid $color-border-base;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all $transition-base;
+    font-size: $font-size-sm;
+    color: $color-text-primary;
+
+    &:hover {
+      border-color: $color-primary;
+      color: $color-primary;
+    }
+
+    &--selected {
+      border-color: $color-primary;
+      color: $color-primary;
+      background: rgba($color-primary, 0.05);
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-primary);
+    }
+  }
+
+  &__transparent-pattern {
+    width: 24px;
+    height: 24px;
+    background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+    border-radius: 50%;
+    border: 1px solid $color-border-base;
+  }
+
+  &__swatch--transparent {
+    background: #fff;
+    overflow: hidden;
+
+    .av-picker__transparent-pattern {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .av-picker__check {
+      z-index: 1;
+      color: #000; // Black check on light pattern
+    }
+  }
+
+  // Compact mode
+  &--compact {
+    gap: 12px;
+
+    .av-picker__row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .av-picker__label {
+      min-width: 60px;
+      margin-bottom: 0;
+      flex-shrink: 0;
+      font-size: 13px;
+      padding-top: 4px; // Align with first row of buttons
+    }
+
+    .av-picker__grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .av-picker__swatch {
+      width: 24px;
+      height: 24px;
+      border-width: 1px;
+      border-radius: 50%;
+
+      &--selected {
+        border-width: 2px;
+      }
+    }
+
+    .av-picker__check {
+      font-size: 12px;
+    }
+
+    .av-picker__picker-wrapper {
+      flex: 1;
+      height: 28px;
+      gap: 6px;
+    }
+
+    .av-picker__color-display {
+      width: 28px;
+      height: 28px;
+    }
+
+    .av-picker__input {
+      height: 28px;
+      padding: 0 8px;
+      font-size: 12px;
+    }
+
+    // Adapt ng-zorro color picker
+    ::v-deep .ant-color-picker-trigger {
+      width: 28px !important;
+      height: 28px !important;
+      padding: 3px !important;
+    }
+  }
+}
+
+// Dark theme support
+:host-context([data-theme="dark"]) {
+  .av-picker-host {
+    &--with-title {
+      border-color: $dark-border-base;
+      background: rgba($color-primary, 0.05);
+    }
+    &__title {
+      background: #1f1f1f; // Standard dark card bg or similar
+      color: $dark-text-secondary;
+    }
+  }
+
+  .av-picker {
+    &__swatch {
+      border-color: $dark-border-base;
+
+      &:hover {
+        border-color: $color-primary;
+      }
+    }
+
+    &__color-display {
+      border-color: $dark-border-base;
+
+      &:hover {
+        border-color: $color-primary;
+      }
+    }
+
+    &__reset-btn {
+      color: $dark-text-secondary;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+
+    &__input {
+      background-color: $dark-bg-card;
+      border-color: $dark-border-base;
+      color: $dark-text-primary;
+
+      &:hover {
+        border-color: $color-primary;
+      }
+
+      &:focus {
+        border-color: $color-primary;
+      }
+    }
+
+    &__transparent-btn {
+      background-color: $dark-bg-card;
+      border-color: $dark-border-base;
+      color: $dark-text-primary;
+
+      &:hover {
+        border-color: $color-primary;
+        color: $color-primary;
+      }
+    }
+
+    &__swatch--transparent {
+      background-color: $dark-bg-card;
+
+      .av-picker__check {
+        color: #fff; // White check on dark pattern? Wait, pattern is still light.
+      }
+    }
+  }
+}
