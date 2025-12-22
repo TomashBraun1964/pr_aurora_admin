@@ -191,16 +191,7 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
                 intent: 'success',
               },
             },
-            {
-              id: 'field-component-demo',
-              label: 'Field Component',
-              route: '/ui-demo/field-component-demo',
-              icon: 'group',
-              badge: {
-                value: 'New',
-                intent: 'success',
-              },
-            },
+
             {
               id: 'icon-demo',
               label: 'Icon',

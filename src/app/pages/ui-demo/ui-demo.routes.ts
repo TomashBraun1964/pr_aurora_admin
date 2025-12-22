@@ -102,11 +102,4 @@ export const UI_DEMO_ROUTES: Routes = [
     path: 'icon-demo',
     loadComponent: () => import('./icon-demo/icon-demo.component').then((m) => m.IconDemoComponent),
   },
-  {
-    path: 'field-component-demo',
-    loadComponent: () =>
-      import('./field-component-demo/field-component-demo.component').then(
-        (m) => m.FieldComponentDemoComponent,
-      ),
-  },
 ];
