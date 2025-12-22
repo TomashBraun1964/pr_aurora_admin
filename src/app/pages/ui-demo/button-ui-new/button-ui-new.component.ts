@@ -68,6 +68,11 @@ export interface AvButtonProps {
   section1HelpContent = signal(`Директива av-button расширяет возможности стандартных кнопок.
 Она позволяет управлять формой, цветами, состоянием загрузки и анимациями без создания лишних оберток в DOM.`);
 
+  // Placeholder for content sections
+  placeholderText1 = signal('Здесь будут примеры различных типов кнопок...');
+  placeholderText2 = signal('Рекомендации по использованию кнопок в интерфейсе...');
+  placeholderText3 = signal('Решение типичных проблем при подключении директивы...');
+
   // Playground - State
   pgType = signal<'primary' | 'default' | 'dashed' | 'text' | 'link' | 'danger'>('primary');
   pgSize = signal<'small' | 'default' | 'large' | 'square' | 'custom'>('default');
@@ -78,9 +83,6 @@ export interface AvButtonProps {
   pgVisible = signal(true);
   pgBlock = signal(false);
   pgLabel = signal('Custom Button');
-  pgIcon = signal<string | null>(null);
-  pgIconSize = signal(16);
-  pgIconOnly = signal(false);
 
   // Playground - Colors
   pgColor = signal<string>('');
@@ -92,6 +94,21 @@ export interface AvButtonProps {
   pgHeight = signal<string | number | null>(null);
   pgRadius = signal<string | number | null>(null);
 
+  // Playground - Advanced Icon Controls
+  pgIcon = signal<string | null>(null);
+  pgIconSize = signal(16);
+  pgIconRotation = signal(0);
+  pgIconScale = signal(1);
+  pgIconOpacity = signal(1);
+  pgIconFlipX = signal(false);
+  pgIconFlipY = signal(false);
+  pgIconPadding = signal(0);
+  pgIconBackground = signal('');
+  pgIconBorderShow = signal(false);
+  pgIconBorderColor = signal('#d9d9d9');
+  pgIconBorderWidth = signal(1);
+  pgIconBorderRadius = signal(0);
+
   // Computeds for safety
   safePgSize = computed(() => (this.pgSize() === 'custom' ? 'default' : this.pgSize()) as any);
 
@@ -101,25 +118,37 @@ export interface AvButtonProps {
   section4Title = signal('💡 Рекомендации');
   section5Title = signal('🛠️ Траблшутинг');
 
-  // Placeholders for content sections
-  placeholderText1 = signal('Здесь будут примеры различных типов кнопок...');
-  placeholderText2 = signal('Рекомендации по использованию кнопок в интерфейсе...');
-  placeholderText3 = signal('Решение типичных проблем при подключении директивы...');
-
-  // Icons List for Playground
-  readonly iconOptions = [
-    { label: 'Без иконки', value: null },
-    { label: 'Check', value: 'common/av_check' },
-    { label: 'Close', value: 'common/av_close' },
-    { label: 'Search', value: 'common/av_search' },
-    { label: 'Settings', value: 'common/av_settings' },
-    { label: 'Download', value: 'arrows/av_download' },
-    { label: 'Upload', value: 'arrows/av_upload' },
+  // Icons List for Playground (Same as Icon Control UI)
+  readonly iconPresets = [
+    { category: 'actions', value: 'actions/av_add', label: 'Add' },
+    { category: 'actions', value: 'actions/av_check_mark', label: 'Check Mark' },
+    { category: 'actions', value: 'actions/av_close', label: 'Close' },
+    { category: 'actions', value: 'actions/av_copy', label: 'Copy' },
+    { category: 'actions', value: 'actions/av_eye', label: 'Eye' },
+    { category: 'actions', value: 'actions/av_plus', label: 'Plus' },
+    { category: 'actions', value: 'actions/av_search', label: 'Search' },
+    { category: 'actions', value: 'actions/av_trash', label: 'Trash' },
+    { category: 'actions', value: 'actions/av_upload', label: 'Upload' },
+    { category: 'arrows', value: 'arrows/av_arrow-down', label: 'Arrow Down' },
+    { category: 'arrows', value: 'arrows/av_arrow-left', label: 'Arrow Left' },
+    { category: 'arrows', value: 'arrows/av_arrow-right', label: 'Arrow Right' },
+    { category: 'arrows', value: 'arrows/av_arrow-up', label: 'Arrow Up' },
+    { category: 'arrows', value: 'arrows/av_chevron-down', label: 'Chevron Down' },
+    { category: 'arrows', value: 'arrows/av_chevron-left', label: 'Chevron Left' },
+    { category: 'arrows', value: 'arrows/av_chevron-right', label: 'Chevron Right' },
+    { category: 'arrows', value: 'arrows/av_chevron-up', label: 'Chevron Up' },
+    { category: 'arrows', value: 'arrows/av_expand', label: 'Expand' },
+    { category: 'general', value: 'general/av_home', label: 'Home' },
+    { category: 'general', value: 'general/av_tag', label: 'Tag' },
+    { category: 'settings', value: 'settings/av_bell', label: 'Bell' },
+    { category: 'settings', value: 'settings/av_camera', label: 'Camera' },
+    { category: 'settings', value: 'settings/av_cog', label: 'Cog' },
+    { category: 'settings', value: 'settings/av_info', label: 'Info' },
+    { category: 'user', value: 'user/av_profile', label: 'Profile' },
   ];
 
   // Computed code
   pgGeneratedCode = computed(() => {
-    const isIconOnly = !!this.pgIcon() && !this.pgLabel();
     let code = `<button av-button\n  avType="${this.pgType()}"`;
 
     if (this.pgSize() !== 'default' && this.pgSize() !== 'custom') {
@@ -131,7 +160,6 @@ export interface AvButtonProps {
     if (this.pgLoading()) code += `\n  [avLoading]="true"`;
     if (this.pgBlock()) code += `\n  [avBlock]="true"`;
     if (!this.pgVisible()) code += `\n  [avVisible]="false"`;
-    if (isIconOnly) code += `\n  [avIconOnly]="true"`;
 
     if (this.pgColor()) code += `\n  avColor="${this.pgColor()}"`;
     if (this.pgTextColor()) code += `\n  avTextColor="${this.pgTextColor()}"`;
@@ -145,8 +173,25 @@ export interface AvButtonProps {
     code += `\n>`;
 
     if (this.pgIcon()) {
-      code += `\n  <av-icon type="${this.pgIcon()}" [size]="${this.pgIconSize()}"></av-icon>`;
-      if (!isIconOnly) {
+      let iconCode = `\n  <av-icon\n    type="${this.pgIcon()}"\n    [size]="${this.pgIconSize()}"`;
+      if (this.pgIconColor()) iconCode += `\n    color="${this.pgIconColor()}"`;
+      if (this.pgIconRotation() !== 0) iconCode += `\n    [rotation]="${this.pgIconRotation()}"`;
+      if (this.pgIconScale() !== 1) iconCode += `\n    [scale]="${this.pgIconScale()}"`;
+      if (this.pgIconOpacity() !== 1) iconCode += `\n    [opacity]="${this.pgIconOpacity()}"`;
+      if (this.pgIconFlipX()) iconCode += `\n    [flipX]="true"`;
+      if (this.pgIconFlipY()) iconCode += `\n    [flipY]="true"`;
+      if (this.pgIconPadding() > 0) iconCode += `\n    [padding]="${this.pgIconPadding()}"`;
+      if (this.pgIconBackground()) iconCode += `\n    background="${this.pgIconBackground()}"`;
+      if (this.pgIconBorderShow()) {
+        const border = `${this.pgIconBorderWidth()}px solid ${this.pgIconBorderColor()}`;
+        iconCode += `\n    border="${border}"`;
+        if (this.pgIconBorderRadius() > 0)
+          iconCode += `\n    [radius]="${this.pgIconBorderRadius()}"`;
+      }
+      iconCode += `\n  ></av-icon>`;
+      code += iconCode;
+
+      if (this.pgLabel()) {
         code += `\n  <span style="margin-left: 8px;">${this.pgLabel()}</span>`;
       }
     } else {
@@ -186,13 +231,30 @@ export interface AvButtonProps {
     this.pgVisible.set(true);
     this.pgBlock.set(false);
     this.pgLabel.set('Custom Button');
-    this.pgIcon.set(null);
-    this.pgIconSize.set(16);
+
+    // Reset Colors
     this.pgColor.set('');
     this.pgIconColor.set('');
     this.pgTextColor.set('');
+
+    // Reset Geometry
     this.pgWidth.set(null);
     this.pgHeight.set(null);
     this.pgRadius.set(null);
+
+    // Reset Icon
+    this.pgIcon.set(null);
+    this.pgIconSize.set(16);
+    this.pgIconRotation.set(0);
+    this.pgIconScale.set(1);
+    this.pgIconOpacity.set(1);
+    this.pgIconFlipX.set(false);
+    this.pgIconFlipY.set(false);
+    this.pgIconPadding.set(0);
+    this.pgIconBackground.set('');
+    this.pgIconBorderShow.set(false);
+    this.pgIconBorderColor.set('#d9d9d9');
+    this.pgIconBorderWidth.set(1);
+    this.pgIconBorderRadius.set(0);
   }
 }
