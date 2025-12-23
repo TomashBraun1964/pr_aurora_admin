@@ -55,7 +55,7 @@ export class IconSettingsControlComponent {
     '#fa541c',
     '#a0d911',
     '#1677ff',
-    '#722ed1',
+    '#2f54eb',
   ];
 
   // Size presets

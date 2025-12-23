@@ -1,8 +1,12 @@
 <div class="ui-help-container">
   <!-- Header -->
   <div class="ui-help-header">
-    <h1>Icon Control UI 🎨 ⭐</h1>
-    <p class="text-secondary">Полный контроль над иконками: размер, цвет, трансформации, границы и эффекты.</p>
+    <h1>Icon Control UI 22222🎨 ⭐</h1>
+    <p class="text-secondary">
+      Полный контроль над иконками: размер, цвет, трансформации, границы и эффекты.
+      <br />
+      <small>Компонент: IconControlComponent (src/app/pages/ui-demo/icon-control/icon-control.component.ts)</small>
+    </p>
   </div>
 
   <div class="ui-help-content">
@@ -43,333 +47,11 @@
           <div nz-col [nzXs]="24" [nzLg]="10">
             <nz-card nzTitle="Настройки" class="control-card">
               <div class="control-panel">
-                <!-- ГЛАВНЫЙ КОНТЕЙНЕР -->
-                <av-field-group label="Настройки иконки" [collapsible]="true">
-                  <!-- Icon Selection -->
-                  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px">
-                    <label
-                      style="
-                        font-size: 11px;
-                        font-weight: 600;
-                        color: var(--color-text-secondary);
-                        line-height: 1.2;
-                        width: 60px;
-                        text-align: right;
-                      "
-                    >
-                      Текущая<br />иконка:
-                    </label>
-                    <div style="flex: 1; display: flex; align-items: center; gap: 8px">
-                      <nz-select
-                        [ngModel]="pgIcon()"
-                        (ngModelChange)="pgIcon.set($event)"
-                        nzShowSearch
-                        nzPlaceHolder="Выберите иконку"
-                        style="flex: 1"
-                        nzSize="large"
-                        [nzCustomTemplate]="selectedIconTpl"
-                      >
-                        @for (preset of iconPresets; track preset.value) {
-                        <nz-option nzCustomContent [nzValue]="preset.value" [nzLabel]="preset.label">
-                          <div style="display: flex; align-items: center; gap: 12px; padding: 4px 0">
-                            <av-icon [type]="preset.value" [size]="20"></av-icon>
-                            <div style="display: flex; flex-direction: column; line-height: 1.3">
-                              <span style="font-size: 13px; font-weight: 500">{{ preset.label }}</span>
-                              <span style="font-size: 11px; color: var(--color-text-secondary)">{{
-                                preset.category
-                              }}</span>
-                            </div>
-                          </div>
-                        </nz-option>
-                        }
-                      </nz-select>
-
-                      <button av-button avType="text" avSize="small" avTextColor="#f43f5e" (click)="resetAllSettings()">
-                        Сбросить
-                      </button>
-
-                      <ng-template #selectedIconTpl let-selected>
-                        <div style="display: flex; align-items: center; gap: 10px; height: 32px">
-                          <av-icon [type]="selected.nzValue" [size]="20" color="#1890ff"></av-icon>
-                          <span style="font-size: 14px; font-weight: 500">{{ selected.nzLabel }}</span>
-                        </div>
-                      </ng-template>
-                    </div>
-                  </div>
-
-                  <!-- Size & Color -->
-                  <av-field-group label="Размер и цвет" size="small" [collapsible]="true">
-                    <!-- Row 1: Sizes -->
-                    <div nz-row [nzGutter]="12" nzAlign="middle" style="margin-bottom: 12px">
-                      <div nz-col [nzSpan]="4">
-                        <label style="font-size: 12px; font-weight: 500; color: var(--color-text-secondary)"
-                          >Размер:</label
-                        >
-                      </div>
-                      <div nz-col [nzSpan]="7">
-                        <nz-slider
-                          [ngModel]="pgSize()"
-                          (ngModelChange)="pgSize.set($event)"
-                          [nzMin]="8"
-                          [nzMax]="128"
-                          [nzStep]="2"
-                          style="margin: 0; padding: 4px 0"
-                        ></nz-slider>
-                      </div>
-                      <div nz-col [nzSpan]="4">
-                        <nz-input-number
-                          [ngModel]="pgSize()"
-                          (ngModelChange)="pgSize.set($event)"
-                          [nzMin]="8"
-                          [nzMax]="128"
-                          [nzStep]="2"
-                          nzSize="small"
-                          style="width: 100%"
-                        ></nz-input-number>
-                      </div>
-                      <div nz-col [nzSpan]="9">
-                        <div class="size-preset-buttons" style="margin-top: 0; justify-content: flex-end">
-                          @for (preset of sizePresets | slice:0:5; track preset.value) {
-                          <button
-                            av-button
-                            avType="text"
-                            avSize="small"
-                            (click)="selectSizePreset(preset.value)"
-                            [class.active]="pgSize() === preset.value"
-                            style="min-width: 28px; height: 24px; padding: 0 4px; font-size: 10px"
-                          >
-                            {{ preset.value }}
-                          </button>
-                          }
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Row 2: Colors -->
-                    <div nz-row [nzGutter]="12" nzAlign="middle">
-                      <div nz-col [nzSpan]="4">
-                        <label style="font-size: 12px; font-weight: 500; color: var(--color-text-secondary)"
-                          >Цвет:</label
-                        >
-                      </div>
-                      <div nz-col [nzSpan]="4">
-                        <nz-color-picker
-                          [ngModel]="pgColor()"
-                          (ngModelChange)="pgColor.set($event)"
-                          nzSize="small"
-                        ></nz-color-picker>
-                      </div>
-                      <div nz-col [nzSpan]="16">
-                        <div
-                          class="color-preset-grid"
-                          style="
-                            margin-top: 0;
-                            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-                            gap: 4px;
-                            justify-items: end;
-                          "
-                        >
-                          @for (color of colorPresets; track color) {
-                          <button
-                            class="color-preset-btn"
-                            [style.background-color]="color"
-                            [class.active]="pgColor() === color"
-                            (click)="selectColorPreset(color)"
-                            style="width: 20px; height: 20px"
-                          ></button>
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </av-field-group>
-
-                  <!-- Transformations -->
-                  <av-field-group label="Трансформации" size="small" [collapsible]="true">
-                    <div nz-row [nzGutter]="16">
-                      <div nz-col [nzSpan]="12">
-                        <div class="control-item">
-                          <label>Поворот ({{ pgRotation() }}°):</label>
-                          <nz-slider
-                            [ngModel]="pgRotation()"
-                            (ngModelChange)="pgRotation.set($event)"
-                            [nzMin]="0"
-                            [nzMax]="360"
-                            [nzStep]="15"
-                          ></nz-slider>
-                        </div>
-                      </div>
-                      <div nz-col [nzSpan]="12">
-                        <div class="control-item">
-                          <label>Масштаб ({{ pgScale() }}):</label>
-                          <nz-slider
-                            [ngModel]="pgScale()"
-                            (ngModelChange)="pgScale.set($event)"
-                            [nzMin]="0.1"
-                            [nzMax]="3"
-                            [nzStep]="0.1"
-                          ></nz-slider>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div nz-row [nzGutter]="16">
-                      <div nz-col [nzSpan]="12">
-                        <div class="control-item">
-                          <label>Прозрачность ({{ (pgOpacity() * 100).toFixed(0) }}%):</label>
-                          <nz-slider
-                            [ngModel]="pgOpacity()"
-                            (ngModelChange)="pgOpacity.set($event)"
-                            [nzMin]="0.1"
-                            [nzMax]="1"
-                            [nzStep]="0.1"
-                          ></nz-slider>
-                        </div>
-                      </div>
-                      <div nz-col [nzSpan]="12">
-                        <div class="control-item flip-controls">
-                          <div class="flip-switch">
-                            <span>Отразить по горизонтали</span>
-                            <nz-switch
-                              [ngModel]="pgFlipHorizontal()"
-                              (ngModelChange)="pgFlipHorizontal.set($event)"
-                              nzSize="small"
-                            ></nz-switch>
-                          </div>
-                          <div class="flip-switch">
-                            <span>Отразить по вертикали</span>
-                            <nz-switch
-                              [ngModel]="pgFlipVertical()"
-                              (ngModelChange)="pgFlipVertical.set($event)"
-                              nzSize="small"
-                            ></nz-switch>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </av-field-group>
-
-                  <!-- Styling -->
-                  <av-field-group label="Стилизация" size="small" [collapsible]="true">
-                    <!-- Row 1: Padding, BG, Border Toggle -->
-                    <div nz-row [nzGutter]="16" nzAlign="middle">
-                      <!-- Padding -->
-                      <div nz-col [nzSpan]="9">
-                        <div style="display: flex; align-items: center; gap: 8px">
-                          <label
-                            style="
-                              font-size: 11px;
-                              font-weight: 500;
-                              color: var(--color-text-secondary);
-                              white-space: nowrap;
-                            "
-                          >
-                            Отступы:
-                          </label>
-                          <div style="flex: 1; min-width: 0">
-                            <nz-slider
-                              [ngModel]="pgPadding()"
-                              (ngModelChange)="pgPadding.set($event)"
-                              [nzMin]="0"
-                              [nzMax]="32"
-                              [nzStep]="2"
-                              style="margin: 0; padding: 4px 0"
-                            ></nz-slider>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- BG Color -->
-                      <div nz-col [nzSpan]="5">
-                        <div style="display: flex; align-items: center; gap: 8px">
-                          <label
-                            style="
-                              font-size: 11px;
-                              font-weight: 500;
-                              color: var(--color-text-secondary);
-                              white-space: nowrap;
-                            "
-                          >
-                            Фон:
-                          </label>
-                          <nz-color-picker
-                            [ngModel]="pgBackgroundColor()"
-                            (ngModelChange)="pgBackgroundColor.set($event)"
-                            nzSize="small"
-                            nzAllowClear
-                          ></nz-color-picker>
-                        </div>
-                      </div>
-
-                      <!-- Border Toggle -->
-                      <div nz-col [nzSpan]="10">
-                        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px">
-                          <label
-                            style="
-                              font-size: 11px;
-                              font-weight: 500;
-                              color: var(--color-text-secondary);
-                              white-space: nowrap;
-                            "
-                          >
-                            Показать границу:
-                          </label>
-                          <nz-switch
-                            [ngModel]="pgShowBorder()"
-                            (ngModelChange)="pgShowBorder.set($event)"
-                            nzSize="small"
-                          ></nz-switch>
-                        </div>
-                      </div>
-                    </div>
-
-                    @if (pgShowBorder()) {
-                    <!-- Row 2: Border Details -->
-                    <div
-                      nz-row
-                      [nzGutter]="12"
-                      nzAlign="middle"
-                      style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--color-border-secondary)"
-                    >
-                      <div nz-col [nzSpan]="8">
-                        <div class="control-item" style="margin: 0">
-                          <label style="font-size: 11px">Цвет:</label>
-                          <nz-color-picker
-                            [ngModel]="pgBorderColor()"
-                            (ngModelChange)="pgBorderColor.set($event)"
-                            nzSize="small"
-                          ></nz-color-picker>
-                        </div>
-                      </div>
-                      <div nz-col [nzSpan]="8">
-                        <div class="control-item" style="margin: 0">
-                          <label style="font-size: 11px">Толщина:</label>
-                          <nz-input-number
-                            [ngModel]="pgBorderWidth()"
-                            (ngModelChange)="pgBorderWidth.set($event)"
-                            [nzMin]="1"
-                            [nzMax]="10"
-                            nzSize="small"
-                            style="width: 50px"
-                          ></nz-input-number>
-                        </div>
-                      </div>
-                      <div nz-col [nzSpan]="8">
-                        <div class="control-item" style="margin: 0">
-                          <label style="font-size: 11px">Радиус:</label>
-                          <nz-input-number
-                            [ngModel]="pgBorderRadius()"
-                            (ngModelChange)="pgBorderRadius.set($event)"
-                            [nzMin]="0"
-                            [nzMax]="32"
-                            nzSize="small"
-                            style="width: 50px"
-                          ></nz-input-number>
-                        </div>
-                      </div>
-                    </div>
-                    }
-                  </av-field-group>
-                </av-field-group>
+                <av-icon-settings-control
+                  [value]="pgConfig()"
+                  (valueChange)="pgConfig.set($event)"
+                  [presets]="iconPresets"
+                ></av-icon-settings-control>
               </div>
             </nz-card>
           </div>
@@ -381,32 +63,19 @@
               <div class="icon-preview-container">
                 <div class="preview-background">
                   <div class="icon-showcase">
-                    <av-icon
-                      [type]="pgIcon()"
-                      [size]="pgSize()"
-                      [color]="pgColor()"
-                      [rotation]="pgRotation()"
-                      [scale]="pgScale()"
-                      [opacity]="pgOpacity()"
-                      [flipX]="pgFlipHorizontal()"
-                      [flipY]="pgFlipVertical()"
-                      [padding]="pgPadding()"
-                      [background]="pgBackgroundColor()"
-                      [border]="pgShowBorder() ? pgBorderWidth() + 'px solid ' + pgBorderColor() : null"
-                      [radius]="pgBorderRadius()"
-                    ></av-icon>
+                    <av-icon [config]="pgConfig()"></av-icon>
                   </div>
                 </div>
                 <div class="preview-info">
-                  <p><strong>Иконка:</strong> {{ pgIcon() }}</p>
-                  <p><strong>Размер:</strong> {{ pgSize() }}px</p>
-                  <p><strong>Цвет:</strong> {{ pgColor() }}</p>
-                  @if (pgRotation() !== 0) {
-                  <p><strong>Поворот:</strong> {{ pgRotation() }}°</p>
-                  } @if (pgScale() !== 1) {
-                  <p><strong>Масштаб:</strong> {{ pgScale() }}</p>
-                  } @if (pgOpacity() !== 1) {
-                  <p><strong>Прозрачность:</strong> {{ (pgOpacity() * 100).toFixed(0) }}%</p>
+                  <p><strong>Иконка:</strong> {{ pgConfig().type }}</p>
+                  <p><strong>Размер:</strong> {{ pgConfig().size }}px</p>
+                  <p><strong>Цвет:</strong> {{ pgConfig().color }}</p>
+                  @if (pgConfig().rotation !== 0) {
+                  <p><strong>Поворот:</strong> {{ pgConfig().rotation }}°</p>
+                  } @if (pgConfig().scale !== 1) {
+                  <p><strong>Масштаб:</strong> {{ pgConfig().scale }}</p>
+                  } @if (pgConfig().opacity !== 1) {
+                  <p><strong>Прозрачность:</strong> {{ (pgConfig().opacity * 100).toFixed(0) }}%</p>
                   }
                 </div>
               </div>

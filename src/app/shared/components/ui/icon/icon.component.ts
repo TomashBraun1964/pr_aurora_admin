@@ -3,10 +3,13 @@ import { Component, computed, effect, inject, input, signal } from '@angular/cor
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IconService } from '@core/services/icon/icon.service';
 
+import { AvIconProps } from './index';
+
 /**
  * Icon Component
  *
- * Улучшенная версия с поддержкой Signals и автоматической очисткой SVG.
+ * Высокопроизводительный компонент для отображения SVG-иконок.
+ * Поддерживает автоматическую очистку SVG, трансформации и кастомизацию через Signals.
  */
 @Component({
   selector: 'av-icon',
@@ -15,14 +18,14 @@ import { IconService } from '@core/services/icon/icon.service';
   template: `
     <div
       class="av-icon"
-      [style.width.px]="size()"
-      [style.height.px]="size()"
-      [style.--av-icon-color]="color()"
+      [style.width.px]="finalSize()"
+      [style.height.px]="finalSize()"
+      [style.--av-icon-color]="finalColor()"
       [style.transform]="transformStyle()"
-      [style.opacity]="opacity()"
+      [style.opacity]="finalOpacity()"
       [style.padding]="paddingStyle()"
-      [style.background]="background()"
-      [style.border]="border()"
+      [style.background]="finalBackground()"
+      [style.border]="finalBorder()"
       [style.border-radius]="radiusStyle()"
       [innerHTML]="svgContent()"
     ></div>
@@ -69,8 +72,14 @@ export class IconComponent {
   private iconService = inject(IconService);
   private sanitizer = inject(DomSanitizer);
 
+  /**
+   * Конфигурационный объект (опционально).
+   * Если передан, значения из него перекрывают индивидуальные инпуты.
+   */
+  config = input<AvIconProps | any | null>(null);
+
   /** Тип иконки или путь (напр. 'delete' или 'actions/av_trash') */
-  type = input.required<string>();
+  type = input<string>('');
 
   /** Размер в пикселях */
   size = input<number>(24);
@@ -105,25 +114,54 @@ export class IconComponent {
   /** Радиус скругления */
   radius = input<number | string>(0);
 
+  // Вычисляемые свойства (приоритет у config)
+  finalType = computed(() => this.config()?.type || this.type());
+  finalSize = computed(() => this.config()?.size ?? this.size());
+  finalColor = computed(() => this.config()?.color ?? this.color());
+  finalRotation = computed(() => this.config()?.rotation ?? this.rotation());
+  finalScale = computed(() => this.config()?.scale ?? this.scale());
+  finalOpacity = computed(() => this.config()?.opacity ?? this.opacity());
+  finalFlipX = computed(() => this.config()?.flipX ?? this.flipX());
+  finalFlipY = computed(() => this.config()?.flipY ?? this.flipY());
+  finalBackground = computed(() => this.config()?.background ?? this.background());
+
+  finalBorder = computed(() => {
+    const cfg = this.config();
+    if (!cfg) return this.border();
+    if (cfg.border) return cfg.border;
+    if (cfg.borderShow) {
+      return `${cfg.borderWidth ?? 1}px solid ${cfg.borderColor ?? '#d9d9d9'}`;
+    }
+    return null;
+  });
+
+  finalPadding = computed(() => this.config()?.padding ?? this.padding());
+
+  finalRadius = computed(() => {
+    const cfg = this.config();
+    if (!cfg) return this.radius();
+    return cfg.radius ?? cfg.borderRadius ?? this.radius();
+  });
+
   /** Вычисляемая строка трансформации */
   transformStyle = computed(() => {
     const parts = [];
-    if (this.rotation() !== 0) parts.push(`rotate(${this.rotation()}deg)`);
-    if (this.scale() !== 1) parts.push(`scale(${this.scale()})`);
-    if (this.flipX()) parts.push('scaleX(-1)');
-    if (this.flipY()) parts.push('scaleY(-1)');
+    if (this.finalRotation() !== 0) parts.push(`rotate(${this.finalRotation()}deg)`);
+    if (this.finalScale() !== 1) parts.push(`scale(${this.finalScale()})`);
+    if (this.finalFlipX()) parts.push('scaleX(-1)');
+    if (this.finalFlipY()) parts.push('scaleY(-1)');
     return parts.join(' ');
   });
 
   /** Хелпер для отступов */
   paddingStyle = computed(() => {
-    const p = this.padding();
+    const p = this.finalPadding();
     return typeof p === 'number' ? `${p}px` : p;
   });
 
   /** Хелпер для радиуса */
   radiusStyle = computed(() => {
-    const r = this.radius();
+    const r = this.finalRadius();
     return typeof r === 'number' ? `${r}px` : r;
   });
 
@@ -150,9 +188,9 @@ export class IconComponent {
   };
 
   constructor() {
-    // Реагируем на изменение type
+    // Реагируем на изменение типа
     effect(() => {
-      this.loadIcon(this.type());
+      this.loadIcon(this.finalType());
     });
   }
 
@@ -182,7 +220,6 @@ export class IconComponent {
           .replace(/stroke="(?!none)[^"]*"/gi, 'stroke="currentColor"');
 
         this.svgContent.set(this.sanitizer.bypassSecurityTrustHtml(cleanedSvg));
-        console.log(`[IconComponent] ✅ Rendered: ${iconPath}`);
       },
       error: (err: any) => {
         console.error(`[IconComponent] ❌ Error loading: ${iconPath}`, err);

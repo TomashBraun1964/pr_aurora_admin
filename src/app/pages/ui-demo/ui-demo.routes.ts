@@ -102,4 +102,9 @@ export const UI_DEMO_ROUTES: Routes = [
     path: 'icon-demo',
     loadComponent: () => import('./icon-demo/icon-demo.component').then((m) => m.IconDemoComponent),
   },
+  {
+    path: 'icon-ui-new',
+    loadComponent: () =>
+      import('./icon-ui-new/icon-ui-new.component').then((m) => m.IconUiNewComponent),
+  },
 ];

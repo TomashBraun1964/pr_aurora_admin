@@ -202,6 +202,16 @@ export const DEFAULT_SIDEBAR_CONFIG: SidebarConfig = {
                 intent: 'success',
               },
             },
+            {
+              id: 'icon-ui-new',
+              label: 'Icon Control UI 🎨 ⭐',
+              route: '/ui-demo/icon-ui-new',
+              icon: 'star',
+              badge: {
+                value: 'New',
+                intent: 'success',
+              },
+            },
           ],
         },
         {

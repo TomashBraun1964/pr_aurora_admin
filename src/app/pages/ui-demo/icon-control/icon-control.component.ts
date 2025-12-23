@@ -2,6 +2,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, computed, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HelpCopyContainerComponent } from '@shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
+import {
+  AvIconConfig,
+  IconComponent,
+  IconSettingsControlComponent,
+} from '@shared/components/ui/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -11,10 +17,6 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { ButtonDirective } from '../../../shared/components/ui/button/button.directive';
-import { HelpCopyContainerComponent } from '../../../shared/components/ui/container-help-copy-ui/container-help-copy-ui.component';
-import { FieldGroupComponent } from '../../../shared/components/ui/field-group/field-group.component';
-import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
 
 @Component({
   selector: 'av-icon-control',
@@ -31,10 +33,9 @@ import { IconComponent } from '../../../shared/components/ui/icon/icon.component
     NzSliderModule,
     NzColorPickerModule,
     NzToolTipModule,
-    ButtonDirective,
     IconComponent,
     HelpCopyContainerComponent,
-    FieldGroupComponent,
+    IconSettingsControlComponent,
   ],
   templateUrl: './icon-control.component.html',
   styleUrl: './icon-control.component.scss',
@@ -43,29 +44,34 @@ export class IconControlComponent {
   constructor(private http: HttpClient) {
     // Effect to fetch raw SVG source
     effect(() => {
-      const iconPath = this.pgIcon();
-      this.fetchRawSource(iconPath);
+      const iconPath = this.pgConfig().type;
+      if (iconPath) {
+        this.fetchRawSource(iconPath);
+      }
     });
   }
-  // Playground State
+
   // State for playground visibility
   isPlaygroundVisible = signal(true);
 
-  // Icon State Signals
-  pgIcon = signal<string>('actions/av_check_mark');
-  pgSize = signal<number>(24);
-  pgColor = signal<string>('#1890ff');
-  pgRotation = signal<number>(0);
-  pgOpacity = signal<number>(1);
-  pgScale = signal<number>(1);
-  pgFlipHorizontal = signal<boolean>(false);
-  pgFlipVertical = signal<boolean>(false);
-  pgShowBorder = signal<boolean>(false);
-  pgBorderColor = signal<string>('#d9d9d9');
-  pgBorderWidth = signal<number>(1);
-  pgBorderRadius = signal<number>(4);
-  pgPadding = signal<number>(8);
-  pgBackgroundColor = signal<string>('transparent');
+  // Icon State Signal (Unified)
+  pgConfig = signal<AvIconConfig>({
+    type: 'actions/av_check_mark',
+    size: 24,
+    color: '#1890ff',
+    rotation: 0,
+    opacity: 1,
+    scale: 1,
+    flipX: false,
+    flipY: false,
+    borderShow: false,
+    borderColor: '#d9d9d9',
+    borderWidth: 1,
+    borderRadius: 4,
+    padding: 8,
+    background: 'transparent',
+  });
+
   pgRawSource = signal<string>('');
 
   // UI State
@@ -228,24 +234,25 @@ export class IconControlComponent {
 
   // Computed style for the icon
   iconStyle = computed(() => {
+    const config = this.pgConfig();
     const style: any = {
-      fontSize: `${this.pgSize()}px`,
-      color: this.pgColor(),
+      fontSize: `${config.size}px`,
+      color: config.color,
       transform: `
-        rotate(${this.pgRotation()}deg)
-        scale(${this.pgScale()})
-        scaleX(${this.pgFlipHorizontal() ? -1 : 1})
-        scaleY(${this.pgFlipVertical() ? -1 : 1})
+        rotate(${config.rotation}deg)
+        scale(${config.scale})
+        scaleX(${config.flipX ? -1 : 1})
+        scaleY(${config.flipY ? -1 : 1})
       `.trim(),
-      opacity: this.pgOpacity(),
-      padding: `${this.pgPadding()}px`,
-      backgroundColor: this.pgBackgroundColor(),
-      borderRadius: `${this.pgBorderRadius()}px`,
+      opacity: config.opacity,
+      padding: `${config.padding}px`,
+      backgroundColor: config.background,
+      borderRadius: `${config.borderRadius}px`,
       transition: 'all 0.3s ease',
     };
 
-    if (this.pgShowBorder()) {
-      style.border = `${this.pgBorderWidth()}px solid ${this.pgBorderColor()}`;
+    if (config.borderShow) {
+      style.border = `${config.borderWidth}px solid ${config.borderColor}`;
     }
 
     return style;
@@ -253,63 +260,62 @@ export class IconControlComponent {
 
   // Generated code for copying
   pgGeneratedCode = computed(() => {
+    const config = this.pgConfig();
     const transformParts = [];
-    if (this.pgRotation() !== 0) transformParts.push(`rotate(${this.pgRotation()}deg)`);
-    if (this.pgScale() !== 1) transformParts.push(`scale(${this.pgScale()})`);
-    if (this.pgFlipHorizontal()) transformParts.push('scaleX(-1)');
-    if (this.pgFlipVertical()) transformParts.push('scaleY(-1)');
+    if (config.rotation !== 0) transformParts.push(`rotate(${config.rotation}deg)`);
+    if (config.scale !== 1) transformParts.push(`scale(${config.scale})`);
+    if (config.flipX) transformParts.push('scaleX(-1)');
+    if (config.flipY) transformParts.push('scaleY(-1)');
     const transform = transformParts.length > 0 ? transformParts.join(' ') : '';
 
     // TypeScript config
     const tsLines = [
-      `  type: '${this.pgIcon()}',`,
-      `  size: ${this.pgSize()},`,
-      `  color: '${this.pgColor()}',`,
+      `  type: '${config.type}',`,
+      `  size: ${config.size},`,
+      `  color: '${config.color}',`,
     ];
-    if (this.pgOpacity() !== 1) tsLines.push(`  opacity: ${this.pgOpacity()},`);
+    if (config.opacity !== 1) tsLines.push(`  opacity: ${config.opacity},`);
     if (transform) tsLines.push(`  transform: '${transform}',`);
-    if (this.pgPadding() !== 8) tsLines.push(`  padding: '${this.pgPadding()}px',`);
-    if (this.pgBackgroundColor() !== 'transparent')
-      tsLines.push(`  backgroundColor: '${this.pgBackgroundColor()}',`);
-    if (this.pgShowBorder())
-      tsLines.push(`  border: '${this.pgBorderWidth()}px solid ${this.pgBorderColor()}',`);
-    if (this.pgBorderRadius() !== 4) tsLines.push(`  borderRadius: '${this.pgBorderRadius()}px',`);
+    if (config.padding !== 8) tsLines.push(`  padding: '${config.padding}px',`);
+    if (config.background !== 'transparent')
+      tsLines.push(`  backgroundColor: '${config.background}',`);
+    if (config.borderShow)
+      tsLines.push(`  border: '${config.borderWidth}px solid ${config.borderColor}',`);
+    if (config.borderRadius !== 4) tsLines.push(`  borderRadius: '${config.borderRadius}px',`);
 
     const tsCode = `// TypeScript\niconConfig = {\n${tsLines.join('\n')}\n};`;
 
     // HTML Template
     const htmlLines = [
       `<av-icon`,
-      `  type="${this.pgIcon()}"`,
-      `  [size]="${this.pgSize()}"`,
-      `  color="${this.pgColor()}"`,
+      `  type="${config.type}"`,
+      `  [size]="${config.size}"`,
+      `  color="${config.color}"`,
     ];
-    if (this.pgOpacity() !== 1) htmlLines.push(`  [style.opacity]="${this.pgOpacity()}"`);
+    if (config.opacity !== 1) htmlLines.push(`  [style.opacity]="${config.opacity}"`);
     if (transform) htmlLines.push(`  [style.transform]="'${transform}'"`);
-    if (this.pgPadding() !== 8) htmlLines.push(`  [style.padding]="'${this.pgPadding()}px'"`);
-    if (this.pgBackgroundColor() !== 'transparent')
-      htmlLines.push(`  [style.background-color]="'${this.pgBackgroundColor()}'"`);
-    if (this.pgShowBorder())
-      htmlLines.push(
-        `  [style.border]="'${this.pgBorderWidth()}px solid ${this.pgBorderColor()}'"`,
-      );
-    if (this.pgBorderRadius() !== 4)
-      htmlLines.push(`  [style.border-radius]="'${this.pgBorderRadius()}px'"`);
+    if (config.padding !== 8) htmlLines.push(`  [style.padding]="'${config.padding}px'"`);
+    if (config.background !== 'transparent')
+      htmlLines.push(`  [style.background-color]="'${config.background}'"`);
+    if (config.borderShow)
+      htmlLines.push(`  [style.border]="'${config.borderWidth}px solid ${config.borderColor}'"`);
+    if (config.borderRadius !== 4)
+      htmlLines.push(`  [style.border-radius]="'${config.borderRadius}px'"`);
     htmlLines.push(`></av-icon>`);
 
     const htmlCode = `// HTML Template\n${htmlLines.join('\n')}`;
 
     // SCSS Styles
-    const scssIconLines = [`    font-size: ${this.pgSize()}px;`, `    color: ${this.pgColor()};`];
-    if (this.pgOpacity() !== 1) scssIconLines.push(`    opacity: ${this.pgOpacity()};`);
+    const scssIconLines = [`    font-size: ${config.size}px;`, `    color: ${config.color};`];
+    if (config.opacity !== 1) scssIconLines.push(`    opacity: ${config.opacity};`);
     if (transform) scssIconLines.push(`    transform: ${transform};`);
-    if (this.pgPadding() !== 8) scssIconLines.push(`    padding: ${this.pgPadding()}px;`);
-    if (this.pgBackgroundColor() !== 'transparent')
-      scssIconLines.push(`    background-color: ${this.pgBackgroundColor()};`);
-    if (this.pgShowBorder())
-      scssIconLines.push(`    border: ${this.pgBorderWidth()}px solid ${this.pgBorderColor()};`);
-    if (this.pgBorderRadius() !== 4)
-      scssIconLines.push(`    border-radius: ${this.pgBorderRadius()}px;`);
+    if (config.padding !== 8) scssIconLines.push(`    padding: ${config.padding}px;`);
+    if (config.background !== 'transparent')
+      scssIconLines.push(`    background-color: ${config.background};`);
+    if (config.borderShow)
+      scssIconLines.push(`    border: ${config.borderWidth}px solid ${config.borderColor};`);
+    if (config.borderRadius !== 4)
+      scssIconLines.push(`    border-radius: ${config.borderRadius}px;`);
     scssIconLines.push(`    transition: all 0.3s ease;`);
 
     const scssCode = `// SCSS Styles\n.icon-container {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n\n  av-icon {\n${scssIconLines.join(
@@ -397,20 +403,22 @@ export interface AvHelpCopyProps {
 }`;
 
   resetAllSettings(): void {
-    this.pgIcon.set('actions/av_check_mark');
-    this.pgSize.set(24);
-    this.pgColor.set('#1890ff');
-    this.pgRotation.set(0);
-    this.pgOpacity.set(1);
-    this.pgScale.set(1);
-    this.pgFlipHorizontal.set(false);
-    this.pgFlipVertical.set(false);
-    this.pgShowBorder.set(false);
-    this.pgBorderColor.set('#d9d9d9');
-    this.pgBorderWidth.set(1);
-    this.pgBorderRadius.set(4);
-    this.pgPadding.set(8);
-    this.pgBackgroundColor.set('transparent');
+    this.pgConfig.set({
+      type: 'actions/av_check_mark',
+      size: 24,
+      color: '#1890ff',
+      rotation: 0,
+      opacity: 1,
+      scale: 1,
+      flipX: false,
+      flipY: false,
+      borderShow: false,
+      borderColor: '#d9d9d9',
+      borderWidth: 1,
+      borderRadius: 4,
+      padding: 8,
+      background: 'transparent',
+    });
     this.showMessage('Настройки сброшены! 🔄');
   }
 
@@ -420,17 +428,17 @@ export interface AvHelpCopyProps {
   }
 
   selectIconPreset(preset: { category: string; value: string; label: string }): void {
-    this.pgIcon.set(preset.value);
+    this.pgConfig.update((c) => ({ ...c, type: preset.value }));
     this.showMessage(`Выбрана иконка: ${preset.label} (${preset.category})`);
   }
 
   selectColorPreset(color: string): void {
-    this.pgColor.set(color);
+    this.pgConfig.update((c) => ({ ...c, color }));
     this.showMessage(`Цвет изменён на: ${color}`);
   }
 
   selectSizePreset(size: number): void {
-    this.pgSize.set(size);
+    this.pgConfig.update((c) => ({ ...c, size }));
     this.showMessage(`Размер изменён на: ${size}px`);
   }
 

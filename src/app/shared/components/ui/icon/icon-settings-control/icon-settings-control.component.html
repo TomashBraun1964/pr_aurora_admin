@@ -91,7 +91,7 @@
         nzSize="small"
       ></nz-color-picker>
       <div class="color-preset-grid">
-        @for (color of colorPresets; track color) {
+        @for (color of colorPresets; track $index) {
         <button
           class="color-preset-btn"
           [style.background-color]="color"

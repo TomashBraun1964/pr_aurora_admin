@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
-import { IconComponent } from '../../../shared/components/ui/icon/icon.component';
+import {
+  AvIconConfig,
+  IconComponent,
+  IconSettingsControlComponent,
+} from '../../../shared/components/ui/icon';
 import { AvIconCategory } from './icon-metadata.model';
 import { ICON_REGISTRY } from './icon-registry';
 
 @Component({
   selector: 'av-icon-ui',
   standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent, NzColorPickerModule],
+  imports: [CommonModule, FormsModule, IconComponent, IconSettingsControlComponent],
   template: `
+    <!-- Icon UI Component: IconUiComponent (src/app/pages/ui-demo/icon-ui/icon-ui.component.ts) -->
     <div class="icon-ui">
       <!-- Header Section -->
       <div class="icon-ui__header glass">
@@ -18,7 +22,8 @@ import { ICON_REGISTRY } from './icon-registry';
           <div class="title-group">
             <h1>Icon Library</h1>
             <p class="text-secondary">
-              {{ totalIcons() }} иконок в {{ categories().length }} категориях
+              {{ totalIcons() }} иконок в {{ categories().length }} категориях | Компонент:
+              IconUiComponent
             </p>
           </div>
 
@@ -39,32 +44,12 @@ import { ICON_REGISTRY } from './icon-registry';
         </div>
 
         <div class="controls">
-          <div class="control-item">
-            <label>Размер: {{ iconSize() }}px</label>
-            <input type="range" min="16" max="64" step="4" [(ngModel)]="iconSize" />
-          </div>
-
-          <div class="control-item">
-            <label>Цвет:</label>
-            <div class="color-presets">
-              @for (color of colors; track color) {
-              <button
-                class="color-dot"
-                [style.background]="color"
-                [class.active]="activeColor() === color"
-                (click)="activeColor.set(color)"
-              ></button>
-              }
-              <div class="custom-picker">
-                <nz-color-picker
-                  [nzValue]="activeColor()"
-                  (nzOnChange)="onColorChange($event)"
-                  nzSize="small"
-                >
-                </nz-color-picker>
-              </div>
-            </div>
-          </div>
+          <av-icon-settings-control
+            [value]="iconConfig()"
+            (valueChange)="iconConfig.set($event)"
+            [presets]="iconPresets()"
+            [compact]="true"
+          ></av-icon-settings-control>
         </div>
       </div>
 
@@ -205,43 +190,6 @@ import { ICON_REGISTRY } from './icon-registry';
         align-items: center;
       }
 
-      .control-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 14px;
-        font-weight: 500;
-      }
-
-      .color-presets {
-        display: flex;
-        gap: 8px;
-      }
-
-      .color-dot {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 2px solid white;
-        box-shadow: 0 0 0 1px #ddd;
-        cursor: pointer;
-        transition: transform 0.2s;
-      }
-
-      .color-dot:hover {
-        transform: scale(1.2);
-      }
-      .color-dot.active {
-        transform: scale(1.2);
-        box-shadow: 0 0 0 2px #6366f1;
-      }
-
-      .custom-picker {
-        margin-left: 8px;
-        display: flex;
-        align-items: center;
-      }
-
       /* Grid Styles */
       .category-section {
         margin-bottom: 48px;
@@ -376,14 +324,42 @@ import { ICON_REGISTRY } from './icon-registry';
   ],
 })
 export class IconUiComponent {
-  // Static state
-  readonly colors = ['#1e293b', '#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
-
   // Reactive state
   searchQuery = signal('');
-  iconSize = signal(24);
-  activeColor = signal('#1e293b');
   toastMessage = signal('');
+
+  // Icon configuration for our settings control
+  iconConfig = signal<AvIconConfig>({
+    type: null,
+    size: 24,
+    color: '#1e293b',
+    rotation: 0,
+    scale: 1,
+    opacity: 1,
+    flipX: false,
+    flipY: false,
+    padding: 0,
+    background: 'transparent',
+    borderShow: false,
+    borderColor: '#d9d9d9',
+    borderWidth: 1,
+    borderRadius: 0,
+  });
+
+  // Computed properties for backward compatibility
+  iconSize = computed(() => this.iconConfig().size);
+  activeColor = computed(() => this.iconConfig().color);
+
+  // Icon presets for the settings control
+  iconPresets = computed(() => {
+    return ICON_REGISTRY.flatMap((category) =>
+      category.icons.map((icon) => ({
+        value: icon.type,
+        label: icon.name,
+        category: category.category,
+      })),
+    );
+  });
 
   // Computed state
   totalIcons = computed(() => {
@@ -412,12 +388,6 @@ export class IconUiComponent {
       }))
       .filter((cat) => cat.icons.length > 0);
   });
-
-  onColorChange(value: { color: { toHexString: () => string } }): void {
-    if (value?.color) {
-      this.activeColor.set(value.color.toHexString());
-    }
-  }
 
   copyToClipboard(type: string) {
     navigator.clipboard.writeText(type);
